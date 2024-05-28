@@ -30,3 +30,9 @@
 *.exe
 *.out
 *.app
+
+# Deployement
+build
+Deployment
+!Deployment/Assets
+!Deployment/Assets/**
