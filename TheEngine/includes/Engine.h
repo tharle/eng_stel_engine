@@ -4,6 +4,7 @@
 
 struct SDL_Window;
 struct SDL_Renderer;
+struct SDL_Point;
 
 namespace StelEngine
 {
@@ -22,8 +23,7 @@ namespace StelEngine
 	private:
 		SDL_Window* m_Window;
 		SDL_Renderer* m_Renderer;
-		int _x;
-		int _y;
+		SDL_Point* m_Position;
 		bool m_IsInit;
 		bool m_isRunning;
 		IInput* m_Input;

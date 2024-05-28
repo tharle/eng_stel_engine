@@ -36,10 +36,9 @@ bool StelEngine::Engine::Init(const std::string& title, int widthScreen, int hei
 
 void StelEngine::Engine::Start()
 {
+	m_Position = new SDL_Point{200, 200};
 	if (!m_IsInit)
 	{
-		_x = 200;
-		_y = 200;
 		if (!Init("Legends of Stel", 800, 600))
 		{
 			return;
@@ -81,25 +80,25 @@ void StelEngine::Engine::ProcessInput()
 	if (_keyStates[SDL_SCANCODE_LEFT])
 	{
 		SDL_Log("LEFT");
-		_x--;
+		//_x--;
 	}
 
 	if (_keyStates[SDL_SCANCODE_RIGHT])
 	{
 		SDL_Log("RIGHT");
-		_x++;
+		//_x++;
 	}
 
 	if (_keyStates[SDL_SCANCODE_DOWN])
 	{
 		SDL_Log("DOWN");
-		_y++;
+		//_y++;
 	}
 
 	if (_keyStates[SDL_SCANCODE_UP])
 	{
 		SDL_Log("UP");
-		_y--;
+		//_y--;
 	}
 
 
@@ -142,8 +141,8 @@ void StelEngine::Engine::Render()
 	SDL_RenderClear(m_Renderer);
 	SDL_SetRenderDrawColor(m_Renderer, 255, 0, 0, 255);
 	SDL_Rect _getRect;
-	_getRect.x = _x;
-	_getRect.y = _y;
+	_getRect.x = m_Position->x;
+	_getRect.y = m_Position->y;
 	_getRect.w = 200;
 	_getRect.h = 200;
 	SDL_RenderFillRect(m_Renderer, &_getRect);
