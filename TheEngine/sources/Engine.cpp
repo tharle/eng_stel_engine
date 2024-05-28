@@ -80,25 +80,25 @@ void StelEngine::Engine::ProcessInput()
 	if (_keyStates[SDL_SCANCODE_LEFT])
 	{
 		SDL_Log("LEFT");
-		//_x--;
+		m_Position->x--;
 	}
 
 	if (_keyStates[SDL_SCANCODE_RIGHT])
 	{
 		SDL_Log("RIGHT");
-		//_x++;
+		m_Position->x++;
 	}
 
 	if (_keyStates[SDL_SCANCODE_DOWN])
 	{
 		SDL_Log("DOWN");
-		//_y++;
+		m_Position->y++;
 	}
 
 	if (_keyStates[SDL_SCANCODE_UP])
 	{
 		SDL_Log("UP");
-		//_y--;
+		m_Position->y--;
 	}
 
 
