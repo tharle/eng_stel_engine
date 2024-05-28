@@ -3,6 +3,13 @@
 #include "SDL.h"
 #include "SDLInput.h"
 
+// Library effective with Windows
+#include <windows.h>
+// Library effective with Linux
+//#include <unistd.h>
+
+#define MS_PER_FRAME 0.06
+
 bool StelEngine::Engine::Init(const std::string& title, int widthScreen, int heightScreen)
 {
 	if (SDL_Init(SDL_INIT_EVERYTHING != 0))
@@ -46,35 +53,31 @@ void StelEngine::Engine::Start()
 	}
 
 	m_isRunning = true;
-	clock_t _end = clock();
-	int _frames = 0;
-	float _elapseTimeIn30fps = 0;
+	clock_t _endTimeLastFrame = clock();
+	float _elapseTime = 0;
 	while (m_isRunning)
 	{
-		if (_frames > 60) 
-		{
-			float sleepTime = 1 - _elapseTimeIn30fps;
-			SDL_Delay(sleepTime);
-			_elapseTimeIn30fps = 0;
-			_frames = 0;
-			continue;
-		}
+		const clock_t _startTimeCurrentFrame = clock();
+		float _deltaTime = (_startTimeCurrentFrame - _endTimeLastFrame) * 0.001f;
+		float _tempsForSleep = MS_PER_FRAME - _deltaTime;
+		// GAG for the current frame
+		if (_tempsForSleep < 0) _tempsForSleep = 0;
+		Sleep(_tempsForSleep);
+		_elapseTime += _deltaTime;
 
-		_frames++;
-		const clock_t _start = clock();
-		float _deltaTime = (_start - _end) * 0.001f;
-		_elapseTimeIn30fps += _deltaTime;
+
 		ProcessInput();
 		Update(_deltaTime);
 		Render();
-		_end = _start;
+
+		
+		_endTimeLastFrame = _startTimeCurrentFrame;
 	}
 	Shutdown();
 }
 
 void StelEngine::Engine::ProcessInput()
 {
-	m_Input->Update();
 	SDL_Event _event;
 	const unsigned char* _keyStates = SDL_GetKeyboardState(nullptr);
 	if (_keyStates[SDL_SCANCODE_LEFT])
@@ -132,7 +135,7 @@ void StelEngine::Engine::ProcessInput()
 
 void StelEngine::Engine::Update(float deltaTime)
 {
-
+	m_Input->Update();
 }
 
 void StelEngine::Engine::Render()
