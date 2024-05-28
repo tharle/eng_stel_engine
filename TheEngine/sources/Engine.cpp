@@ -29,7 +29,7 @@ bool StelEngine::Engine::Init(const std::string& title, int widthScreen, int hei
 		return false;
 	}
 
-	m_Input = new SDLInput();
+	m_Input = new SdlInput();
 
 	return true;
 }

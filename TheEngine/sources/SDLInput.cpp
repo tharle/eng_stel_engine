@@ -1,12 +1,12 @@
- #include "SDLInput.h"
+ #include "SdlInput.h"
  #include "SDL.h"
  
-int SDLInput::IsKeyDown(int key)
+int SdlInput::IsKeyDown(int key)
 {
     return 0;
 }
 
-void SDLInput::Update()
+void SdlInput::Update()
 {
 
 }

@@ -2,7 +2,7 @@
 #include "IInput.h"
 
 
-class SDLInput : public IInput
+class SdlInput : public IInput
 {
     protected:
         virtual void Update() override;
