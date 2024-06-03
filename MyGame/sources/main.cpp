@@ -2,6 +2,13 @@
 #define VC_EXTRALEAN
 #include <Windows.h>
 #include "Engine.h"
+
+#ifdef  _DEBUG
+#include "vld.h"
+#endif //  _DEBUG
+
+
+
 void InitGameplay()
 {
 
