@@ -86,34 +86,13 @@ void StelEngine::Engine::Start()
 
 void StelEngine::Engine::ProcessInput()
 {
+	float axiosH = m_Input->GetAxiosHorizontal();
+	float axiosV = m_Input->GetAxiosVertical();
+	m_Position->x += axiosH;
+	m_Position->y += axiosV;
+
+
 	SDL_Event _event;
-	const unsigned char* _keyStates = SDL_GetKeyboardState(nullptr);
-	if (_keyStates[SDL_SCANCODE_LEFT])
-	{
-		SDL_Log("LEFT");
-		m_Position->x--;
-	}
-
-	if (_keyStates[SDL_SCANCODE_RIGHT])
-	{
-		SDL_Log("RIGHT");
-		m_Position->x++;
-	}
-
-	if (_keyStates[SDL_SCANCODE_DOWN])
-	{
-		SDL_Log("DOWN");
-		m_Position->y++;
-	}
-
-	if (_keyStates[SDL_SCANCODE_UP])
-	{
-		SDL_Log("UP");
-		m_Position->y--;
-	}
-
-
-
 	while (SDL_PollEvent(&_event))
 	{
 		switch (_event.type) 

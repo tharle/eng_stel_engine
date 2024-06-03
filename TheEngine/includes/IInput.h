@@ -1,10 +1,21 @@
 #pragma once
-class IInput 
+class IInput
 {
     //protected:
-    public:
-        virtual void Update() = 0;
-        virtual int IsKeyDown(int key) = 0;
+public:
+    static enum Key
+    {
+        None,
+        Right, Up, Left, Down,
+        Esc,
+        A, B, C, D, E, F, G, H, I, J, K, L, M, N, O, P, Q, R, S, T, U, V, W, X, Y, Z
 
-        friend class Engine;
+    };
+
+    virtual void Update() = 0;
+    virtual bool IsKeyDown(Key key) = 0;
+    virtual float GetAxiosHorizontal() = 0;
+    virtual float GetAxiosVertical() = 0;
+
+    friend class Engine;
 };
