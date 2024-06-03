@@ -27,5 +27,6 @@ namespace StelEngine
 		bool m_IsInit;
 		bool m_isRunning;
 		IInput* m_Input;
+		int m_FPS;
 	};
 }

@@ -7,8 +7,7 @@
 #include <windows.h>
 // Library effective with Linux
 //#include <unistd.h>
-
-#define MS_PER_FRAME 0.06
+#define MS_PER_FRAME 16.667f // TODO tester avec fraps
 
 bool StelEngine::Engine::Init(const std::string& title, int widthScreen, int heightScreen)
 {
@@ -37,6 +36,7 @@ bool StelEngine::Engine::Init(const std::string& title, int widthScreen, int hei
 	}
 
 	m_Input = new SdlInput();
+	m_FPS = 0;
 
 	return true;
 }
@@ -58,17 +58,25 @@ void StelEngine::Engine::Start()
 	while (m_isRunning)
 	{
 		const clock_t _startTimeCurrentFrame = clock();
-		float _deltaTime = (_startTimeCurrentFrame - _endTimeLastFrame) * 0.001f;
-		float _tempsForSleep = MS_PER_FRAME - _deltaTime;
-		// GAG for the current frame
-		if (_tempsForSleep < 0) _tempsForSleep = 0;
-		Sleep(_tempsForSleep);
+		float _deltaTime = (_startTimeCurrentFrame - _endTimeLastFrame) * 0.001;
+
 		_elapseTime += _deltaTime;
+		m_FPS++;
+		if (_elapseTime >= 1) 
+		{
+			SDL_Log("FPS %d", m_FPS);
+			_elapseTime = 0;
+			m_FPS = 0;
+		}
 
 
 		ProcessInput();
 		Update(_deltaTime);
 		Render();
+
+		float _tempsForSleep = _startTimeCurrentFrame + MS_PER_FRAME - clock();
+		// GAG for the current frame
+		if (_tempsForSleep > 0) Sleep(_tempsForSleep);
 
 		
 		_endTimeLastFrame = _startTimeCurrentFrame;
@@ -141,7 +149,7 @@ void StelEngine::Engine::Update(float deltaTime)
 void StelEngine::Engine::Render()
 {
 	SDL_SetRenderDrawColor(m_Renderer, 0, 0, 0, 255);
-	SDL_RenderClear(m_Renderer);
+	SDL_RenderClear(m_Renderer); // TODO met à BEGIN
 	SDL_SetRenderDrawColor(m_Renderer, 255, 0, 0, 255);
 	SDL_Rect _getRect;
 	_getRect.x = m_Position->x;
@@ -149,7 +157,7 @@ void StelEngine::Engine::Render()
 	_getRect.w = 200;
 	_getRect.h = 200;
 	SDL_RenderFillRect(m_Renderer, &_getRect);
-	SDL_RenderPresent(m_Renderer);
+	SDL_RenderPresent(m_Renderer); // TODO met à END
 
 	//SDL_Log(_x);
 }
