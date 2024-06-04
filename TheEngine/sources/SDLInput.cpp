@@ -1,6 +1,6 @@
  #include "SdlInput.h"
 
-SdlInput::SdlInput()
+SdlInput::SdlInput() : m_Axios({0, 0})
 {
     InitInputMap();
 }
@@ -55,12 +55,7 @@ bool SdlInput::IsKeyDown(Key key)
 
 float SdlInput::GetAxiosHorizontal()
 {
-    float axios = 0.0f;
-
-    if (IsKeyDown(A) || IsKeyDown(Left)) axios = -1;
-    else if (IsKeyDown(D) || IsKeyDown(Right)) axios = 1;
-
-    return axios;
+    return m_Axios.x;
 }
 
 float SdlInput::GetAxiosVertical()
@@ -70,10 +65,47 @@ float SdlInput::GetAxiosVertical()
     if (IsKeyDown(S) || IsKeyDown(Down)) axios = 1;
     else if (IsKeyDown(W) || IsKeyDown(Up)) axios = -1;
 
-    return axios;
+
+    return m_Axios.y;
 }
 
-void SdlInput::Update()
+void SdlInput::Update(float dt)
 {
+    UpdateAxios(dt);
+}
 
+void SdlInput::UpdateAxios(float dt)
+{
+    if (IsKeyDown(A) || IsKeyDown(Left))
+    {
+        m_Axios.x = m_Axios.x < 0 ? m_Axios.x : 0;
+        m_Axios.x -= dt;
+
+        m_Axios.x = m_Axios.x > -1 ? m_Axios.x : -1;
+    }
+    else if (IsKeyDown(D) || IsKeyDown(Right))
+    {
+        m_Axios.x = m_Axios.x > 0 ? m_Axios.x : 0;
+        m_Axios.x += dt;
+        m_Axios.x = m_Axios.x < 1 ? m_Axios.x : 1;
+    }
+    else {
+        m_Axios.x = 0;
+    }
+
+    if (IsKeyDown(S) || IsKeyDown(Down))
+    {
+        m_Axios.y = m_Axios.y > 0 ? m_Axios.y : 0;
+        m_Axios.y += dt;
+        m_Axios.y = m_Axios.y < 1 ? m_Axios.y : 1;
+    }
+    else if (IsKeyDown(W) || IsKeyDown(Up))
+    {
+        m_Axios.y = m_Axios.y < 0 ? m_Axios.y : 0;
+        m_Axios.y -= dt;
+        m_Axios.y = m_Axios.y > -1 ? m_Axios.y : -1;
+    }
+    else {
+        m_Axios.y = 0;
+    }
 }

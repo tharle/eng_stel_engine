@@ -37,13 +37,14 @@ bool StelEngine::Engine::Init(const std::string& title, int widthScreen, int hei
 
 	m_Input = new SdlInput();
 	m_FPS = 0;
+	m_Speed = 5;
 
 	return true;
 }
 
 void StelEngine::Engine::Start()
 {
-	m_Position = new SDL_Point{200, 200};
+	m_Position = new SDL_FPoint{200.0f, 200.0f};
 	if (!m_IsInit)
 	{
 		if (!Init("Legends of Stel", 800, 600))
@@ -88,8 +89,11 @@ void StelEngine::Engine::ProcessInput()
 {
 	float axiosH = m_Input->GetAxiosHorizontal();
 	float axiosV = m_Input->GetAxiosVertical();
-	m_Position->x += axiosH;
-	m_Position->y += axiosV;
+	SDL_Log("axiosH %f", axiosH);
+	SDL_Log("axiosV %f", axiosV);
+	SDL_Log("Speed %f", m_Speed);
+	m_Position->x += axiosH * m_Speed;
+	m_Position->y += axiosV * m_Speed;
 
 
 	SDL_Event _event;
@@ -122,7 +126,7 @@ void StelEngine::Engine::ProcessInput()
 
 void StelEngine::Engine::Update(float deltaTime)
 {
-	m_Input->Update();
+	m_Input->Update(deltaTime);
 }
 
 void StelEngine::Engine::Render()

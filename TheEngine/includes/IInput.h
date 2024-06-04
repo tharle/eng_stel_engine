@@ -1,4 +1,6 @@
 #pragma once
+#include <vector>
+
 class IInput
 {
     //protected:
@@ -12,10 +14,12 @@ public:
 
     };
 
-    virtual void Update() = 0;
+    virtual void Update(float dt) = 0;
     virtual bool IsKeyDown(Key key) = 0;
     virtual float GetAxiosHorizontal() = 0;
     virtual float GetAxiosVertical() = 0;
+
+    // TODO Add mapping for vertical and horizontal axios
 
     friend class Engine;
 };

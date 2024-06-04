@@ -4,7 +4,7 @@
 
 struct SDL_Window;
 struct SDL_Renderer;
-struct SDL_Point;
+struct SDL_FPoint;
 
 namespace StelEngine
 {
@@ -23,10 +23,11 @@ namespace StelEngine
 	private:
 		SDL_Window* m_Window;
 		SDL_Renderer* m_Renderer;
-		SDL_Point* m_Position;
+		SDL_FPoint* m_Position;
 		bool m_IsInit;
 		bool m_isRunning;
 		IInput* m_Input;
 		int m_FPS;
+		float m_Speed;
 	};
 }
