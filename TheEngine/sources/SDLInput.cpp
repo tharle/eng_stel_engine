@@ -7,7 +7,7 @@ SdlInput::SdlInput() : m_Axios({0, 0})
 
 void SdlInput::InitInputMap() 
 {
-    m_InputMap = std::map<Key, SDL_Scancode>();
+    m_InputMap = std::map<StelKey, SDL_Scancode>();
     m_InputMap[Right] = SDL_SCANCODE_RIGHT;
     m_InputMap[Up] = SDL_SCANCODE_UP;
     m_InputMap[Left] = SDL_SCANCODE_LEFT;
@@ -43,7 +43,7 @@ void SdlInput::InitInputMap()
 
 }
  
-bool SdlInput::IsKeyDown(Key key)
+bool SdlInput::IsKeyDown(StelKey key)
 {
     if  (m_InputMap.find(key) == m_InputMap.end()) return false;
 
@@ -76,6 +76,8 @@ void SdlInput::Update(float dt)
 
 void SdlInput::UpdateAxios(float dt)
 {
+
+    // TODO change when have controls inputs saves in engine
     if (IsKeyDown(A) || IsKeyDown(Left))
     {
         m_Axios.x = m_Axios.x < 0 ? m_Axios.x : 0;

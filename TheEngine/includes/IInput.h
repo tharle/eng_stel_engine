@@ -5,7 +5,7 @@ class IInput
 {
     //protected:
 public:
-    static enum Key
+    static enum StelKey
     {
         None,
         Right, Up, Left, Down,
@@ -15,7 +15,7 @@ public:
     };
 
     virtual void Update(float dt) = 0;
-    virtual bool IsKeyDown(Key key) = 0;
+    virtual bool IsKeyDown(StelKey key) = 0;
     virtual float GetAxiosHorizontal() = 0;
     virtual float GetAxiosVertical() = 0;
 
