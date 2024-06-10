@@ -65,7 +65,7 @@ void StelEngine::Engine::Start()
 		m_FPS++;
 		if (_elapseTime >= 1) 
 		{
-			SDL_Log("FPS %d", m_FPS);
+			//SDL_Log("FPS %d", m_FPS);
 			_elapseTime = 0;
 			m_FPS = 0;
 		}
@@ -89,9 +89,9 @@ void StelEngine::Engine::ProcessInput()
 {
 	float axiosH = m_Input->GetAxiosHorizontal();
 	float axiosV = m_Input->GetAxiosVertical();
-	SDL_Log("axiosH %f", axiosH);
-	SDL_Log("axiosV %f", axiosV);
-	SDL_Log("Speed %f", m_Speed);
+	//SDL_Log("axiosH %f", axiosH);
+	//SDL_Log("axiosV %f", axiosV);
+	//SDL_Log("Speed %f", m_Speed);
 	m_Position->x += axiosH * m_Speed;
 	m_Position->y += axiosV * m_Speed;
 
