@@ -2,7 +2,7 @@
 #include <time.h>
 #include "SDL.h"
 #include "SDLInput.h"
-#include "SDLLogger.h"
+#include "WindowsLogger.h"
 
 // Library effective with Windows
 #include <windows.h>
@@ -16,7 +16,7 @@ bool StelEngine::Engine::Init(const std::string& title, int widthScreen, int hei
 
 	if (SDL_Init(SDL_INIT_EVERYTHING != 0))
 	{
-		SDL_Log(SDL_GetError());
+		m_Logger->Info(SDL_GetError());
 		return false;
 	}
 	int _x = SDL_WINDOWPOS_CENTERED;
@@ -26,7 +26,7 @@ bool StelEngine::Engine::Init(const std::string& title, int widthScreen, int hei
 	m_Window = SDL_CreateWindow(title.c_str(), _x, _y, widthScreen, heightScreen, _flag);
 	if (!m_Window)
 	{
-		SDL_Log(SDL_GetError());
+		m_Logger->Info(SDL_GetError());
 		return false;
 	}
 
@@ -34,12 +34,11 @@ bool StelEngine::Engine::Init(const std::string& title, int widthScreen, int hei
 	m_Renderer = SDL_CreateRenderer(m_Window, -1, _flag);
 	if (!m_Renderer)
 	{
-		SDL_Log(SDL_GetError());
+		m_Logger->Info(SDL_GetError());
 		return false;
 	}
 
-	m_Logger = new SdlLogger();
-	m_Logger->Init();
+	m_Logger = new WindowsLogger();
 	// Include all servers
 	m_Input = new SdlInput();
 
@@ -73,7 +72,7 @@ void StelEngine::Engine::Start()
 		m_FPS++;
 		if (_elapseTime >= 1) 
 		{
-			//SDL_Log("FPS %d", m_FPS);
+			m_Logger->Info("FPS %d", m_FPS);
 			_elapseTime = 0;
 			m_FPS = 0;
 		}
@@ -97,10 +96,9 @@ void StelEngine::Engine::ProcessInput()
 {
 	float axiosH = m_Input->GetAxiosHorizontal();
 	float axiosV = m_Input->GetAxiosVertical();
-	m_Logger->Log("TESTE LOG %d",420);
-	//SDL_Log("axiosH %f", axiosH);
-	//SDL_Log("axiosV %f", axiosV);
-	//SDL_Log("Speed %f", m_Speed);
+	/*m_Logger->Info("axiosH %f", axiosH);
+	m_Logger->Info("axiosV %f", axiosV);
+	m_Logger->Info("Speed %f", m_Speed);*/
 	m_Position->x += axiosH * m_Speed;
 	m_Position->y += axiosV * m_Speed;
 
@@ -115,17 +113,17 @@ void StelEngine::Engine::ProcessInput()
 			break;
 		case SDL_MOUSEBUTTONDOWN:
 			SDL_MouseButtonEvent _buttonDown = _event.button;
-			//SDL_Log("Button down : %d)", _buttonDown.button);
-			//SDL_Log("at (%d, %d)", _buttonDown.x, _buttonDown.y);
+			m_Logger->Info("Button down : %d)", _buttonDown.button);
+			m_Logger->Info("at (%d, %d)", _buttonDown.x, _buttonDown.y);
 			break;
 		case SDL_MOUSEBUTTONUP:
 			SDL_MouseButtonEvent _buttonUp = _event.button;
-			//SDL_Log("Button up : %d)", _buttonUp.button);
-			//SDL_Log("at (%d, %d)", _buttonUp.x, _buttonUp.y);
+			m_Logger->Info("Button up : %d)", _buttonUp.button);
+			m_Logger->Info("at (%d, %d)", _buttonUp.x, _buttonUp.y);
 			break;
 		case SDL_MOUSEMOTION:
 			SDL_MouseMotionEvent _motion = _event.motion;
-			//SDL_Log("at (%d, %d)", _motion.x, _motion.y);
+			m_Logger->Info("at (%d, %d)", _motion.x, _motion.y);
 			break;
 		default:
 			break;
@@ -156,7 +154,6 @@ void StelEngine::Engine::Render()
 
 void StelEngine::Engine::Shutdown()
 {
-	m_Logger->FreeConsole();
 	SDL_DestroyRenderer(m_Renderer);
 	SDL_DestroyWindow(m_Window);
 	SDL_Quit();
