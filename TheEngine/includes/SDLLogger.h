@@ -1,15 +1,21 @@
 #pragma once
-#include <iostream>
-#include <Windows.h>
 #include "ILogger.h"
+#include <iostream>
 
-class SDLLogger : public ILogger
+// Library effective with Windows
+#include <windows.h>
+// Library effective with Linux
+//#include <unistd.h>
+
+class SdlLogger : public ILogger
 {
 private:
 	HANDLE m_HConsole;
 public:
-	void virtual AllocConsole() override;
+	void virtual Init() override;
 	void virtual FreeConsole() override;
-	void virtual Log(const char* message) override;
+	void virtual Log(const char* message,...) override;
+	void virtual Warning(const char* message) override;
+	void virtual Error(const char* message) override;
 };
 

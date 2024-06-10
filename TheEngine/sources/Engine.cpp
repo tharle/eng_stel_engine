@@ -12,6 +12,8 @@
 
 bool StelEngine::Engine::Init(const std::string& title, int widthScreen, int heightScreen)
 {
+
+
 	if (SDL_Init(SDL_INIT_EVERYTHING != 0))
 	{
 		SDL_Log(SDL_GetError());
@@ -36,7 +38,12 @@ bool StelEngine::Engine::Init(const std::string& title, int widthScreen, int hei
 		return false;
 	}
 
+	m_Logger = new SdlLogger();
+	m_Logger->Init();
+	// Include all servers
 	m_Input = new SdlInput();
+
+
 	m_FPS = 0;
 	m_Speed = 5;
 
@@ -90,7 +97,8 @@ void StelEngine::Engine::ProcessInput()
 {
 	float axiosH = m_Input->GetAxiosHorizontal();
 	float axiosV = m_Input->GetAxiosVertical();
-	SDL_Log("axiosH %f", axiosH);
+	m_Logger->Log("TESTE LOG %d",420);
+	//SDL_Log("axiosH %f", axiosH);
 	//SDL_Log("axiosV %f", axiosV);
 	//SDL_Log("Speed %f", m_Speed);
 	m_Position->x += axiosH * m_Speed;
@@ -148,6 +156,7 @@ void StelEngine::Engine::Render()
 
 void StelEngine::Engine::Shutdown()
 {
+	m_Logger->FreeConsole();
 	SDL_DestroyRenderer(m_Renderer);
 	SDL_DestroyWindow(m_Window);
 	SDL_Quit();

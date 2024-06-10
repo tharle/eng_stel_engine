@@ -1,6 +1,7 @@
 #pragma once
 #include <string>
 #include "IInput.h"
+#include "ILogger.h"
 
 struct SDL_Window;
 struct SDL_Renderer;
@@ -24,6 +25,7 @@ namespace StelEngine
 		SDL_Window* m_Window;
 		SDL_Renderer* m_Renderer;
 		SDL_FPoint* m_Position;
+		ILogger* m_Logger;
 		bool m_IsInit;
 		bool m_isRunning;
 		IInput* m_Input;
