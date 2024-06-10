@@ -8,6 +8,8 @@ project.addProvider = function(proj, isRoot=false){
         
         if(!isRoot){
             proj.addDefine("USE_SDL");
+            proj.addDefine("_DEBUG");
+            //proj.addDefine("_RELEASE");
             proj.addIncludeDir(path.resolve("./SDL/include"));
         }
         proj.addLib("../SDL/lib/SDL2");

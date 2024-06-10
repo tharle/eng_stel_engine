@@ -14,11 +14,11 @@ WindowsLogger::~WindowsLogger()
 }
 void WindowsLogger::Info(const char* message, ...)
 {
-	char temp[512] = { 0 };
+	char buffer[512] = { 0 };
 	va_list args;
 	va_start(args, message);
 	SetConsoleTextAttribute(m_HConsole, 12);
-	vsnprintf(temp, 512, message, args);
-	std::cout << temp << std::endl;
+	vsnprintf(buffer, 512, message, args);
+	std::cout << buffer << std::endl;
 	va_end(args);
 }

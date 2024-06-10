@@ -3,6 +3,7 @@
 #include "SDL.h"
 #include "SDLInput.h"
 #include "WindowsLogger.h"
+#include "FileLogger.h"
 
 // Library effective with Windows
 #include <windows.h>
@@ -12,7 +13,13 @@
 
 bool StelEngine::Engine::Init(const std::string& title, int widthScreen, int heightScreen)
 {
-
+	// Service LOG
+	#if _DEBUG
+		m_Logger = new WindowsLogger();
+	#endif // _DEBUG
+	#if _RELEASE
+		m_Logger = new FileLogger();
+	#endif // _RELEASE
 
 	if (SDL_Init(SDL_INIT_EVERYTHING != 0))
 	{
@@ -38,7 +45,6 @@ bool StelEngine::Engine::Init(const std::string& title, int widthScreen, int hei
 		return false;
 	}
 
-	m_Logger = new WindowsLogger();
 	// Include all servers
 	m_Input = new SdlInput();
 
