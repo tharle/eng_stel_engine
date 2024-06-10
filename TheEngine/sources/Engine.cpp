@@ -2,6 +2,7 @@
 #include <time.h>
 #include "SDL.h"
 #include "SDLInput.h"
+#include "SDLLogger.h"
 
 // Library effective with Windows
 #include <windows.h>
@@ -89,7 +90,7 @@ void StelEngine::Engine::ProcessInput()
 {
 	float axiosH = m_Input->GetAxiosHorizontal();
 	float axiosV = m_Input->GetAxiosVertical();
-	//SDL_Log("axiosH %f", axiosH);
+	SDL_Log("axiosH %f", axiosH);
 	//SDL_Log("axiosV %f", axiosV);
 	//SDL_Log("Speed %f", m_Speed);
 	m_Position->x += axiosH * m_Speed;

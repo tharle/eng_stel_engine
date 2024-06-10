@@ -1,6 +1,5 @@
 
-#pragma once
-class IGfx
+class IGfx 
 {
 public:
 	virtual void FillRect(int x, int y, int w, int h) = 0;
