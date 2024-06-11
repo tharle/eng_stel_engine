@@ -13,10 +13,11 @@ bool StelEngine::Engine::Init(const std::string& title, int widthScreen, int hei
 {
 	// Service LOG
 	#if _DEBUG
-		m_Logger = new WindowsLogger();
-	#endif // _DEBUG
-	#if _RELEASE
+		m_Logger = new WindowsLogger(); // _DEBUG
+	#elif _RELEASE
 		m_Logger = new FileLogger();
+	#else
+		m_Logger = new WindowsLogger(); // TODO if you cant find any TAG
 	#endif // _RELEASE
 
 	// Include all servers
@@ -86,6 +87,13 @@ void StelEngine::Engine::ProcessInput()
 	float axiosV = m_Input->GetAxiosVertical();
 	m_Position->x += axiosH * m_Speed;
 	m_Position->y += axiosV * m_Speed;
+
+	#if _DEBUG
+	if(m_Input->IsKeyDown(IInput::Esc))
+	{
+		Exit();
+	}
+	#endif
 
 
 	//if(m_Events)

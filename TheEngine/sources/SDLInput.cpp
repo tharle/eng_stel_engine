@@ -17,6 +17,7 @@ void SdlInput::InitInputMap()
     m_InputMap[Up] = SDL_SCANCODE_UP;
     m_InputMap[Left] = SDL_SCANCODE_LEFT;
     m_InputMap[Down] = SDL_SCANCODE_DOWN;
+    m_InputMap[Esc] = SDL_SCANCODE_ESCAPE;
 
 
     m_InputMap[A] = SDL_SCANCODE_A;
