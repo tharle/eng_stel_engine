@@ -137,7 +137,7 @@ void StelEngine::Engine::Render()
 	StelRectF _getRect{ m_Position->x , m_Position->y , 200, 200 };
 	m_Gfx->FillRect(_getRect, StelColor::Red);
 
-	m_Gfx->DrawString("TESTE", m_FontMerlovaz12, { 50, 50 }, {0, 255, 0, 255});
+	m_Gfx->DrawString("TESTE", m_FontMerlovaz12, { 50, 50 }, StelColor::Blue);
 
 	m_Gfx->Present(); // TODO met à END
 }

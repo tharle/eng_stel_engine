@@ -1,8 +1,8 @@
 #include "StelColor.h"
 
-const StelColor& StelColor::Red = StelColor(255, 0, 0, 1);
-const StelColor& StelColor::Green = StelColor(0, 255, 0, 1);
-const StelColor& StelColor::Blue = StelColor(0, 0, 255, 1);
+const StelColor& StelColor::Red = StelColor(255, 0, 0);
+const StelColor& StelColor::Green = StelColor(0, 255, 0);
+const StelColor& StelColor::Blue = StelColor(0, 0, 255);
 
 StelColor::StelColor(uchar _red, uchar _green, uchar _blue, uchar _alpha) : 
 	red(_red),
