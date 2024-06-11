@@ -1,9 +1,12 @@
 #include "Engine.h"
 #include <time.h>
-#include "SDL.h"
-#include "SDLInput.h"
+//#include "SDL.h"
 #include "WindowsLogger.h"
 #include "FileLogger.h"
+
+#include "SdlGfx.h"
+#include "SDLInput.h"
+
 
 // Library effective with Windows
 #include <windows.h>
@@ -21,33 +24,41 @@ bool StelEngine::Engine::Init(const std::string& title, int widthScreen, int hei
 		m_Logger = new FileLogger();
 	#endif // _RELEASE
 
-	if (SDL_Init(SDL_INIT_EVERYTHING != 0))
+	/*if (SDL_Init(SDL_INIT_EVERYTHING != 0))
 	{
 		m_Logger->Info(SDL_GetError());
 		return false;
-	}
-	int _x = SDL_WINDOWPOS_CENTERED;
-	int _y = SDL_WINDOWPOS_CENTERED;
-	Uint32 _flag = SDL_WINDOW_TOOLTIP;
+	}*/
 
-	m_Window = SDL_CreateWindow(title.c_str(), _x, _y, widthScreen, heightScreen, _flag);
+	/*int _x = SDL_WINDOWPOS_CENTERED;
+	int _y = SDL_WINDOWPOS_CENTERED;
+	Uint32 _flag = SDL_WINDOW_TOOLTIP;*/
+
+	/*m_Window = SDL_CreateWindow(title.c_str(), _x, _y, widthScreen, heightScreen, _flag);
 	if (!m_Window)
 	{
 		m_Logger->Info(SDL_GetError());
 		return false;
-	}
+	}*/
 
-	_flag = SDL_RENDERER_ACCELERATED;
+	/*_flag = SDL_RENDERER_ACCELERATED;
 	m_Renderer = SDL_CreateRenderer(m_Window, -1, _flag);
 	if (!m_Renderer)
 	{
 		m_Logger->Info(SDL_GetError());
 		return false;
-	}
+	}*/
 
 	// Include all servers
+	m_Gfx = new SdlGfx();
 	m_Input = new SdlInput();
-
+	const char* msgError = "";
+	
+	if (!m_Gfx->Initialize(title.c_str(), widthScreen, heightScreen, msgError))
+	{
+		m_Logger->Info(msgError);
+		return false;
+	}
 
 	m_FPS = 0;
 	m_Speed = 5;
@@ -57,7 +68,7 @@ bool StelEngine::Engine::Init(const std::string& title, int widthScreen, int hei
 
 void StelEngine::Engine::Start()
 {
-	m_Position = new SDL_FPoint{200.0f, 200.0f};
+	m_Position = new StelPointF{200.0f, 200.0f};
 	if (!m_IsInit)
 	{
 		if (!Init("Legends of Stel", 800, 600))
@@ -144,25 +155,32 @@ void StelEngine::Engine::Update(float deltaTime)
 
 void StelEngine::Engine::Render()
 {
-	SDL_SetRenderDrawColor(m_Renderer, 0, 0, 0, 255);
-	SDL_RenderClear(m_Renderer); // TODO met à BEGIN
-	SDL_SetRenderDrawColor(m_Renderer, 255, 0, 0, 255);
-	SDL_Rect _getRect;
+	m_Gfx->SetColor({ 0, 0, 0, 255 });
+	//SDL_SetRenderDrawColor(m_Renderer, 0, 0, 0, 255);
+	m_Gfx->Clear();
+	//SDL_RenderClear(m_Renderer); // TODO met à BEGIN
+	//SDL_SetRenderDrawColor(m_Renderer, 255, 0, 0, 255);
+	//m_Gfx->SetColor(StelColor::Red);
+	/*SDL_Rect _getRect;
 	_getRect.x = m_Position->x;
 	_getRect.y = m_Position->y;
 	_getRect.w = 200;
-	_getRect.h = 200;
-	SDL_RenderFillRect(m_Renderer, &_getRect);
-	SDL_RenderPresent(m_Renderer); // TODO met à END
+	_getRect.h = 200;*/
+	StelRectF _getRect{ m_Position->x , m_Position->y , 200, 200 };
+	m_Gfx->FillRect(_getRect, StelColor::Red);
+	//SDL_RenderFillRect(m_Renderer, &_getRect);
+	m_Gfx->Present(); // TODO met à END
+	
 
 	//SDL_Log(_x);
 }
 
 void StelEngine::Engine::Shutdown()
 {
-	SDL_DestroyRenderer(m_Renderer);
+	/*SDL_DestroyRenderer(m_Renderer);
 	SDL_DestroyWindow(m_Window);
-	SDL_Quit();
+	SDL_Quit();*/
+	m_Gfx->Shutdown();
 }
 
 void StelEngine::Engine::Exit()

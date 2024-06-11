@@ -2,10 +2,7 @@
 #include <string>
 #include "IInput.h"
 #include "ILogger.h"
-
-struct SDL_Window;
-struct SDL_Renderer;
-struct SDL_FPoint;
+#include "IGfx.h"
 
 namespace StelEngine
 {
@@ -22,14 +19,17 @@ namespace StelEngine
 		void Shutdown();
 		void Exit();
 	private:
-		SDL_Window* m_Window;
-		SDL_Renderer* m_Renderer;
-		SDL_FPoint* m_Position;
-		ILogger* m_Logger;
+		//SDL_Window* m_Window;
+		//SDL_Renderer* m_Renderer;
+		StelPointF* m_Position;
 		bool m_IsInit;
 		bool m_isRunning;
-		IInput* m_Input;
 		int m_FPS;
 		float m_Speed;
+
+		ILogger* m_Logger;
+		IInput* m_Input;
+		IGfx* m_Gfx;
+
 	};
 }
