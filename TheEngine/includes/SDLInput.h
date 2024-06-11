@@ -1,6 +1,7 @@
 #pragma once
 #include "SDL.h"
 #include "IInput.h"
+#include "IEvents.h"
 #include "IGfx.h"
 #include <map>
 

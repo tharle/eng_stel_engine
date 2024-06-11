@@ -3,6 +3,7 @@
 #include "IInput.h"
 #include "ILogger.h"
 #include "IGfx.h"
+#include "IEvents.h"
 
 namespace StelEngine
 {
@@ -29,6 +30,7 @@ namespace StelEngine
 
 		ILogger* m_Logger;
 		IInput* m_Input;
+		IEvents* m_Events;
 		IGfx* m_Gfx;
 
 	};

@@ -1,11 +1,11 @@
 #include "Engine.h"
 #include <time.h>
-//#include "SDL.h"
 #include "WindowsLogger.h"
 #include "FileLogger.h"
 
 #include "SdlGfx.h"
-#include "SDLInput.h"
+#include "SdlInput.h"
+#include "SdlEvents.h";
 
 #define MS_PER_FRAME 16.667f // TODO tester avec fraps
 
@@ -22,8 +22,9 @@ bool StelEngine::Engine::Init(const std::string& title, int widthScreen, int hei
 	// Include all servers
 	m_Gfx = new SdlGfx();
 	m_Input = new SdlInput();
+	m_Events = new SdlEvents();
+
 	const char* msgError = "";
-	
 	if (!m_Gfx->Initialize(title.c_str(), widthScreen, heightScreen, msgError))
 	{
 		m_Logger->Info(msgError);
@@ -87,31 +88,27 @@ void StelEngine::Engine::ProcessInput()
 	m_Position->y += axiosV * m_Speed;
 
 
-	SDL_Event _event;
-	while (SDL_PollEvent(&_event))
+	//if(m_Events)
+	IEvents::StelEvent stelEvent = m_Events->PullEvent();
+	switch (stelEvent.type)
 	{
-		switch (_event.type) 
-		{
-		case SDL_QUIT:
-			Exit();
-			break;
-		case SDL_MOUSEBUTTONDOWN:
-			SDL_MouseButtonEvent _buttonDown = _event.button;
-			m_Logger->Info("Button down : %d)", _buttonDown.button);
-			m_Logger->Info("at (%d, %d)", _buttonDown.x, _buttonDown.y);
-			break;
-		case SDL_MOUSEBUTTONUP:
-			SDL_MouseButtonEvent _buttonUp = _event.button;
-			m_Logger->Info("Button up : %d)", _buttonUp.button);
-			m_Logger->Info("at (%d, %d)", _buttonUp.x, _buttonUp.y);
-			break;
-		case SDL_MOUSEMOTION:
-			SDL_MouseMotionEvent _motion = _event.motion;
-			m_Logger->Info("at (%d, %d)", _motion.x, _motion.y);
-			break;
-		default:
-			break;
-		}
+	case IEvents::Quit:
+		Exit();
+		break;
+	case IEvents::MouseButtonDown:
+		m_Logger->Info("Button DOWN : %d)", stelEvent.button.id);
+		m_Logger->Info("at (%d, %d)", stelEvent.button.position.x, stelEvent.button.position.y);
+		break;
+	case IEvents::MouseButtonUp:
+		m_Logger->Info("Button UP : %d)", stelEvent.button.id);
+		m_Logger->Info("at (%d, %d)", stelEvent.button.position.x, stelEvent.button.position.y);
+		break;
+	case IEvents::MouseMotion:
+		m_Logger->Info("Button MOVE:)");
+		m_Logger->Info("at (%d, %d)", stelEvent.button.position.x, stelEvent.button.position.y);
+		break;
+	default:
+		break;
 	}
 }
 
