@@ -35,7 +35,7 @@ namespace StelEngine
 
 
 		//Fonts Loadeds
-		size_t m_FontMerlovaz12;
+		size_t m_FontMerlovaz;
 
 	};
 }
