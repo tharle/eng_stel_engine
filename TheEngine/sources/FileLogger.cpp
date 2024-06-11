@@ -22,23 +22,14 @@ FileLogger::FileLogger()
 	strStream << now->tm_sec;
 	strStream << ".log";
 
-	std::ofstream newFileLog (strStream.str());
-	m_OutFile = &newFileLog;
-	//*(m_OutFile) << "NEW LOG tro" << std::endl;
+	m_OutFile = std::ofstream(strStream.str());
 	Info("====== Logging ==========");
 }
 
 FileLogger::~FileLogger()
 {
-	if(m_OutFile != nullptr)
-	{
-		Info("EOF");
-		m_OutFile->close();
-		delete m_OutFile;
-		m_OutFile = nullptr;
-	}
-
-
+	Info("EOF");
+	m_OutFile.close();
 }
 
 void FileLogger::Info(const char* message, ...)
@@ -46,8 +37,7 @@ void FileLogger::Info(const char* message, ...)
 	char buffer[512] = { 0 };
 	va_list args;
 	va_start(args, message);
-	SetConsoleTextAttribute(m_OutFile, 12);
 	vsnprintf(buffer, 512, message, args);
-	*(m_OutFile) << buffer << std::endl;
+	m_OutFile << buffer << std::endl;
 	va_end(args);
 }

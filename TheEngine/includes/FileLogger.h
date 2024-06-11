@@ -6,7 +6,7 @@
 class FileLogger : public ILogger 
 {
 private:
-	std::ofstream* m_OutFile;
+	std::ofstream m_OutFile;
 public:
 	FileLogger();
 	~FileLogger();

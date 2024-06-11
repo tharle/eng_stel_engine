@@ -81,25 +81,32 @@ void SdlGfx::Present()
 
 void SdlGfx::DrawRect(float x, float y, float w, float h, const StelColor& color)
 {
+	SetColor(color);
+	SDL_FRect sdlRect{ x, y, w, h };
+	SDL_RenderDrawRectF(m_Renderer, &sdlRect);
 }
 
-void SdlGfx::DrawRect(const StelRectF& rect, const StelColor& color)
+void SdlGfx::DrawRect(const StelRectF& _rect, const StelColor& color)
 {
+	DrawRect(_rect.x, _rect.y, _rect.w, _rect.h, color);
 }
 
 void SdlGfx::FillRect(float x, float y, float w, float h, const StelColor& color)
 {
+	SetColor(color);
+	SDL_FRect sdlRect{ x, y, w, h };
+	SDL_RenderFillRectF(m_Renderer, &sdlRect);
 }
 
 void SdlGfx::FillRect(const StelRectF& _rect, const StelColor& color)
 {
-	SetColor(color);
-	SDL_Rect sdlRect{ _rect.x, _rect.y, _rect.w,  _rect.h };
-	SDL_RenderFillRect(m_Renderer, &sdlRect);
+	FillRect(_rect.x, _rect.y, _rect.w, _rect.h, color);
 }
 
 void SdlGfx::DrawLine(StelPointF posStart, StelPointF posEnd, const StelColor& color)
 {
+	SetColor(color);
+	SDL_RenderDrawLineF(m_Renderer, posStart.x, posStart.y, posEnd.x, posEnd.y);
 }
 
 size_t SdlGfx::LoadTexture(const std::string& filename)
@@ -128,6 +135,7 @@ size_t SdlGfx::LoadFont(const std::string& filename, int fontSize)
 {
 	size_t sizeFont = static_cast<size_t>(fontSize);
 	TTF_Font* font = TTF_OpenFont(filename.c_str(), sizeFont);
+	
 	m_Fonts.push_back(font);
 	return m_Fonts.size() - 1;
 }

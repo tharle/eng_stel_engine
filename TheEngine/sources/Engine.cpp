@@ -14,10 +14,8 @@ bool StelEngine::Engine::Init(const std::string& title, int widthScreen, int hei
 	// Service LOG
 	#if _DEBUG
 		m_Logger = new WindowsLogger(); // _DEBUG
-	#elif _RELEASE
-		m_Logger = new FileLogger();
 	#else
-		m_Logger = new WindowsLogger(); // TODO if you cant find any TAG
+		m_Logger = new FileLogger();
 	#endif // _RELEASE
 
 	// Include all servers
