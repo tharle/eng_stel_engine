@@ -135,9 +135,10 @@ void StelEngine::Engine::Render()
 	m_Gfx->SetColor({ 0, 0, 0, 255 });
 	m_Gfx->Clear();// TODO met à BEGIN
 	StelRectF _getRect{ m_Position->x , m_Position->y , 200, 200 };
-	m_Gfx->FillRect(_getRect, StelColor::Red);
+	m_Gfx->FillRect(_getRect, StelColor::DARKRED);
 
-	m_Gfx->DrawString("TESTE", m_FontMerlovaz12, { 50, 50 }, StelColor::Blue);
+	m_Gfx->DrawString("TESTE", m_FontMerlovaz12, { 50, 50 }, StelColor::TOMATO);
+	m_Gfx->DrawString("TESTE 2", m_FontMerlovaz12, { 300, 50 }, StelColor::AQUA);
 
 	m_Gfx->Present(); // TODO met à END
 }
