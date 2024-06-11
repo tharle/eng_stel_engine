@@ -5,6 +5,11 @@ SdlInput::SdlInput() : m_Axios({0, 0})
     InitInputMap();
 }
 
+SdlInput::~SdlInput()
+{
+    m_InputMap.clear();
+}
+
 void SdlInput::InitInputMap() 
 {
     m_InputMap = std::map<StelKey, SDL_Scancode>();

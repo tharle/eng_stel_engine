@@ -7,11 +7,6 @@
 #include "SdlGfx.h"
 #include "SDLInput.h"
 
-
-// Library effective with Windows
-#include <windows.h>
-// Library effective with Linux
-//#include <unistd.h>
 #define MS_PER_FRAME 16.667f // TODO tester avec fraps
 
 bool StelEngine::Engine::Init(const std::string& title, int widthScreen, int heightScreen)
@@ -23,31 +18,6 @@ bool StelEngine::Engine::Init(const std::string& title, int widthScreen, int hei
 	#if _RELEASE
 		m_Logger = new FileLogger();
 	#endif // _RELEASE
-
-	/*if (SDL_Init(SDL_INIT_EVERYTHING != 0))
-	{
-		m_Logger->Info(SDL_GetError());
-		return false;
-	}*/
-
-	/*int _x = SDL_WINDOWPOS_CENTERED;
-	int _y = SDL_WINDOWPOS_CENTERED;
-	Uint32 _flag = SDL_WINDOW_TOOLTIP;*/
-
-	/*m_Window = SDL_CreateWindow(title.c_str(), _x, _y, widthScreen, heightScreen, _flag);
-	if (!m_Window)
-	{
-		m_Logger->Info(SDL_GetError());
-		return false;
-	}*/
-
-	/*_flag = SDL_RENDERER_ACCELERATED;
-	m_Renderer = SDL_CreateRenderer(m_Window, -1, _flag);
-	if (!m_Renderer)
-	{
-		m_Logger->Info(SDL_GetError());
-		return false;
-	}*/
 
 	// Include all servers
 	m_Gfx = new SdlGfx();
@@ -113,9 +83,6 @@ void StelEngine::Engine::ProcessInput()
 {
 	float axiosH = m_Input->GetAxiosHorizontal();
 	float axiosV = m_Input->GetAxiosVertical();
-	/*m_Logger->Info("axiosH %f", axiosH);
-	m_Logger->Info("axiosV %f", axiosV);
-	m_Logger->Info("Speed %f", m_Speed);*/
 	m_Position->x += axiosH * m_Speed;
 	m_Position->y += axiosV * m_Speed;
 
@@ -156,31 +123,38 @@ void StelEngine::Engine::Update(float deltaTime)
 void StelEngine::Engine::Render()
 {
 	m_Gfx->SetColor({ 0, 0, 0, 255 });
-	//SDL_SetRenderDrawColor(m_Renderer, 0, 0, 0, 255);
-	m_Gfx->Clear();
-	//SDL_RenderClear(m_Renderer); // TODO met à BEGIN
-	//SDL_SetRenderDrawColor(m_Renderer, 255, 0, 0, 255);
-	//m_Gfx->SetColor(StelColor::Red);
-	/*SDL_Rect _getRect;
-	_getRect.x = m_Position->x;
-	_getRect.y = m_Position->y;
-	_getRect.w = 200;
-	_getRect.h = 200;*/
+	m_Gfx->Clear();// TODO met à BEGIN
 	StelRectF _getRect{ m_Position->x , m_Position->y , 200, 200 };
 	m_Gfx->FillRect(_getRect, StelColor::Red);
-	//SDL_RenderFillRect(m_Renderer, &_getRect);
 	m_Gfx->Present(); // TODO met à END
-	
-
-	//SDL_Log(_x);
 }
 
 void StelEngine::Engine::Shutdown()
 {
-	/*SDL_DestroyRenderer(m_Renderer);
-	SDL_DestroyWindow(m_Window);
-	SDL_Quit();*/
-	m_Gfx->Shutdown();
+	if (m_Gfx != nullptr) 
+	{
+		m_Gfx->Shutdown();
+		delete m_Gfx;
+		m_Gfx = nullptr;
+	}
+
+	if (m_Input != nullptr) 
+	{
+		delete m_Input;
+		m_Input = nullptr;
+	}
+
+	if (m_Logger != nullptr) 
+	{
+		delete m_Logger;
+		m_Logger = nullptr;
+	}
+
+	if (m_Position != nullptr) 
+	{
+		delete m_Position;
+		m_Position = nullptr;
+	}
 }
 
 void StelEngine::Engine::Exit()

@@ -19,13 +19,13 @@ namespace StelEngine
 		void Shutdown();
 		void Exit();
 	private:
-		//SDL_Window* m_Window;
-		//SDL_Renderer* m_Renderer;
-		StelPointF* m_Position;
 		bool m_IsInit;
 		bool m_isRunning;
 		int m_FPS;
 		float m_Speed;
+
+		// testing moving square
+		StelPointF* m_Position;
 
 		ILogger* m_Logger;
 		IInput* m_Input;

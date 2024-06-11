@@ -8,6 +8,7 @@ private:
 	SDL_Renderer* m_Renderer;
 	SDL_Window* m_Window;
 public:
+	~SdlGfx();
 	bool Initialize(const std::string& title, int w, int h, const char* msgError) override;
 	void Shutdown() override;
 	void SetColor(const StelColor& color) override;

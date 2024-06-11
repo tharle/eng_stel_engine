@@ -2,6 +2,21 @@
 #include "SDL.h"
 //#include "SDL_image.h"
 
+SdlGfx::~SdlGfx()
+{
+	if (m_Renderer != nullptr)
+	{
+		delete m_Renderer;
+		m_Renderer = nullptr;
+	}
+
+	if (m_Window != nullptr)
+	{
+		delete m_Window;
+		m_Window = nullptr;
+	}
+}
+
 bool SdlGfx::Initialize(const std::string& title, int w, int h, const char* msgError)
 {
 	if (SDL_Init(SDL_INIT_EVERYTHING != 0))
@@ -35,6 +50,7 @@ void SdlGfx::Shutdown()
 {
 	SDL_DestroyRenderer(m_Renderer);
 	SDL_DestroyWindow(m_Window);
+	// TTF_CloseFont(font);
 	SDL_Quit();
 }
 

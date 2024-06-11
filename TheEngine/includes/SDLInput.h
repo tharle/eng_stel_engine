@@ -1,15 +1,17 @@
 #pragma once
-#include "IInput.h"
 #include "SDL.h"
+#include "IInput.h"
+#include "IGfx.h"
 #include <map>
 
 class SdlInput : public IInput
 {
     public:
         SdlInput();
+        ~SdlInput();
     private:
         std::map<StelKey, SDL_Scancode> m_InputMap;
-        SDL_FPoint m_Axios;
+        StelPointF m_Axios;
         void InitInputMap();
         void UpdateAxios(float dt);
     protected:
