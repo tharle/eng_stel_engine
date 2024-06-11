@@ -67,6 +67,7 @@ void SdlGfx::FillRect(float x, float y, float w, float h, const StelColor& color
 
 void SdlGfx::FillRect(const StelRectF& _rect, const StelColor& color)
 {
+	SetColor(color);
 	SDL_Rect sdlRect{ _rect.x, _rect.y, _rect.w,  _rect.h };
 	SDL_RenderFillRect(m_Renderer, &sdlRect);
 }
