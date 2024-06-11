@@ -34,7 +34,7 @@ bool StelEngine::Engine::Init(const std::string& title, int widthScreen, int hei
 	m_Speed = 5;
 
 	// LOAD Fonts
-	m_FontMerlovaz12 = m_Gfx->LoadFont("Merlovaz.ttf", 12, msgError);
+	m_FontMerlovaz12 = m_Gfx->LoadFont("Assets/Fonts/Merlovaz.ttf", 40, msgError);
 	if (m_FontMerlovaz12 == 0)
 	{
 		m_Logger->Info(msgError);
@@ -137,7 +137,7 @@ void StelEngine::Engine::Render()
 	StelRectF _getRect{ m_Position->x , m_Position->y , 200, 200 };
 	m_Gfx->FillRect(_getRect, StelColor::Red);
 
-	m_Gfx->DrawString("TESTE", m_FontMerlovaz12, {50, 50}, StelColor::Blue);
+	m_Gfx->DrawString("TESTE", m_FontMerlovaz12, { 50, 50 }, {0, 255, 0, 255});
 
 	m_Gfx->Present(); // TODO met à END
 }
