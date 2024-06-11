@@ -1,5 +1,6 @@
 #include "SdlGfx.h"
 #include "SDL.h"
+#include "SDL_image.h"
 
 SdlGfx::~SdlGfx()
 {
@@ -15,13 +16,10 @@ SdlGfx::~SdlGfx()
 		m_Window = nullptr;
 	}
 
-	for (auto font : m_Fonts) 
+	if (m_TextureBuffer != nullptr) 
 	{
-		if (font != nullptr)
-		{
-			delete font;
-			font = nullptr;
-		}
+		delete m_TextureBuffer;
+		m_TextureBuffer = nullptr;
 	}
 }
 
@@ -51,7 +49,7 @@ bool SdlGfx::Initialize(const std::string& title, int w, int h, const char* msgE
 		return false;
 	}
 
-	m_Fonts = std::vector<TTF_Font*>();
+	TTF_Init();
 
 	return true;
 }
@@ -109,64 +107,162 @@ void SdlGfx::DrawLine(StelPointF posStart, StelPointF posEnd, const StelColor& c
 	SDL_RenderDrawLineF(m_Renderer, posStart.x, posStart.y, posEnd.x, posEnd.y);
 }
 
-size_t SdlGfx::LoadTexture(const std::string& filename)
+void SdlGfx::DrawCircle(StelPointF point, float r, const StelColor& color)
 {
-	return size_t();
+    float tx = point.x;
+    float ty = point.y;
+    double angle = 0.0;
+
+    while (angle < 6.3) // Code magic
+    {
+        tx = point.x + r * cos(angle);
+        ty = point.y + r * sin(angle);
+		DrawPoint({ tx, ty }, color);
+
+        angle += 0.01;
+    }
 }
 
-void SdlGfx::DrawTexture(size_t id, const StelRectI& src, const StelRectF& dst, double angle, const StelFlip& flip, const StelColor& color)
+void SdlGfx::DrawPoint(StelPointF point, const StelColor& color)
 {
+	SetColor(color);
+    SDL_RenderDrawPoint(m_Renderer, point.x, point.y);
 }
 
-void SdlGfx::DrawTexture(size_t id, const StelColor& dst, const StelColor& color)
+size_t SdlGfx::LoadTexture(const std::string& filename, const char* msgError)
 {
+	const size_t _texId = std::hash<std::string>()(filename);
+
+	if (m_TextureCache.count(_texId) > 0) return _texId;
+
+	SDL_Texture* _texture = IMG_LoadTexture(m_Renderer, filename.c_str());
+	if (_texture)
+	{
+		m_TextureCache.emplace(_texId, _texture);
+		return _texId;
+	}
+
+	std::string msg = "Error with texture: " + filename;
+	msgError = msg.c_str();
+
+	return 0;
+}
+
+void SdlGfx::DrawTexture(size_t id, const StelRectI& src, const StelRectF& dst, double angle, const StelRectF& pivot,const StelFlip& flip, const StelColor& color)
+{
+	SDL_Rect _src = {src.x, src.y, src.w, src.h};
+	SDL_FRect _dst = { dst.x, dst.y, dst.w, dst.h };
+	SDL_FPoint _pivot = { pivot.x, pivot.y };
+
+	int _flip = SDL_FLIP_NONE;
+	if (flip.h)
+	{
+		_flip = SDL_FLIP_HORIZONTAL;
+	}
+
+	if (flip.v)
+	{
+		_flip |= SDL_FLIP_VERTICAL;
+	}
+
+	const SDL_RendererFlip _rf = static_cast<SDL_RendererFlip>(_flip);
+
+	SetColorMode(id, color);
+	
+	SDL_RenderCopyExF(m_Renderer, m_TextureCache[id], &_src, &_dst, angle, &_pivot, _rf);
+}
+
+void SdlGfx::DrawTexture(size_t id, const StelRectF& dst, const StelColor& color)
+{
+	SDL_FRect _dst = { dst.x, dst.y, dst.w, dst.h };
+
+	SetColorMode(id, color);
+
+	SDL_RenderCopyF(m_Renderer, m_TextureCache[id], nullptr, &_dst);
 }
 
 void SdlGfx::DrawTexture(size_t id, const StelColor& color)
 {
-
+	SetColorMode(id, color);
+	SDL_RenderCopy(m_Renderer, m_TextureCache[id], nullptr, nullptr);
 }
 
 void SdlGfx::GetTextureSize(size_t id, int* w, int* h)
 {
+	if (m_TextureCache.count(id) > 0)
+	{
+		SDL_QueryTexture(m_TextureCache[id], nullptr, nullptr, w, h);
+	}
+	else
+	{
+		*w = 0;
+		*h = 0;
+	}
 }
 
-size_t SdlGfx::LoadFont(const std::string& filename, int fontSize)
+size_t SdlGfx::LoadFont(const std::string& filename, int fontSize, const char* msgError)
 {
-	size_t sizeFont = static_cast<size_t>(fontSize);
-	TTF_Font* font = TTF_OpenFont(filename.c_str(), sizeFont);
-	
-	m_Fonts.push_back(font);
-	return m_Fonts.size() - 1;
+	const size_t _fntId = std::hash<std::string>()(filename);
+	if (m_FontCache.count(_fntId) > 0)
+	{
+		return _fntId;
+	}
+
+	TTF_Font* _font = TTF_OpenFont(filename.c_str(), fontSize);
+	if (_font)
+	{
+		m_FontCache.emplace(_fntId, _font);
+		return _fntId;
+	}
+	std::string msg = "Error with font: " + filename;
+	msgError = msg.c_str();
+
+	return 0;
 }
 
-void SdlGfx::DrawString(const std::string& text, size_t fontId, float x, float y, const StelColor& color)
+void SdlGfx::DrawString(const std::string& text, size_t fontId, const StelPointF& position, const StelColor& color)
 {
-	TTF_Font* font = m_Fonts.at(fontId);
+	if (fontId == 0) return; // Font not loaded
 
-	// this is the color in rgb format,
-	// maxing out all would give you the color white,
-	// and it will be your text's color
-	SDL_Color sdlColor = { color.red, color.green, color.blue };
+	const SDL_Color _color = {
+		static_cast<Uint8>(color.red),
+		static_cast<Uint8>(color.green),
+		static_cast<Uint8>(color.blue),
+		static_cast<Uint8>(color.alpha)
+	};
 
-	// as TTF_RenderText_Solid could only be used on
-	// SDL_Surface then you have to create the surface first
-	SDL_Surface* surfaceMessage =
-		TTF_RenderText_Solid(font, text.c_str(), sdlColor);
+	SDL_Surface* _surface = TTF_RenderText_Solid(m_FontCache[fontId], text.c_str(), _color);
 
-	// now you can convert it into a texture
-	SDL_Texture* Message = SDL_CreateTextureFromSurface(m_Renderer, surfaceMessage);
+	SDL_FRect _dst = {
+		position.x,
+		position.y,
+		_surface->w,
+		_surface->h
+	};
 
-	SDL_Rect Message_rect; //create a rect
-	Message_rect.x = x;  //controls the rect's x coordinate 
-	Message_rect.y = y; // controls the rect's y coordinte
-	Message_rect.w = 100; // controls the width of the rect
-	Message_rect.h = 100; // controls the height of the rect
-
-	SDL_RenderCopy(m_Renderer, Message, NULL, &Message_rect);
+	SDL_Texture* textureBuffer = SDL_CreateTextureFromSurface(m_Renderer, _surface);
+	SDL_RenderCopyF(m_Renderer, textureBuffer, nullptr, &_dst);
+	SDL_FreeSurface(_surface);
 	
 }
 
 void SdlGfx::GetTextSize(const std::string& text, size_t fontId, int* w, int* h)
 {
+	if (m_FontCache.count(fontId) > 0)
+	{
+		TTF_SizeText(m_FontCache[fontId], text.c_str(), w, h);
+	}
+	else
+	{
+		*w = 0;
+		*h = 0;
+	}
+}
+
+void SdlGfx::SetColorMode(size_t id, const StelColor& color)
+{
+    SDL_Texture* _tex = m_TextureCache[id];
+    SDL_SetTextureBlendMode(_tex, SDL_BLENDMODE_BLEND);
+    SDL_SetTextureAlphaMod(_tex, color.alpha);
+    SDL_SetTextureColorMod(_tex, color.red, color.green, color.blue);
 }

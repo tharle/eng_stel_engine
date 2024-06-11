@@ -33,5 +33,9 @@ namespace StelEngine
 		IEvents* m_Events;
 		IGfx* m_Gfx;
 
+
+		//Fonts Loadeds
+		size_t m_FontMerlovaz12;
+
 	};
 }

@@ -23,12 +23,12 @@ FileLogger::FileLogger()
 	strStream << ".log";
 
 	m_OutFile = std::ofstream(strStream.str());
-	Info("====== Logging ==========");
+	Info("======= Logging =======");
 }
 
 FileLogger::~FileLogger()
 {
-	Info("EOF");
+	Info("======= EOF =======");
 	m_OutFile.close();
 }
 
