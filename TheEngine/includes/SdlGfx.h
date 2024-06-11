@@ -1,12 +1,16 @@
 #pragma once
 #include "IGfx.h"
 #include "SDL.h"
+#include <vector>
+#include "SDL_ttf.h"
+
 
 class SdlGfx : public IGfx
 {
 private:
 	SDL_Renderer* m_Renderer;
 	SDL_Window* m_Window;
+	std::vector<TTF_Font*> m_Fonts;
 public:
 	~SdlGfx();
 	bool Initialize(const std::string& title, int w, int h, const char* msgError) override;
