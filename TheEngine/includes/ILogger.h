@@ -4,7 +4,7 @@ class ILogger
 
 public:
 
-	~ILogger();
+	~ILogger(){};
 
 	/// <summary>
 	/// Log a message, if is in mode DEBUG it will be in console, otherwise it will be in file

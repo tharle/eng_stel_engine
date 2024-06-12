@@ -6,6 +6,7 @@
 #include "SdlGfx.h"
 #include "SdlInput.h"
 #include "SdlEvents.h";
+#include "SdlAudio.h"
 
 #define MS_PER_FRAME 16.667f // TODO tester avec fraps
 
@@ -22,6 +23,7 @@ bool StelEngine::Engine::Init(const std::string& title, int widthScreen, int hei
 	m_Gfx = new SdlGfx();
 	m_Input = new SdlInput();
 	m_Events = new SdlEvents();
+	m_Audio = new SdlAudio();
 
 	const char* msgError = "";
 	if (!m_Gfx->Initialize(title.c_str(), widthScreen, heightScreen, msgError))
@@ -39,6 +41,15 @@ bool StelEngine::Engine::Init(const std::string& title, int widthScreen, int hei
 	{
 		m_Logger->Info(msgError);
 	}
+
+	// Load sounds and audios
+	m_AmbianceMusic = m_Audio->LoadMusic("Assets/Audios/bgm.wav");
+	if (m_AmbianceMusic == 0)  m_Logger->Info("ERROR LOAD MUSIC");
+
+	m_RemoveSfx = m_Audio->LoadSound("Assets/Audios/Remove1.wav");
+	if (m_RemoveSfx == 0)  m_Logger->Info("ERROR LOAD AUDIO");
+
+	m_IsInit = true;
 
 	return true;
 }
@@ -100,8 +111,21 @@ void StelEngine::Engine::ProcessInput()
 	}
 	#endif
 
+	if (m_Input->IsKeyDown(IInput::StelKey::F)) 
+	{
+		m_Audio->PlaySFX(m_RemoveSfx);
+	}
 
-	//if(m_Events)
+	if (m_Input->IsKeyDown(IInput::StelKey::Q))
+	{
+		m_Audio->PlayMusic(m_AmbianceMusic);
+	}
+
+	if (m_Input->IsKeyDown(IInput::StelKey::E))
+	{
+		m_Audio->StopMusic();
+	}
+
 	IEvents::StelEvent stelEvent = m_Events->PullEvent();
 	switch (stelEvent.type)
 	{
