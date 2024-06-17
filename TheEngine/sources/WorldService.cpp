@@ -1,10 +1,9 @@
 #include "WorldService.h"
 
-void WorldService::Add(Entity* ent)
+void WorldService::Add(Entity* entity)
 {
-	// TODO valider si le nom existe dejà dans le map
-
-	m_Entities.push_back(ent);
+	// TODO valider si le nom existe dejï¿½ dans le map
+	m_Entities.emplace_back(entity)
 	//m_EntityMap.insert(ent->GetName(), ent);
 }
 
@@ -37,12 +36,16 @@ void WorldService::Register(const char* name, IScene* scene)
 
 void WorldService::Update(float dt)
 {
-	/*for(Entity entity : m_EntityMap)
+	for(Entity entity : m_EntityMap)
 	{
-
-	}*/
+		entity->Update(dt);
+	}
 }
 
 void WorldService::Draw()
 {
+	for(Entity entity : m_EntityMap)
+	{
+		entity->Drawn();
+	}
 }
