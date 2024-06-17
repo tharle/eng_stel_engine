@@ -1,5 +1,5 @@
 #pragma once
-#include "Entity.h"
+#include "StelEntity.h"
 #include "IScene.h"
 
 class IWorld 
@@ -8,9 +8,9 @@ class IWorld
         // -----------------------------
         // ENTITY
         // -----------------------------
-        virtual void Add(Entity* ent) = 0;
-        virtual Entity* Find(const char* name) = 0;
-        virtual void Remove(Entity* ent) = 0;
+        virtual StelEntity* Create(const char* name) = 0;
+        virtual StelEntity* Find(const char* name) = 0;
+        virtual void Remove(StelEntity* ent) = 0;
 
         // -----------------------------
         // SCENE
