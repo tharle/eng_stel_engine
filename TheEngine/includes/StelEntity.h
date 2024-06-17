@@ -1,19 +1,25 @@
 #pragma once
 #include <vector>
+#include <map>
+#include "IDrawable.h"
+#include "IUpdatable.h"
 
 class StelComponent;
 
-class StelEntity final
+class StelEntity final : public IDrawable, public IUpdable
 {
 	public:
 		StelEntity();
 		StelEntity(const char* name);
-		void AddComponent(StelComponent* comp);
+		template<typename T> void AddComponent(T* comp);
+		template<typename T> T* GetComponent();
 		void Update(float dt);
 		void Draw();
 	private:
 		const char* m_Name = "";
-		std::vector<StelComponent*> m_Components;
+		std::vector<IDrawable*> m_Drawables;
+		std::vector<IUpdable*> m_Updatables;
+		std::map<const type_info*, StelComponent*> m_Components;
 	public:	
 		const char* GetName();
 };

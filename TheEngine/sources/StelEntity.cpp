@@ -7,17 +7,17 @@ StelEntity::StelEntity(const char* name) : m_Name(name) {}
 
 void StelEntity::Update(float dt)
 {
-    for (StelComponent* comp : m_Components)
+    for (IUpdable* updtable : m_Updatables)
     {
-        comp->Update(dt);
+        updtable->Update(dt);
     }
 }
 
 void StelEntity::Draw()
 {
-    for (StelComponent* comp : m_Components)
+    for (IDrawable* drawables : m_Drawables)
     {
-        comp->Draw();
+        drawables->Draw();
     }
 }
 
@@ -26,7 +26,24 @@ const char* StelEntity::GetName()
     return m_Name;
 }
 
-void StelEntity::AddComponent(StelComponent* comp)
+template<typename T>
+/* inline*/ void StelEntity::AddComponent(T* comp)
 {
-    m_Components.emplace_back(comp);
+    T temp;
+    const type_info* type = &typeid(*temp); // _comp
+    m_Components.emplace(type, comp); // cmp
+
+    IUpdable updable =  dynamic_cast<IUpdable>(comp);
+    if (updable != nullptr) m_Updatables(updable);
+
+    IDrawable drawable = dynamic_cast<IDrawable>(comp);
+    if (drawable != nullptr) m_Drawables(drawable);
+}
+
+template<typename T>
+T* StelEntity::GetComponent()
+{
+    T temp;
+    const type_info* type = &typeid(*temp); // _comp
+    return m_Components.at(type_info);
 }
