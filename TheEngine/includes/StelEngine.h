@@ -5,6 +5,7 @@
 #include "IGfx.h"
 #include "IEvents.h"
 #include "IAudio.h"
+#include "IWorld.h"
 
 namespace StelEngine
 {
@@ -14,7 +15,6 @@ namespace StelEngine
 		bool Init(const std::string& title, int widthScreen, int heightScren);
 		void Start();
 		const IInput* GetInput() {return m_Input;};
-	private:
 		void ProcessInput();
 		void Update(float deltaTime);
 		void Render();
@@ -48,7 +48,14 @@ namespace StelEngine
 		size_t m_AmbianceMusic;
 		//Audios
 		size_t m_RemoveSfx;
-		
+
+		IWorld* m_World;
+	public:
+		ILogger* GetLoggerService() { return m_Logger; };
+		IInput* GetInputService() { return m_Input; };
+		IEvents* GetEventService() { return m_Events; };
+		IGfx* GetGfxService() { return m_Gfx; };
+		IAudio* GetAudioService() { return m_Audio; };
 
 	};
 }

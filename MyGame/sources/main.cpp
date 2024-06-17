@@ -1,7 +1,7 @@
 #define WIN32_LEAN_AND_MEAN
 #define VC_EXTRALEAN
 #include <Windows.h>
-#include "Engine.h"
+#include "StelEngine.h"
 
 #ifdef  _DEBUG
 #include "vld.h"

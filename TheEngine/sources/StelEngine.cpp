@@ -1,4 +1,4 @@
-#include "Engine.h"
+#include "StelEngine.h"
 #include <time.h>
 #include "WindowsLogger.h"
 #include "FileLogger.h"
@@ -7,6 +7,8 @@
 #include "SdlInput.h"
 #include "SdlEvents.h";
 #include "SdlAudio.h"
+
+#include "StelWorldService.h"
 
 #define MS_PER_FRAME 16.667f // TODO tester avec fraps
 
@@ -48,6 +50,9 @@ bool StelEngine::Engine::Init(const std::string& title, int widthScreen, int hei
 
 	m_RemoveSfx = m_Audio->LoadSound("Assets/Audios/Remove1.wav");
 	if (m_RemoveSfx == 0)  m_Logger->Info("ERROR LOAD AUDIO");
+
+	// Load World
+	m_World = new StelWorldService();
 
 	m_IsInit = true;
 
