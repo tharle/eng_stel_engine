@@ -6,7 +6,7 @@
 
 class StelComponent;
 
-class StelEntity final : public IDrawable, public IUpdable
+class StelEntity final : public IDrawable, public IUpdatable
 {
 	public:
 		StelEntity();
@@ -18,7 +18,7 @@ class StelEntity final : public IDrawable, public IUpdable
 	private:
 		const char* m_Name = "";
 		std::vector<IDrawable*> m_Drawables;
-		std::vector<IUpdable*> m_Updatables;
+		std::vector<IUpdatable*> m_Updatables;
 		std::map<const type_info*, StelComponent*> m_Components;
 	public:	
 		const char* GetName();

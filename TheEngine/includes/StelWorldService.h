@@ -15,8 +15,8 @@ class StelWorldService : public IWorld
         virtual void Register(const char* name, IScene* scene);
 
 
-        void Update(float dt);
-        void Draw();
+        virtual void Update(float dt) override;
+        virtual void Draw() override;
     private:
         std::map<const char*, StelEntity*> m_EntityMap = std::map<const char*, StelEntity*>();
         // current scene

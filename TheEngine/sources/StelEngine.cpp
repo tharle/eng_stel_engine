@@ -12,7 +12,7 @@
 
 #define MS_PER_FRAME 16.667f // TODO tester avec fraps
 
-bool StelEngine::Engine::Init(const std::string& title, int widthScreen, int heightScreen)
+bool Stel::Engine::Init(const std::string& title, int widthScreen, int heightScreen)
 {
 	// Service LOG
 	#if _DEBUG
@@ -59,7 +59,7 @@ bool StelEngine::Engine::Init(const std::string& title, int widthScreen, int hei
 	return true;
 }
 
-void StelEngine::Engine::Start()
+void Stel::Engine::Start()
 {
 	m_Position = new StelPointF{200.0f, 200.0f};
 	if (!m_IsInit)
@@ -102,9 +102,9 @@ void StelEngine::Engine::Start()
 	Shutdown();
 }
 
-void StelEngine::Engine::ProcessInput()
+void Stel::Engine::ProcessInput()
 {
-	float axiosH = m_Input->GetAxiosHorizontal();
+	/*float axiosH = m_Input->GetAxiosHorizontal();
 	float axiosV = m_Input->GetAxiosVertical();
 	m_Position->x += axiosH * m_Speed;
 	m_Position->y += axiosV * m_Speed;
@@ -151,28 +151,31 @@ void StelEngine::Engine::ProcessInput()
 		break;
 	default:
 		break;
-	}
+	}*/
 }
 
-void StelEngine::Engine::Update(float deltaTime)
+void Stel::Engine::Update(float deltaTime)
 {
 	m_Input->Update(deltaTime);
+	m_World->Update(deltaTime);
 }
 
-void StelEngine::Engine::Render()
+void Stel::Engine::Render()
 {
-	m_Gfx->SetColor({ 0, 0, 0, 255 });
-	m_Gfx->Clear();// TODO met � BEGIN
-	StelRectF _getRect{ m_Position->x , m_Position->y , 200, 200 };
-	m_Gfx->FillRect(_getRect, StelColor::DARKRED);
+	m_World->Draw();
 
-	m_Gfx->DrawString("TESTE", m_FontMerlovaz, { 50, 50 }, StelColor::TOMATO);
-	m_Gfx->DrawString("TESTE 2", m_FontMerlovaz, { 300, 50 }, StelColor::AQUA);
+	//m_Gfx->SetColor({ 0, 0, 0, 255 });
+	//m_Gfx->Clear();// TODO met � BEGIN
+	//StelRectF _getRect{ m_Position->x , m_Position->y , 200, 200 };
+	//m_Gfx->FillRect(_getRect, StelColor::DARKRED);
 
-	m_Gfx->Present(); // TODO met � END
+	//m_Gfx->DrawString("TESTE", m_FontMerlovaz, { 50, 50 }, StelColor::TOMATO);
+	//m_Gfx->DrawString("TESTE 2", m_FontMerlovaz, { 300, 50 }, StelColor::AQUA);
+
+	//m_Gfx->Present(); // TODO met � END
 }
 
-void StelEngine::Engine::Shutdown()
+void Stel::Engine::Shutdown()
 {
 	if (m_Gfx != nullptr) 
 	{
@@ -200,7 +203,7 @@ void StelEngine::Engine::Shutdown()
 	}
 }
 
-void StelEngine::Engine::Exit()
+void Stel::Engine::Exit()
 {
 	m_isRunning = false;
 }

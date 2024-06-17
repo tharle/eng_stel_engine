@@ -11,6 +11,8 @@ class IWorld
         virtual StelEntity* Create(const char* name) = 0;
         virtual StelEntity* Find(const char* name) = 0;
         virtual void Remove(StelEntity* ent) = 0;
+        virtual void Update(float dt) = 0;
+        virtual void Draw() = 0;
 
         // -----------------------------
         // SCENE

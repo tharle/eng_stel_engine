@@ -7,7 +7,7 @@ StelEntity::StelEntity(const char* name) : m_Name(name) {}
 
 void StelEntity::Update(float dt)
 {
-    for (IUpdable* updtable : m_Updatables)
+    for (IUpdatable* updtable : m_Updatables)
     {
         updtable->Update(dt);
     }
@@ -33,7 +33,7 @@ template<typename T>
     const type_info* type = &typeid(*temp); // _comp
     m_Components.emplace(type, comp); // cmp
 
-    IUpdable updable =  dynamic_cast<IUpdable>(comp);
+    IUpdatable updable =  dynamic_cast<IUpdatable>(comp);
     if (updable != nullptr) m_Updatables(updable);
 
     IDrawable drawable = dynamic_cast<IDrawable>(comp);

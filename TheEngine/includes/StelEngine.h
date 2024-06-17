@@ -7,19 +7,26 @@
 #include "IAudio.h"
 #include "IWorld.h"
 
-namespace StelEngine
+namespace Stel
 {
 	class Engine final
 	{
 	public :
+		static Engine& Get()
+		{
+			static Engine _instance;
+			return _instance;
+		}
+
 		bool Init(const std::string& title, int widthScreen, int heightScren);
 		void Start();
-		const IInput* GetInput() {return m_Input;};
+		void Exit();
+	private:
+		Engine() = default;
 		void ProcessInput();
 		void Update(float deltaTime);
 		void Render();
 		void Shutdown();
-		void Exit();
 	private:
 		bool m_IsInit = false;
 		bool m_isRunning = false;
@@ -51,11 +58,12 @@ namespace StelEngine
 
 		IWorld* m_World;
 	public:
-		ILogger* GetLoggerService() { return m_Logger; };
-		IInput* GetInputService() { return m_Input; };
-		IEvents* GetEventService() { return m_Events; };
-		IGfx* GetGfxService() { return m_Gfx; };
-		IAudio* GetAudioService() { return m_Audio; };
+		ILogger& GetLoggerService() { return *m_Logger; };
+		IInput& GetInputService() { return *m_Input; };
+		IEvents& GetEventService() { return *m_Events; };
+		IGfx& GetGfxService() { return *m_Gfx; };
+		IAudio& GetAudioService() { return *m_Audio; };
+		IWorld& GetWorld() { return *m_World; };
 
 	};
 }
