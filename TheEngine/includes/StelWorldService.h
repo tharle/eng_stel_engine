@@ -18,7 +18,6 @@ class StelWorldService : public IWorld
         void Update(float dt);
         void Draw();
     private:
-        std::vector<StelEntity*> m_Entities = std::vector<StelEntity*>();
         std::map<const char*, StelEntity*> m_EntityMap = std::map<const char*, StelEntity*>();
         // current scene
 };

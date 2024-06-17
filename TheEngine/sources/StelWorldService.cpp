@@ -10,12 +10,7 @@ StelEntity* StelWorldService::Create(const char* name)
 
 StelEntity* StelWorldService::Find(const char* name)
 {
-	for (StelEntity* entity : m_Entities)
-	{
-		if (entity->GetName() == name) return entity;
-	}
-
-	return nullptr;
+	return m_EntityMap.at(name);
 }
 
 void StelWorldService::Remove(StelEntity* ent)
