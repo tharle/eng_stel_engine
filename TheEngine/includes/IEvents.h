@@ -25,6 +25,7 @@ public:
 
 	struct StelEvent 
 	{
+		// TODO: int order;
 		StelMouseButtonEvent button;
 		StelEventType  type;
 	};

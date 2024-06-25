@@ -1,5 +1,11 @@
 ﻿#include "PlayerControls.h"
+PlayerControls::PlayerControls(StelEntity* parent, StelPointF initPos, float speed) : 
+	StelComponent(parent),
+	m_Position(initPos),
+	m_Speed(speed)
+{
 
+}
 
 void PlayerControls::Update(float dt) 
 {

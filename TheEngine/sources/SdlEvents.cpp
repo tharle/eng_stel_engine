@@ -20,9 +20,10 @@ void SdlEvents::InitEventMap()
 	m_EventsMap[SDL_MOUSEWHEEL] = MouseWhell;
 }
 
+// TODO: IEvents::StelEvent SdlEvents::Update()
 IEvents::StelEvent SdlEvents::PullEvent()
 {
-	StelEvent stelEvent;
+	StelEvent stelEvent; // met en private
 	stelEvent.type = None;
 	SDL_Event _event;
 	while (SDL_PollEvent(&_event))
