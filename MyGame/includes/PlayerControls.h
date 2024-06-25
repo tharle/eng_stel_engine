@@ -5,7 +5,6 @@
 class PlayerControls : public StelComponent, public IDrawable, public IUpdatable
 {
 public:
-	PlayerControls(StelEntity* parent, StelPointF initPos, float speed);
 	virtual void Update(float dt) override;
 	virtual void Draw() override;
 

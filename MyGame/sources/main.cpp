@@ -15,8 +15,9 @@ PlayerControls* playerControls;
 void InitGameplay()
 {
 	player = Stel::Engine::Get().GetWorld().Create("Player");
-	playerControls = new PlayerControls(player, { 400.0f, 400.0f }, 15.0f);
-	player->AddComponent<PlayerControls>(playerControls);
+	playerControls = player->AddComponent<PlayerControls>();
+	playerControls->SetPostion({ 400.0f, 400.0f });
+	playerControls->SetSpeed(15.0f);
 }
 
 INT WINAPI WinMain(_In_ HINSTANCE, _In_opt_ HINSTANCE, _In_ PSTR, _In_ INT)

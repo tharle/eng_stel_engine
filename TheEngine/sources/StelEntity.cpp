@@ -25,25 +25,3 @@ const char* StelEntity::GetName()
 {
     return m_Name;
 }
-
-template<typename T>
-/* inline*/ void StelEntity::AddComponent(T* comp)
-{
-    T temp;
-    const type_info* type = &typeid(*temp); // _comp
-    m_Components.emplace(type, comp); // cmp
-
-    IUpdatable updable =  dynamic_cast<IUpdatable>(comp);
-    if (updable != nullptr) m_Updatables(updable);
-
-    IDrawable drawable = dynamic_cast<IDrawable>(comp);
-    if (drawable != nullptr) m_Drawables(drawable);
-}
-
-template<typename T>
-T* StelEntity::GetComponent()
-{
-    T temp;
-    const type_info* type = &typeid(*temp); // _comp
-    return m_Components.at(type_info);
-}
