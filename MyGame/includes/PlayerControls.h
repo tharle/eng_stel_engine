@@ -14,4 +14,8 @@ public:
 private:
 	StelPointF m_Position;
 	float m_Speed;
+
+	void Move();
+	void MouseEvents();
+	void AudioUpdate();
 };

@@ -2,37 +2,28 @@
 
 void PlayerControls::Update(float dt) 
 {
-	IInput* input =  &Stel::Engine::Get().GetInputService();
-	ILogger* log =  &Stel::Engine::Get().GetLoggerService();
-	IAudio* audio = &Stel::Engine::Get().GetAudioService();
-
-	float axiosH = input->GetAxiosHorizontal();
-	float axiosV = input->GetAxiosVertical();
-	m_Position.x += axiosH * m_Speed;
-	m_Position.y += axiosV * m_Speed;
-
 #if _DEBUG
-	if (input->IsKeyDown(IInput::Esc))
+	if (Input().IsKeyDown(IInput::Esc))
 	{
 		Stel::Engine::Get().Exit();
 	}
 #endif
 
-	if (input->IsKeyDown(IInput::StelKey::F))
-	{
-		//audio->PlaySFX(m_RemoveSfx);
-	}
+	Move();
+	MouseEvents();
+	AudioUpdate();
+}
 
-	if (input->IsKeyDown(IInput::StelKey::Q))
-	{
-		//audio->PlayMusic(m_AmbianceMusic);
-	}
+void PlayerControls::Move()
+{
+	float axiosH = Input().GetAxiosHorizontal();
+	float axiosV = Input().GetAxiosVertical();
+	m_Position.x += axiosH * m_Speed;
+	m_Position.y += axiosV * m_Speed;
+}
 
-	if (input->IsKeyDown(IInput::StelKey::E))
-	{
-		audio->StopMusic();
-	}
-
+void PlayerControls::MouseEvents()
+{
 	IEvents::StelEvent stelEvent = Stel::Engine::Get().GetEventService().PullEvent();
 	switch (stelEvent.type)
 	{
@@ -41,33 +32,50 @@ void PlayerControls::Update(float dt)
 		break;
 	case IEvents::MouseButtonDown:
 		Stel::Engine::Get().GetLoggerService().Info("Button DOWN : %d)", stelEvent.button.id);
-		log->Info("at (%d, %d)", stelEvent.button.position.x, stelEvent.button.position.y);
+		Log().Info("at (%d, %d)", stelEvent.button.position.x, stelEvent.button.position.y);
 		break;
 	case IEvents::MouseButtonUp:
-		log->Info("Button UP : %d)", stelEvent.button.id);
-		log->Info("at (%d, %d)", stelEvent.button.position.x, stelEvent.button.position.y);
+		Log().Info("Button UP : %d)", stelEvent.button.id);
+		Log().Info("at (%d, %d)", stelEvent.button.position.x, stelEvent.button.position.y);
 		break;
 	case IEvents::MouseMotion:
-		log->Info("Button MOVE:)");
-		log->Info("at (%d, %d)", stelEvent.button.position.x, stelEvent.button.position.y);
+		Log().Info("Button MOVE:)");
+		Log().Info("at (%d, %d)", stelEvent.button.position.x, stelEvent.button.position.y);
 		break;
 	default:
 		break;
 	}
 }
 
+void PlayerControls::AudioUpdate()
+{
+	if (Input().IsKeyDown(IInput::StelKey::F))
+	{
+		//audio->PlaySFX(m_RemoveSfx);
+	}
+
+	if (Input().IsKeyDown(IInput::StelKey::Q))
+	{
+		//audio->PlayMusic(m_AmbianceMusic);
+	}
+
+	if (Input().IsKeyDown(IInput::StelKey::E))
+	{
+		Audio().StopMusic();
+	}
+}
+
 void PlayerControls::Draw() 
 {
-	IGfx* gfx = &Stel::Engine::Get().GetGfxService();
-	gfx->SetColor({ 0, 0, 0, 255 });
-	gfx->Clear();// TODO met at BEGIN
+	Gfx().SetColor({0, 0, 0, 255});
+	Gfx().Clear();// TODO met at BEGIN
 	StelRectF _getRect{ m_Position.x , m_Position.y , 200, 200 };
-	gfx->FillRect(_getRect, StelColor::BISQUE);
+	Gfx().FillRect(_getRect, StelColor::BISQUE);
 
-	//gfx->DrawString("TESTE", m_FontMerlovaz, { 50, 50 }, StelColor::TOMATO);
-	//gfx->DrawString("TESTE 2", m_FontMerlovaz, { 300, 50 }, StelColor::AQUA);
+	//Gfx().DrawString("TESTE", m_FontMerlovaz, { 50, 50 }, StelColor::TOMATO);
+	//Gfx().DrawString("TESTE 2", m_FontMerlovaz, { 300, 50 }, StelColor::AQUA);
 
-	gfx->Present(); // TODO met at END
+	Gfx().Present(); // TODO met at END
 }
 
 

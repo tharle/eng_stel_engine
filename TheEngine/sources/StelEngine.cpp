@@ -23,8 +23,8 @@ bool Stel::Engine::Init(const std::string& title, int widthScreen, int heightScr
 
 	// Include all servers
 	m_Gfx = new SdlGfx();
-	m_Input = new SdlInput();
 	m_Events = new SdlEvents();
+	m_Input = new SdlInput();
 	m_Audio = new SdlAudio();
 
 	const char* msgError = "";
@@ -35,14 +35,14 @@ bool Stel::Engine::Init(const std::string& title, int widthScreen, int heightScr
 	}
 
 	m_FPS = 0;
-	m_Speed = 5;
+	//m_Speed = 5;
 
-	// LOAD Fonts
-	m_FontMerlovaz = m_Gfx->LoadFont("Assets/Fonts/Merlovaz.ttf", 40, msgError);
-	if (m_FontMerlovaz == 0)
-	{
-		m_Logger->Info(msgError);
-	}
+	//// LOAD Fonts
+	//m_FontMerlovaz = m_Gfx->LoadFont("Assets/Fonts/Merlovaz.ttf", 40, msgError);
+	//if (m_FontMerlovaz == 0)
+	//{
+	//	m_Logger->Info(msgError);
+	//}
 
 	// Load sounds and audios
 	m_AmbianceMusic = m_Audio->LoadMusic("Assets/Audios/bgm.wav");
