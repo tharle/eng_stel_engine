@@ -24,26 +24,28 @@ void PlayerControls::Move()
 
 void PlayerControls::MouseEvents()
 {
-	IEvents::StelEvent stelEvent = Stel::Engine::Get().GetEventService().PullEvent();
-	switch (stelEvent.type)
+	IEvents::StelEvent stelEvent;
+	if(Events().Contanis(IEvents::Quit, stelEvent))
 	{
-	case IEvents::Quit:
 		Stel::Engine::Get().Exit();
-		break;
-	case IEvents::MouseButtonDown:
-		Stel::Engine::Get().GetLoggerService().Info("Button DOWN : %d)", stelEvent.button.id);
+	}
+
+	if (Events().Contanis(IEvents::MouseButtonDown, stelEvent))
+	{
+		Stel::Engine::Get().GetLoggerService().Info("Button DOWN [%d] : %d)", stelEvent.order, stelEvent.button.id);
 		Log().Info("at (%d, %d)", stelEvent.button.position.x, stelEvent.button.position.y);
-		break;
-	case IEvents::MouseButtonUp:
-		Log().Info("Button UP : %d)", stelEvent.button.id);
+	}
+
+	if (Events().Contanis(IEvents::MouseButtonUp, stelEvent))
+	{
+		Stel::Engine::Get().GetLoggerService().Info("Button UP [%d] : %d)", stelEvent.order, stelEvent.button.id);
 		Log().Info("at (%d, %d)", stelEvent.button.position.x, stelEvent.button.position.y);
-		break;
-	case IEvents::MouseMotion:
-		Log().Info("Button MOVE:)");
+	}
+
+	if (Events().Contanis(IEvents::MouseMotion, stelEvent))
+	{
+		Stel::Engine::Get().GetLoggerService().Info("Button MOVE [%d] : %d)", stelEvent.order, stelEvent.button.id);
 		Log().Info("at (%d, %d)", stelEvent.button.position.x, stelEvent.button.position.y);
-		break;
-	default:
-		break;
 	}
 }
 

@@ -9,9 +9,8 @@ public:
 	SdlEvents();
 	~SdlEvents();
 private :
-	std::map<Uint32, StelEventType> m_EventsMap;
+	std::map<Uint32, StelEventType> m_EventSdlMap;
 	void InitEventMap();
 public:
-	virtual StelEvent PullEvent() override;
-
+	virtual void Update() override;
 };

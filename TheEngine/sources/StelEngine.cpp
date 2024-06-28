@@ -86,9 +86,7 @@ void Stel::Engine::Start()
 			_elapseTime = 0;
 			m_FPS = 0;
 		}
-
-
-		ProcessInput();
+		m_Events->Update();
 		Update(_deltaTime);
 		Render();
 
@@ -104,11 +102,7 @@ void Stel::Engine::Start()
 
 void Stel::Engine::ProcessInput()
 {
-	/*float axiosH = m_Input->GetAxiosHorizontal();
-	float axiosV = m_Input->GetAxiosVertical();
-	m_Position->x += axiosH * m_Speed;
-	m_Position->y += axiosV * m_Speed;
-
+	/*
 	#if _DEBUG
 	if(m_Input->IsKeyDown(IInput::Esc))
 	{
@@ -130,28 +124,7 @@ void Stel::Engine::ProcessInput()
 	{
 		m_Audio->StopMusic();
 	}
-
-	IEvents::StelEvent stelEvent = m_Events->PullEvent();
-	switch (stelEvent.type)
-	{
-	case IEvents::Quit:
-		Exit();
-		break;
-	case IEvents::MouseButtonDown:
-		m_Logger->Info("Button DOWN : %d)", stelEvent.button.id);
-		m_Logger->Info("at (%d, %d)", stelEvent.button.position.x, stelEvent.button.position.y);
-		break;
-	case IEvents::MouseButtonUp:
-		m_Logger->Info("Button UP : %d)", stelEvent.button.id);
-		m_Logger->Info("at (%d, %d)", stelEvent.button.position.x, stelEvent.button.position.y);
-		break;
-	case IEvents::MouseMotion:
-		m_Logger->Info("Button MOVE:)");
-		m_Logger->Info("at (%d, %d)", stelEvent.button.position.x, stelEvent.button.position.y);
-		break;
-	default:
-		break;
-	}*/
+	*/
 }
 
 void Stel::Engine::Update(float deltaTime)

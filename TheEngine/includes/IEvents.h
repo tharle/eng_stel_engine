@@ -1,5 +1,7 @@
 #pragma once
 #include "IGfx.h"
+#include "IUpdatable.h"
+#include <map>
 
 class IEvents
 {
@@ -25,10 +27,28 @@ public:
 
 	struct StelEvent 
 	{
-		// TODO: int order;
+		int order;
 		StelMouseButtonEvent button;
 		StelEventType  type;
-	};
+	};	
 	
-	virtual StelEvent PullEvent() = 0;
+	virtual void Update() = 0;
+
+	virtual bool Contanis(StelEventType eventTypeId, StelEvent& eventOut)
+	{
+		
+		// Checking if the map contains a specific key
+		auto it = m_EventsMap.find(eventTypeId);
+		if (it != m_EventsMap.end()) {
+			eventOut = it->second;
+			return true;
+		}
+
+		eventOut.type = StelEventType::None;
+		return false;
+	};
+
+	protected:
+	std::map<StelEventType, StelEvent> m_EventsMap;
+
 };
