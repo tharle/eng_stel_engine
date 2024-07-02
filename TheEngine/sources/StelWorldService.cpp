@@ -3,6 +3,7 @@
 StelEntity* StelWorldService::Create(const char* name)
 {
 	StelEntity* ent = new StelEntity(name);
+	m_EntityInWorld.push_back(ent);
 	m_EntityMap.emplace(name, ent);
 
 	return ent;
@@ -24,10 +25,30 @@ void StelWorldService::Remove(StelEntity* ent)
 
 void StelWorldService::LoadScene(const char* sceneName)
 {
+	if (m_SceneMap.count(sceneName) > 0) {
+		m_SceneMap[sceneName]->Load();
+	}
+
 }
 
-void StelWorldService::Register(const char* name, IScene* scene)
+void StelWorldService::UnLoad()
 {
+	if (m_CurrentScene != nullptr) {
+		for (auto entity : m_EntityInWorld) {
+			entity->Destroy();
+			delete entity;
+		}
+		m_EntityInWorld.clear();
+		m_EntityMap.clear();
+	}
+}
+
+void StelWorldService::Register(const char* sceneName, IScene* scene)
+{
+	if (m_SceneMap.count(sceneName) == 0) {
+		m_SceneMap[sceneName] = scene;
+	}
+
 }
 
 void StelWorldService::Update(float dt)

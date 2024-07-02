@@ -22,7 +22,7 @@ namespace Stel
 		void Start();
 		void Exit();
 	private:
-		Engine() = default;
+		//Engine() = default;
 		void ProcessInput();
 		void Update(float deltaTime);
 		void Render();

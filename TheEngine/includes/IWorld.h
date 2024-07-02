@@ -18,5 +18,6 @@ class IWorld
         // SCENE
         // -----------------------------
         virtual void LoadScene(const char* sceneName) = 0;
+        virtual void UnLoad() = 0;
         virtual void Register(const char* name, IScene* scene) = 0;
 };

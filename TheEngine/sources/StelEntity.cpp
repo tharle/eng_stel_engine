@@ -21,6 +21,11 @@ void StelEntity::Draw()
     }
 }
 
+void StelEntity::Destroy()
+{
+    // TODO do destroy
+}
+
 const char* StelEntity::GetName()
 {
     return m_Name;

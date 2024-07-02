@@ -13,6 +13,7 @@ class StelEntity final : public IDrawable, public IUpdatable
 		StelEntity(const char* name);
 		void Update(float dt);
 		void Draw();
+		void Destroy();
 	private:
 		const char* m_Name = "";
 		std::vector<IDrawable*> m_Drawables;

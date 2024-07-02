@@ -1,4 +1,6 @@
 #pragma once
+//#include "StelEngine.h"
+
 class IScene
 {
 public:

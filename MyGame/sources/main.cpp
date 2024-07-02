@@ -2,23 +2,19 @@
 #define VC_EXTRALEAN
 #include <Windows.h>
 #include "StelEngine.h"
-#include "PlayerControls.h"
+#include "MainMenuScene.h"
 
 #ifdef  _DEBUG
 #include "vld.h"
 #endif //  _DEBUG
 
 
-StelEntity* player;
-PlayerControls* playerControls;
+MainMenuScene* mainMenuScene;
 
 void InitGameplay()
 {
-	player = Stel::Engine::Get().GetWorld().Create("Player");
-	playerControls = player->AddComponent<PlayerControls>();
-	playerControls->Start();
-	playerControls->SetPostion({ 400.0f, 400.0f });
-	playerControls->SetSpeed(15.0f);
+	mainMenuScene = new MainMenuScene();
+	Stel::Engine::Get().GetWorld().Register("MainMenu", mainMenuScene);
 }
 
 INT WINAPI WinMain(_In_ HINSTANCE, _In_opt_ HINSTANCE, _In_ PSTR, _In_ INT)
@@ -27,6 +23,7 @@ INT WINAPI WinMain(_In_ HINSTANCE, _In_opt_ HINSTANCE, _In_ PSTR, _In_ INT)
 	{
 		InitGameplay();
 		Stel::Engine::Get().Start();
+		mainMenuScene->Load();
 	}
 	return 0;
 }
