@@ -23,16 +23,16 @@ FileLogger::FileLogger()
 	strStream << ".log";
 
 	m_OutFile = std::ofstream(strStream.str());
-	Info("======= Logging =======");
+	Print(LOG_INFO, "======= Logging =======");
 }
 
 FileLogger::~FileLogger()
 {
-	Info("======= EOF =======");
+	Print(LOG_INFO, "======= EOF =======");
 	m_OutFile.close();
 }
 
-void FileLogger::Info(const char* message, ...)
+void FileLogger::Print(int codeLog, const char* message, ...)
 {
 	char buffer[512] = { 0 };
 	va_list args;

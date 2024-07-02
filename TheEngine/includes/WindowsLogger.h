@@ -1,4 +1,8 @@
 #pragma once
+#define COLOR_INFO 11
+#define COLOR_WARNING 6
+#define COLOR_ERROR 12
+
 #include "ILogger.h"
 #include <iostream>
 
@@ -14,6 +18,6 @@ private:
 public:
 	WindowsLogger();
 	~WindowsLogger();
-	void Info(const char* message, ...) override;
+	void Print(int codeLog, const char* message, ...) override;
 };
 

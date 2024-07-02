@@ -1,5 +1,19 @@
 ﻿#include "PlayerControls.h"
 
+void PlayerControls::Start()
+{
+	// Load sounds and audios
+	m_AmbianceMusic = Audio().LoadMusic("Assets/Audios/bgm.wav");
+	if (m_AmbianceMusic == 0)  Log().Print(LOG_WARNING, "ERROR LOAD MUSIC");
+
+	m_RemoveSfx = Audio().LoadSound("Assets/Audios/Remove1.wav");
+	if (m_RemoveSfx == 0)   Log().Print(LOG_WARNING, "ERROR LOAD AUDIO");
+
+	// Load Fonts
+	m_FontMerlovaz = Gfx().LoadFont("Assets/Fonts/Merlovaz.ttf", 40);
+}
+
+
 void PlayerControls::Update(float dt) 
 {
 #if _DEBUG
@@ -32,20 +46,20 @@ void PlayerControls::MouseEvents()
 
 	if (Events().Contanis(IEvents::MouseButtonDown, stelEvent))
 	{
-		Stel::Engine::Get().GetLoggerService().Info("Button DOWN [%d] : %d)", stelEvent.order, stelEvent.button.id);
-		Log().Info("at (%d, %d)", stelEvent.button.position.x, stelEvent.button.position.y);
+		Log().Print(LOG_INFO,"Button DOWN [%d] : %d)", stelEvent.order, stelEvent.button.id);
+		Log().Print(LOG_INFO, "at (%d, %d)", stelEvent.button.position.x, stelEvent.button.position.y);
 	}
 
 	if (Events().Contanis(IEvents::MouseButtonUp, stelEvent))
 	{
-		Stel::Engine::Get().GetLoggerService().Info("Button UP [%d] : %d)", stelEvent.order, stelEvent.button.id);
-		Log().Info("at (%d, %d)", stelEvent.button.position.x, stelEvent.button.position.y);
+		Log().Print(LOG_INFO, "Button UP [%d] : %d)", stelEvent.order, stelEvent.button.id);
+		Log().Print(LOG_INFO, "at (%d, %d)", stelEvent.button.position.x, stelEvent.button.position.y);
 	}
 
 	if (Events().Contanis(IEvents::MouseMotion, stelEvent))
 	{
-		Stel::Engine::Get().GetLoggerService().Info("Button MOVE [%d] : %d)", stelEvent.order, stelEvent.button.id);
-		Log().Info("at (%d, %d)", stelEvent.button.position.x, stelEvent.button.position.y);
+		Log().Print(LOG_INFO, "Button MOVE [%d] : %d)", stelEvent.order, stelEvent.button.id);
+		Log().Print(LOG_INFO, "at (%d, %d)", stelEvent.button.position.x, stelEvent.button.position.y);
 	}
 }
 
@@ -53,12 +67,12 @@ void PlayerControls::AudioUpdate()
 {
 	if (Input().IsKeyDown(IInput::StelKey::F))
 	{
-		//audio->PlaySFX(m_RemoveSfx);
+		Audio().PlaySFX(m_RemoveSfx);
 	}
 
 	if (Input().IsKeyDown(IInput::StelKey::Q))
 	{
-		//audio->PlayMusic(m_AmbianceMusic);
+		Audio().PlayMusic(m_AmbianceMusic);
 	}
 
 	if (Input().IsKeyDown(IInput::StelKey::E))
@@ -74,8 +88,8 @@ void PlayerControls::Draw()
 	StelRectF _getRect{ m_Position.x , m_Position.y , 200, 200 };
 	Gfx().FillRect(_getRect, StelColor::BISQUE);
 
-	//Gfx().DrawString("TESTE", m_FontMerlovaz, { 50, 50 }, StelColor::TOMATO);
-	//Gfx().DrawString("TESTE 2", m_FontMerlovaz, { 300, 50 }, StelColor::AQUA);
+	Gfx().DrawString("TESTE", m_FontMerlovaz, { 50, 50 }, StelColor::TOMATO);
+	Gfx().DrawString("TESTE 2", m_FontMerlovaz, { 300, 50 }, StelColor::AQUA);
 
 	Gfx().Present(); // TODO met at END
 }

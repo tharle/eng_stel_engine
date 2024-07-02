@@ -16,6 +16,7 @@ void InitGameplay()
 {
 	player = Stel::Engine::Get().GetWorld().Create("Player");
 	playerControls = player->AddComponent<PlayerControls>();
+	playerControls->Start();
 	playerControls->SetPostion({ 400.0f, 400.0f });
 	playerControls->SetSpeed(15.0f);
 }

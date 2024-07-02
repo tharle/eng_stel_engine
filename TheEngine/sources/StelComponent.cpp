@@ -1,9 +1,8 @@
 #include "StelComponent.h"
 #include "StelEngine.h"
 
-StelComponent::StelComponent() 
+StelComponent::StelComponent() : StelComponent(nullptr)
 {
-    m_EntityParent = nullptr;
 }
 
 StelComponent::StelComponent(StelEntity* parent)

@@ -1,6 +1,7 @@
 #include "SdlGfx.h"
 #include "SDL.h"
 #include "SDL_image.h"
+#include "StelEngine.h"
 
 SdlGfx::~SdlGfx()
 {
@@ -200,7 +201,7 @@ void SdlGfx::GetTextureSize(size_t id, int* w, int* h)
 	}
 }
 
-size_t SdlGfx::LoadFont(const std::string& filename, int fontSize, const char* msgError)
+size_t SdlGfx::LoadFont(const std::string& filename, int fontSize)
 {
 	const size_t _fntId = std::hash<std::string>()(filename);
 	if (m_FontCache.count(_fntId) > 0)
@@ -214,8 +215,8 @@ size_t SdlGfx::LoadFont(const std::string& filename, int fontSize, const char* m
 		m_FontCache.emplace(_fntId, _font);
 		return _fntId;
 	}
-	std::string msg = "Error with font: " + filename;
-	msgError = msg.c_str();
+	std::string msg = "Error load the font: " + filename;
+	Stel::Engine::Get().GetLoggerService().Print(LOG_ERROR, msg.c_str());
 
 	return 0;
 }

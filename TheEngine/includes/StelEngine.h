@@ -45,16 +45,9 @@ namespace Stel
 		// -----------------------
 		//		TESTES
 		// -----------------------
-		float m_Speed;
-		StelPointF* m_Position;
 
 		//Fonts Loadeds
 		size_t m_FontMerlovaz;
-
-		// Musics
-		size_t m_AmbianceMusic;
-		//Audios
-		size_t m_RemoveSfx;
 
 		IWorld* m_World;
 	public:

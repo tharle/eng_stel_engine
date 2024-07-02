@@ -10,5 +10,5 @@ private:
 public:
 	FileLogger();
 	~FileLogger();
-	void Info(const char* message, ...) override;
+	void Print(int codeLog, const char* message, ...) override;
 };

@@ -25,7 +25,7 @@ class StelEntity final : public IDrawable, public IUpdatable
 		template<typename T>
 		inline T* AddComponent()
 		{
-			T* comp = new T();
+			T* comp = new T(this);
 			const type_info* type = &typeid(*comp); // _comp
 			m_Components.emplace(type, comp); // cmp
 
@@ -34,6 +34,7 @@ class StelEntity final : public IDrawable, public IUpdatable
 
 			IDrawable* drawable = dynamic_cast<IDrawable*>(comp);
 			if (drawable != nullptr) m_Drawables.push_back(drawable);
+
 			return comp;
 		}
 
