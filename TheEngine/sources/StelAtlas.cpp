@@ -1,13 +1,13 @@
 #include "StelAtlas.h"
 
-void StelAtlas::AddFrame(const std::string& name, StelRectI frame)
+void StelAtlas::AddFrame(StelRectI frame)
 {
-	m_Frames.emplace(name, frame);
+	m_Frames.push_back(frame);
 }
 
-void StelAtlas::SetFrame(const std::string& name)
+void StelAtlas::SetFrame(int index)
 {
-	if (m_Frames.count(name) == 0) return;
+	if (m_Frames.size() <= index) return;
 
-  	m_Frame = m_Frames.at(name);
+	m_Frame = m_Frames[index];
 }

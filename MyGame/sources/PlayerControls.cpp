@@ -14,14 +14,15 @@ void PlayerControls::Start()
 	m_TitleFontId = Gfx().LoadFont("Assets/Fonts/Merlovaz.ttf", 30);
 	m_DecrpFontId = Gfx().LoadFont("Assets/Fonts/Merlovaz.ttf", 12);
 	m_Model = GetModel();
-	//m_Model.
-	m_Model->AddFrame(m_NameFrames[0], {0, 0, 15, 15});
-	m_Model->AddFrame(m_NameFrames[1], { 16, 0, 15, 15 });
-	m_Model->AddFrame(m_NameFrames[2], { 32, 0, 15, 15 });
-	m_Model->AddFrame(m_NameFrames[3], { 48, 0, 15, 15 });
-	m_Model->AddFrame(m_NameFrames[4], { 64, 0, 15, 15 });
+	// J'AI LAISSE ICI POUR MONTRER L'ATLAS
+	m_Model->AddFrame({0, 0, 15, 15});
+	m_Model->AddFrame({ 16, 0, 15, 15 });
+	m_Model->AddFrame({ 32, 0, 15, 15 });
+	m_Model->AddFrame({ 48, 0, 15, 15 });
+	m_Model->AddFrame({ 64, 0, 15, 15 });
 	m_CurrentFrame = 0;
-	m_Model->SetFrame(m_NameFrames[m_CurrentFrame]);
+	m_MaxFrame = 5;
+	m_Model->SetFrame(m_CurrentFrame);
 }
 
 
@@ -106,16 +107,13 @@ void PlayerControls::NextFrame()
 	if (Input().IsKeyDown(IInput::Q))
 	{
 		m_CurrentFrame++;
-		m_CurrentFrame %= m_NameFrames.size();
-		m_Model->SetFrame(m_NameFrames[m_CurrentFrame]);
+		m_CurrentFrame %= m_MaxFrame;
+		m_Model->SetFrame(m_CurrentFrame);
 	}
 }
 
 void PlayerControls::Draw() 
 {
-	//StelRectF _getRect{ m_Position.x , m_Position.y , 200.0f, 200.0f };
-	//Gfx().FillRect(_getRect, StelColor::BISQUE);
-
 	Gfx().DrawString("GAME SCENE", m_TitleFontId, { 15.0f,15.0f }, StelColor::TOMATO);
 	if(m_ElapseTimeTouched <= 0) Gfx().DrawString("- Press space to change scene - ", m_DecrpFontId, { 15.0f, 60.0f }, StelColor::AZURE);
 }

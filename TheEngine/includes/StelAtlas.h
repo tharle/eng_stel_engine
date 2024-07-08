@@ -5,12 +5,12 @@
 class StelAtlas: public StelSprite
 {
 private:
-    std::map<std::string, StelRectI> m_Frames = std::map<std::string, StelRectI>();
+    std::vector<StelRectI> m_Frames = std::vector<StelRectI>();
 public:
     StelAtlas() : StelSprite() {  }
     StelAtlas(StelEntity* parent) : StelSprite(parent) {  }
     virtual ~StelAtlas() = default;
 
-    void AddFrame(const std::string& name, StelRectI frame);
-    void SetFrame(const std::string& name);
+    void AddFrame(StelRectI frame);
+    void SetFrame(int index);
 };

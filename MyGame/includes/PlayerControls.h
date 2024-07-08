@@ -26,7 +26,7 @@ private:
 	float m_Speed = 0;
 	StelAtlas* m_Model = nullptr;
 	int m_CurrentFrame = 0;
-	std::vector<std::string> m_NameFrames{"frame1", "frame2" , "frame3" , "frame4" , "frame5" };
+	int m_MaxFrame = 0;
 
 	// Audio
 	size_t m_AmbianceMusic = 0;
