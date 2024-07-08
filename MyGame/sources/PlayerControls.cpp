@@ -1,4 +1,5 @@
 ﻿#include "PlayerControls.h"
+#include "StelSprite.h"
 
 void PlayerControls::Start()
 {
@@ -12,12 +13,12 @@ void PlayerControls::Start()
 	// Load Fonts
 	m_TitleFontId = Gfx().LoadFont("Assets/Fonts/Merlovaz.ttf", 30);
 	m_DecrpFontId = Gfx().LoadFont("Assets/Fonts/Merlovaz.ttf", 12);
+	m_Model = GetModel();
 }
 
 
 void PlayerControls::Update(float dt) 
 {
-
 	if (m_ElapseTimeTouched > 0) m_ElapseTimeTouched -= dt;
 	if (Input().IsKeyDown(IInput::Space) && m_ElapseTimeTouched <= 0)
 	{
@@ -25,7 +26,6 @@ void PlayerControls::Update(float dt)
 		Log().Print(LOG_INFO, "SPACE WAS PRESSED");
 		m_ElapseTimeTouched = 1.0f;
 	}
-
 	Move();
 	MouseEvents();
 	AudioUpdate();
@@ -37,6 +37,9 @@ void PlayerControls::Move()
 	float axiosV = Input().GetAxiosVertical();
 	m_Position.x += axiosH * m_Speed;
 	m_Position.y += axiosV * m_Speed;
+
+	StelSprite* model = GetModel();
+	if(model != nullptr) model->SetPosition(m_Position);
 }
 
 void PlayerControls::MouseEvents()
@@ -87,10 +90,10 @@ void PlayerControls::AudioUpdate()
 void PlayerControls::Draw() 
 {
 	StelRectF _getRect{ m_Position.x , m_Position.y , 200.0f, 200.0f };
-	Gfx().FillRect(_getRect, StelColor::BISQUE);
+	//Gfx().FillRect(_getRect, StelColor::BISQUE);
 
 	Gfx().DrawString("GAME SCENE", m_TitleFontId, { 15.0f,15.0f }, StelColor::TOMATO);
-	Gfx().DrawString("- Press space to change scene - ", m_DecrpFontId, { 15.0f, 60.0f }, StelColor::AZURE);
+	if(m_ElapseTimeTouched <= 0) Gfx().DrawString("- Press space to change scene - ", m_DecrpFontId, { 15.0f, 60.0f }, StelColor::AZURE);
 }
 
 
@@ -102,4 +105,9 @@ void PlayerControls::SetPostion(StelPointF position)
 void PlayerControls::SetSpeed(float speed)
 {
 	m_Speed = speed;
+}
+
+StelSprite* PlayerControls::GetModel()
+{
+	return m_EntityParent->GetComponent<StelSprite>();
 }

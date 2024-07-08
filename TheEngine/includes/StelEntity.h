@@ -44,8 +44,11 @@ class StelEntity final : public IDrawable, public IUpdatable
 		template<typename T>
 		T* GetComponent()
 		{
-			T temp;
-			const type_info* type = &typeid(*temp); // _comp
-			return m_Components.at(type_info);
+			T temp(this);
+			const type_info* type = &typeid(temp); // _comp
+
+			if (m_Components.count(type) == 0) return nullptr;
+
+			return (T*)m_Components.at(type);
 		}
 };

@@ -12,12 +12,12 @@ SdlAudio::~SdlAudio()
 
     for (auto cmp : m_SoundCache)
     {
-        if (cmp.second != nullptr) delete cmp.second;
+        if (cmp.second != nullptr) SDL_free(cmp.second);
     }
 
     for (auto cmp : m_MusicCache)
     {
-        if (cmp.second != nullptr) delete cmp.second;
+        if (cmp.second != nullptr) SDL_free(cmp.second);
     }
 
     m_SoundCache.clear();

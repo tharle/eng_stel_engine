@@ -33,7 +33,7 @@ public:
 	void DrawLine(StelPointF posStart, StelPointF posEnd, const StelColor& color) override;
 	void DrawCircle(StelPointF point, float r, const StelColor& color) override;
 	void DrawPoint(StelPointF point, const StelColor& color) override;
-	size_t LoadTexture(const std::string& filename, const char* msgError) override;
+	size_t LoadTexture(const std::string& filename) override;
 	void DrawTexture(size_t id, const StelRectI& src, const StelRectF& dst,
 		double angle, const StelRectF& pivot, const StelFlip& flip, const StelColor& color) override;
 	void DrawTexture(size_t id, const StelRectF& dst, const StelColor& color) override;

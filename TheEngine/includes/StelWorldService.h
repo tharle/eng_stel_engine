@@ -29,5 +29,7 @@ class StelWorldService : public IWorld
         std::map<std::string, IScene*> m_SceneMap = std::map<std::string, IScene*>();
         // current scene
         IScene* m_CurrentScene = nullptr;
+        std::string m_NextSceneToLoad = "";
 
+        void CheckAndLoadScene();
 };

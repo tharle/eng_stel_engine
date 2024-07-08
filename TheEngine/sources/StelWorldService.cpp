@@ -1,18 +1,9 @@
 #include "StelWorldService.h"
+#include "StelEngine.h"
 
 StelWorldService::~StelWorldService()
 {
 	UnLoad();
-	
-	/*for (auto it = m_SceneMap.begin(); it != m_SceneMap.end(); it++)
-	{
-		IScene* scene = (*it).second;
-		if (scene != nullptr) 
-		{
-			delete scene;
-		}
-	}*/
-
 	m_SceneMap.clear();
 
 	// current scene
@@ -32,6 +23,24 @@ StelEntity* StelWorldService::Create(std::string name)
 	return ent;
 }
 
+void StelWorldService::Update(float dt)
+{
+	for (StelEntity* entity : m_EntityInWorld)
+	{
+		if (entity != nullptr) entity->Update(dt);
+	}
+
+	CheckAndLoadScene();
+}
+
+void StelWorldService::Draw()
+{
+	for (StelEntity* entity : m_EntityInWorld)
+	{
+		if (entity != nullptr) entity->Draw();
+	}
+}
+
 StelEntity* StelWorldService::Find(std::string name)
 {
 	return m_EntityMap.at(name);
@@ -39,7 +48,7 @@ StelEntity* StelWorldService::Find(std::string name)
 
 void StelWorldService::Remove(StelEntity* ent)
 {
-	for (auto it = m_EntityInWorld.end(); it != m_EntityInWorld.begin();it--)
+	for (auto it = m_EntityInWorld.end()-1; it != m_EntityInWorld.begin()-1;it--)
 	{
 		StelEntity* entFinded = (*it);
 
@@ -57,12 +66,24 @@ void StelWorldService::Remove(StelEntity* ent)
 
 void StelWorldService::LoadScene(std::string sceneName)
 {
-	if (m_SceneMap.count(sceneName) > 0) {
-		UnLoad();
-		m_CurrentScene = m_SceneMap[sceneName];
-		m_CurrentScene->Load();
-	}
+	m_NextSceneToLoad = sceneName;
+}
 
+void StelWorldService::CheckAndLoadScene()
+{
+	if (m_SceneMap.count(m_NextSceneToLoad) > 0)
+	{
+		UnLoad();
+		m_CurrentScene = m_SceneMap[m_NextSceneToLoad];
+		m_CurrentScene->Load();
+		m_NextSceneToLoad = "";
+	}
+	else if (m_NextSceneToLoad.size() != 0) 
+	{
+		std::string msg = "StelWorld: Load Scene fail at " + m_NextSceneToLoad;
+		Stel::Engine::Get().GetLoggerService().Print(LOG_ERROR, msg.c_str());
+		m_NextSceneToLoad = "";
+	}
 }
 
 void StelWorldService::UnLoad()
@@ -93,20 +114,4 @@ void StelWorldService::Add(StelEntity* entity)
 {
 	m_EntityInWorld.push_back(entity);
 	m_EntityMap[entity->GetName()] = entity;
-}
-
-void StelWorldService::Update(float dt)
-{
-	for (StelEntity* entity : m_EntityInWorld)
-	{
-		if (entity != nullptr) entity->Update(dt);
-	}
-}
-
-void StelWorldService::Draw()
-{
-	for (StelEntity* entity : m_EntityInWorld)
-	{
-		if (entity != nullptr) entity->Draw();
-	}
 }

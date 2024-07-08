@@ -22,7 +22,6 @@ namespace Stel
 		void Start();
 		void Exit();
 	private:
-		//Engine() = default;
 		virtual ~Engine() = default;
 		void ProcessInput();
 		void Update(float deltaTime);

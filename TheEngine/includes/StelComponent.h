@@ -18,6 +18,9 @@ public:
     virtual void Destroy() {};
 
 
+protected:
+    StelEntity* m_EntityParent = nullptr;
+
     // ----------------------------------------
     //  Services dispo pour les composents
     // ----------------------------------------
@@ -26,6 +29,4 @@ public:
     IAudio& Audio();
     IGfx& Gfx();
     IEvents& Events();
-protected:
-    StelEntity* m_EntityParent = nullptr;
 };

@@ -56,7 +56,7 @@ public:
 	virtual void DrawLine(StelPointF posStart, StelPointF posEnd, const StelColor& color) = 0;
 	virtual void DrawCircle(StelPointF point, float r, const StelColor& color) = 0;
 	virtual void DrawPoint(StelPointF point, const StelColor& color) = 0;
-	virtual size_t LoadTexture(const std::string& filename, const char* msgError) = 0;
+	virtual size_t LoadTexture(const std::string& filename) = 0;
 	virtual void DrawTexture(size_t id, const StelRectI& src, const StelRectF& dst,
 		double angle, const StelRectF& pivot, const StelFlip& flip, const StelColor& color) = 0;
 	virtual void DrawTexture(size_t id, const StelRectF& dst, const StelColor& color) = 0;

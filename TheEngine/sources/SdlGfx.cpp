@@ -101,7 +101,7 @@ void SdlGfx::DrawPoint(StelPointF point, const StelColor& color)
     SDL_RenderDrawPointF(m_Renderer, point.x, point.y);
 }
 
-size_t SdlGfx::LoadTexture(const std::string& filename, const char* msgError)
+size_t SdlGfx::LoadTexture(const std::string& filename)
 {
 	const size_t _texId = std::hash<std::string>()(filename);
 
@@ -115,7 +115,7 @@ size_t SdlGfx::LoadTexture(const std::string& filename, const char* msgError)
 	}
 
 	std::string msg = "Error with texture: " + filename;
-	msgError = msg.c_str();
+	Stel::Engine::Get().GetLoggerService().Print(LOG_ERROR, msg.c_str());
 
 	return 0;
 }
