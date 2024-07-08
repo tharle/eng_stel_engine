@@ -5,7 +5,7 @@
 
 #include "SdlGfx.h"
 #include "SdlInput.h"
-#include "SdlEvents.h";
+#include "SdlEvents.h"
 #include "SdlAudio.h"
 
 #include "StelWorldService.h"
@@ -61,7 +61,7 @@ void Stel::Engine::Start()
 	while (m_isRunning)
 	{
 		const clock_t _startTimeCurrentFrame = clock();
-		float _deltaTime = (_startTimeCurrentFrame - _endTimeLastFrame) * 0.001;
+		float _deltaTime = (_startTimeCurrentFrame - _endTimeLastFrame) * 0.001f;
 
 		_elapseTime += _deltaTime;
 		m_FPS++;
@@ -78,7 +78,7 @@ void Stel::Engine::Start()
 
 		float _tempsForSleep = _startTimeCurrentFrame + MS_PER_FRAME - clock();
 		// GAG for the current frame
-		if (_tempsForSleep > 0) Sleep(_tempsForSleep);
+		if (_tempsForSleep > 0) Sleep(long(_tempsForSleep));
 
 		
 		_endTimeLastFrame = _startTimeCurrentFrame;

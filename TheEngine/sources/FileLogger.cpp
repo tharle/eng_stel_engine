@@ -1,4 +1,5 @@
 #pragma once
+#define _CRT_SECURE_NO_WARNINGS
 #include "FileLogger.h"
 #include <iostream>
 #include <chrono>

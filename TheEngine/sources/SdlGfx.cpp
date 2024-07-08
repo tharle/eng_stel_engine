@@ -83,22 +83,22 @@ void SdlGfx::DrawCircle(StelPointF point, float r, const StelColor& color)
 {
     float tx = point.x;
     float ty = point.y;
-    double angle = 0.0;
+    float angle = 0.0;
 
     while (angle < 6.3) // Code magic
     {
-        tx = point.x + r * cos(angle);
-        ty = point.y + r * sin(angle);
+        tx = point.x + r * cosf(angle);
+        ty = point.y + r * sinf(angle);
 		DrawPoint({ tx, ty }, color);
 
-        angle += 0.01;
+        angle += 0.01f;
     }
 }
 
 void SdlGfx::DrawPoint(StelPointF point, const StelColor& color)
 {
 	SetColor(color);
-    SDL_RenderDrawPoint(m_Renderer, point.x, point.y);
+    SDL_RenderDrawPointF(m_Renderer, point.x, point.y);
 }
 
 size_t SdlGfx::LoadTexture(const std::string& filename, const char* msgError)
@@ -172,7 +172,7 @@ void SdlGfx::GetTextureSize(size_t id, int* w, int* h)
 	}
 }
 
-size_t SdlGfx::LoadFont(const std::string& filename, size_t fontSize)
+size_t SdlGfx::LoadFont(const std::string& filename, int fontSize)
 {
 	const size_t _fntId = std::hash<std::string>()(filename) + fontSize;
 	if (m_FontCache.count(_fntId) > 0)
@@ -207,8 +207,8 @@ void SdlGfx::DrawString(const std::string& text, size_t fontId, const StelPointF
 	SDL_FRect _dst = {
 		position.x,
 		position.y,
-		_surface->w,
-		_surface->h
+		(float)_surface->w,
+		(float)_surface->h
 	};
 
 	SDL_Texture* textureBuffer = SDL_CreateTextureFromSurface(m_Renderer, _surface);

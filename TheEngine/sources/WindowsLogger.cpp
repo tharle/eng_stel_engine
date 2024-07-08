@@ -10,7 +10,7 @@ WindowsLogger::WindowsLogger()
 WindowsLogger::~WindowsLogger()
 {
 	// TODO valider les choses à fermer
-	fcloseall();
+	_fcloseall();
 }
 void WindowsLogger::Print(int codeLog, const char* message, ...)
 {
