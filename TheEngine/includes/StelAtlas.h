@@ -4,7 +4,7 @@
 
 class StelAtlas: public StelSprite
 {
-private:
+protected:
     std::vector<StelRectI> m_Frames = std::vector<StelRectI>();
 public:
     StelAtlas() : StelSprite() {  }

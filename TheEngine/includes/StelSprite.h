@@ -17,6 +17,7 @@ public:
 
 	StelSprite* Init(std::string filename, StelPointF m_Size);
 	void SetPosition(StelPointF position);
+	StelPointI GetTextureSize();
 protected:
 	std::string m_Filename = "";
 	StelRectI m_Frame{0, 0, 0, 0};
