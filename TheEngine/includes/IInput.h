@@ -1,5 +1,6 @@
 #pragma once
 #include <vector>
+#define TIMEOUT_KEY_DOWN 0.1f
 
 class IInput
 {

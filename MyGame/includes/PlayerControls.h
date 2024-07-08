@@ -14,6 +14,7 @@ public:
 	void SetPostion(StelPointF position);
 	void SetSpeed(float speed);
 private:
+	float m_ElapseTimeTouched = 1.0f;
 	// Physics
 	StelPointF m_Position{0, 0};
 	float m_Speed = 0;

@@ -22,7 +22,5 @@ void GameScene::Load()
 	playerControls->SetPostion({ 400.0f, 400.0f });
 	playerControls->SetSpeed(15.0f);
 	playerControls->Start();
-
-	Stel::Engine::Get().GetWorld().Add(m_Player);
 	
 }

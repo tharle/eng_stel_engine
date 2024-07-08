@@ -18,9 +18,12 @@ void PlayerControls::Start()
 void PlayerControls::Update(float dt) 
 {
 
-	if (Input().IsKeyDown(IInput::Space))
+	if (m_ElapseTimeTouched > 0) m_ElapseTimeTouched -= dt;
+	if (Input().IsKeyDown(IInput::Space) && m_ElapseTimeTouched <= 0)
 	{
 		Stel::Engine::Get().GetWorld().LoadScene("MainMenu");
+		Log().Print(LOG_INFO, "SPACE WAS PRESSED");
+		m_ElapseTimeTouched = 1.0f;
 	}
 
 	Move();
@@ -83,15 +86,11 @@ void PlayerControls::AudioUpdate()
 
 void PlayerControls::Draw() 
 {
-	Gfx().SetColor({0, 0, 0, 255});
-	Gfx().Clear();// TODO met at BEGIN
 	StelRectF _getRect{ m_Position.x , m_Position.y , 200.0f, 200.0f };
 	Gfx().FillRect(_getRect, StelColor::BISQUE);
 
 	Gfx().DrawString("GAME SCENE", m_TitleFontId, { 15.0f,15.0f }, StelColor::TOMATO);
 	Gfx().DrawString("- Press space to change scene - ", m_DecrpFontId, { 15.0f, 60.0f }, StelColor::AZURE);
-
-	Gfx().Present(); // TODO met at END
 }
 
 

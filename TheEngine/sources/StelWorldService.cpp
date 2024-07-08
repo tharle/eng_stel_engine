@@ -78,11 +78,7 @@ void StelWorldService::UnLoad()
 				delete entity;
 			}
 		}
-		if (m_CurrentScene != nullptr) 
-		{
-			delete m_CurrentScene;
-			m_CurrentScene = nullptr;
-		}
+		m_CurrentScene = nullptr;
 
 		m_EntityInWorld.clear();
 		m_EntityMap.clear();
