@@ -6,7 +6,7 @@
 class IEvents
 {
 public:
-	static enum StelEventType
+	enum StelEventType
 	{
 		None,
 		/* Application events */
@@ -32,8 +32,8 @@ public:
 		StelEventType  type;
 	};	
 	
+	virtual ~IEvents() = default;
 	virtual void Update() = 0;
-
 	virtual bool Contanis(StelEventType eventTypeId, StelEvent& eventOut)
 	{
 		

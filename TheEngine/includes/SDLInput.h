@@ -9,7 +9,7 @@ class SdlInput : public IInput
 {
     public:
         SdlInput();
-        ~SdlInput();
+        virtual ~SdlInput();
     private:
         std::map<StelKey, SDL_Scancode> m_InputMap;
         StelPointF m_Axios;

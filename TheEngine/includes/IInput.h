@@ -5,15 +5,15 @@ class IInput
 {
     //protected:
 public:
-    static enum StelKey
+    enum StelKey
     {
         None,
         Right, Up, Left, Down,
         Esc, Space,
         A, B, C, D, E, F, G, H, I, J, K, L, M, N, O, P, Q, R, S, T, U, V, W, X, Y, Z
-
     };
 
+    virtual ~IInput() = default;
     virtual void Update(float dt) = 0;
     virtual bool IsKeyDown(StelKey key) = 0;
     virtual float GetAxiosHorizontal() = 0;

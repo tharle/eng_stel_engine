@@ -9,6 +9,7 @@
 class StelWorldService : public IWorld
 {
     public:
+        virtual ~StelWorldService();
         virtual StelEntity* Create(std::string name) override;
         virtual StelEntity* Find(std::string name) override;
         virtual void Remove(StelEntity* ent) override;

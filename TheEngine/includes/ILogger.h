@@ -7,8 +7,7 @@ class ILogger
 {
 
 public:
-
-	~ILogger(){};
+	virtual ~ILogger() = default;
 
 	/// <summary>
 	/// Log a message, if is in mode DEBUG it will be in console, otherwise it will be in file

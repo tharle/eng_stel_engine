@@ -3,27 +3,6 @@
 #include "SDL_image.h"
 #include "StelEngine.h"
 
-SdlGfx::~SdlGfx()
-{
-	if (m_Renderer != nullptr)
-	{
-		delete m_Renderer;
-		m_Renderer = nullptr;
-	}
-
-	if (m_Window != nullptr)
-	{
-		delete m_Window;
-		m_Window = nullptr;
-	}
-
-	if (m_TextureBuffer != nullptr) 
-	{
-		delete m_TextureBuffer;
-		m_TextureBuffer = nullptr;
-	}
-}
-
 bool SdlGfx::Initialize(const std::string& title, int w, int h, const char* msgError)
 {
 	if (SDL_Init(SDL_INIT_EVERYTHING != 0))
@@ -53,14 +32,6 @@ bool SdlGfx::Initialize(const std::string& title, int w, int h, const char* msgE
 	TTF_Init();
 
 	return true;
-}
-
-void SdlGfx::Shutdown()
-{
-	SDL_DestroyRenderer(m_Renderer);
-	SDL_DestroyWindow(m_Window);
-	// TTF_CloseFont(font);
-	SDL_Quit();
 }
 
 void SdlGfx::SetColor(const StelColor& color)
@@ -265,4 +236,12 @@ void SdlGfx::SetColorMode(size_t id, const StelColor& color)
     SDL_SetTextureBlendMode(_tex, SDL_BLENDMODE_BLEND);
     SDL_SetTextureAlphaMod(_tex, color.alpha);
     SDL_SetTextureColorMod(_tex, color.red, color.green, color.blue);
+}
+
+void SdlGfx::Shutdown()
+{
+	TTF_Quit();
+	SDL_DestroyRenderer(m_Renderer);
+	SDL_DestroyWindow(m_Window);
+	SDL_Quit();
 }

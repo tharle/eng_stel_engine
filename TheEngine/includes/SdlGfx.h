@@ -20,7 +20,7 @@ private:
 
 	void SetColorMode(size_t id, const StelColor& color);
 public:
-	~SdlGfx();
+	virtual ~SdlGfx() = default;
 	bool Initialize(const std::string& title, int w, int h, const char* msgError) override;
 	void Shutdown() override;
 	void SetColor(const StelColor& color) override;

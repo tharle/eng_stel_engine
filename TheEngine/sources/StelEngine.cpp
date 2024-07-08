@@ -91,13 +91,13 @@ void Stel::Engine::ProcessInput()
 	#if _DEBUG
 		if (m_Input->IsKeyDown(IInput::Esc))
 		{
-			Stel::Engine::Get().Exit();
+			Exit();
 		}
 	#endif
 		IEvents::StelEvent stelEvent;
 		if (m_Events->Contanis(IEvents::Quit, stelEvent)) 
 		{
-			Stel::Engine::Get().Exit();
+			Exit();
 		}
 }
 

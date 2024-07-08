@@ -7,7 +7,7 @@ class SdlEvents : public IEvents
 {
 public:
 	SdlEvents();
-	~SdlEvents();
+	virtual ~SdlEvents();
 private :
 	std::map<Uint32, StelEventType> m_EventSdlMap;
 	void InitEventMap();

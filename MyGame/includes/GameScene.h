@@ -1,8 +1,7 @@
 #pragma once
 #include "IScene.h"
 
-struct PlayerControls;
-struct StelEntity;
+class StelEntity;
 
 class GameScene : public IScene 
 {

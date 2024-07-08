@@ -6,6 +6,7 @@
 class IWorld 
 {
     public:
+        virtual ~IWorld() = default;
         // -----------------------------
         // ENTITY
         // -----------------------------

@@ -1,7 +1,7 @@
 #pragma once
 #include "IScene.h"
 
-struct StelEntity;
+class StelEntity;
 
 class MainMenuScene : public IScene
 {

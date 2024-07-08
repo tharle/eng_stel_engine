@@ -43,7 +43,7 @@ class IGfx
 {
 public:
 	//static const char* ASSETS_FONTS_DIR;
-
+	virtual ~IGfx() = default;
 	virtual bool Initialize(const std::string& title, int w, int h, const char* msgError) = 0;
 	virtual void Shutdown() = 0;
 	virtual void SetColor(const StelColor& color) = 0;

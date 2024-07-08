@@ -17,7 +17,7 @@ private:
 	HANDLE m_HConsole;
 public:
 	WindowsLogger();
-	~WindowsLogger();
-	void Print(int codeLog, const char* message, ...) override;
+	virtual ~WindowsLogger();
+	virtual void Print(int codeLog, const char* message, ...) override;
 };
 

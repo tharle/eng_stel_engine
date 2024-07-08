@@ -23,14 +23,9 @@ void StelEntity::Draw()
 
 void StelEntity::Destroy()
 {
-    for (auto updatable : m_Updatables)
+    for (auto cmp : m_Components)
     {
-        delete updatable;
-    }
-
-    for (auto drawlable : m_Drawables)
-    {
-        delete drawlable;
+        delete cmp.second;
     }
 
     m_Drawables.clear();

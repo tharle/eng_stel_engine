@@ -23,6 +23,7 @@ namespace Stel
 		void Exit();
 	private:
 		//Engine() = default;
+		virtual ~Engine() = default;
 		void ProcessInput();
 		void Update(float deltaTime);
 		void Render();
@@ -41,7 +42,7 @@ namespace Stel
 		IEvents* m_Events;
 		IGfx* m_Gfx;
 		IAudio* m_Audio;
-
+		
 
 		// -----------------------
 		//		TESTES

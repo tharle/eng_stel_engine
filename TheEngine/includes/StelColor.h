@@ -10,6 +10,7 @@ class StelColor {
 public:
 	StelColor(uchar red, uchar green, uchar blue, uchar alpha);
 	StelColor(uchar _red, uchar _green, uchar _blue);
+    virtual ~StelColor() = default;
 	
     static const StelColor& MAROON;
     static const StelColor& DARKRED;

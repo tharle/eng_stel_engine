@@ -12,6 +12,7 @@ class StelEntity final : public IDrawable, public IUpdatable
 	public:
 		StelEntity();
 		StelEntity(std::string name);
+		virtual ~StelEntity() = default;
 		void Update(float dt);
 		void Draw();
 		void Destroy();
