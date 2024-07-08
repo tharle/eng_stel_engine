@@ -1,6 +1,7 @@
 #pragma once
 #include "StelEntity.h"
 #include "IScene.h"
+#include <string>
 
 class IWorld 
 {
@@ -8,8 +9,8 @@ class IWorld
         // -----------------------------
         // ENTITY
         // -----------------------------
-        virtual StelEntity* Create(const char* name) = 0;
-        virtual StelEntity* Find(const char* name) = 0;
+        virtual StelEntity* Create(std::string name) = 0;
+        virtual StelEntity* Find(std::string  name) = 0;
         virtual void Remove(StelEntity* ent) = 0;
         virtual void Update(float dt) = 0;
         virtual void Draw() = 0;
@@ -17,7 +18,8 @@ class IWorld
         // -----------------------------
         // SCENE
         // -----------------------------
-        virtual void LoadScene(const char* sceneName) = 0;
+        virtual void Add(StelEntity* entity) = 0;
+        virtual void LoadScene(std::string  sceneName) = 0;
         virtual void UnLoad() = 0;
-        virtual void Register(const char* name, IScene* scene) = 0;
+        virtual void Register(std::string  name, IScene* scene) = 0;
 };

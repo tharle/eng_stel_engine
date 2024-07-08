@@ -18,7 +18,7 @@ namespace Stel
 			return _instance;
 		}
 
-		bool Init(const std::string& title, int widthScreen, int heightScren);
+		bool Init(const std::string& title, StelPointI screenDimension);
 		void Start();
 		void Exit();
 	private:
@@ -31,6 +31,7 @@ namespace Stel
 		bool m_IsInit = false;
 		bool m_isRunning = false;
 		int m_FPS;
+		StelPointI m_ScreenDimension;
 		
 		// -----------------------
 		//		SERVICES

@@ -1,13 +1,14 @@
 #pragma once
 #include "IScene.h"
 
+struct PlayerControls;
 struct StelEntity;
 
-class MainMenuScene : public IScene
+class GameScene : public IScene 
 {
 private:
-	StelEntity* m_MainMenuEntity;
+	StelEntity* m_Player;
 public:
-	~MainMenuScene();
+	~GameScene();
 	virtual void Load() override;
 };

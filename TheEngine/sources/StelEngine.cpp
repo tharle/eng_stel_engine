@@ -12,8 +12,9 @@
 
 #define MS_PER_FRAME 16.667f // TODO tester avec fraps
 
-bool Stel::Engine::Init(const std::string& title, int widthScreen, int heightScreen)
+bool Stel::Engine::Init(const std::string& title, StelPointI screenDimension)
 {
+	m_ScreenDimension = screenDimension;
 	// Service LOG
 	#if _DEBUG
 		m_Logger = new WindowsLogger(); // _DEBUG
@@ -28,7 +29,7 @@ bool Stel::Engine::Init(const std::string& title, int widthScreen, int heightScr
 	m_Audio = new SdlAudio();
 
 	const char* msgError = "";
-	if (!m_Gfx->Initialize(title.c_str(), widthScreen, heightScreen, msgError))
+	if (!m_Gfx->Initialize(title.c_str(), m_ScreenDimension.x, m_ScreenDimension.y, msgError))
 	{
 		m_Logger->Print(ERROR, msgError);
 		return false;
@@ -48,7 +49,7 @@ void Stel::Engine::Start()
 {
 	if (!m_IsInit)
 	{
-		if (!Init("Legends of Stel", 800, 600))
+		if (!Init("Legends of Stel", m_ScreenDimension))
 		{
 			return;
 		}
@@ -66,11 +67,12 @@ void Stel::Engine::Start()
 		m_FPS++;
 		if (_elapseTime >= 1) 
 		{
-			m_Logger->Print(LOG_INFO, "FPS %d", m_FPS);
+			//m_Logger->Print(LOG_INFO, "FPS %d", m_FPS);
 			_elapseTime = 0;
 			m_FPS = 0;
 		}
 		m_Events->Update();
+		ProcessInput();
 		Update(_deltaTime);
 		Render();
 
@@ -86,6 +88,17 @@ void Stel::Engine::Start()
 
 void Stel::Engine::ProcessInput()
 {
+	#if _DEBUG
+		if (m_Input->IsKeyDown(IInput::Esc))
+		{
+			Stel::Engine::Get().Exit();
+		}
+	#endif
+		IEvents::StelEvent stelEvent;
+		if (m_Events->Contanis(IEvents::Quit, stelEvent)) 
+		{
+			Stel::Engine::Get().Exit();
+		}
 }
 
 void Stel::Engine::Update(float deltaTime)

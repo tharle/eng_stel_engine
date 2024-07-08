@@ -5,7 +5,7 @@
 class PlayerControls : public StelComponent, public IDrawable, public IUpdatable
 {
 public:
-	PlayerControls(StelEntity* parent) : StelComponent(parent) {};
+	PlayerControls(StelEntity* parent) : StelComponent(parent) {  };
 	virtual void Start() override;
 	virtual void Update(float dt) override;
 	virtual void Draw() override;
@@ -23,7 +23,8 @@ private:
 	size_t m_RemoveSfx = 0;
 
 	//Fonts Loadeds
-	size_t m_FontMerlovaz;
+	size_t m_TitleFontId = 0;
+	size_t m_DecrpFontId = 0;
 
 	void Move();
 	void MouseEvents();

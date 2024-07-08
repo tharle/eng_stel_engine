@@ -1,6 +1,6 @@
 #include "StelWorldService.h"
 
-StelEntity* StelWorldService::Create(const char* name)
+StelEntity* StelWorldService::Create(std::string name)
 {
 	StelEntity* ent = new StelEntity(name);
 	m_EntityInWorld.push_back(ent);
@@ -9,7 +9,7 @@ StelEntity* StelWorldService::Create(const char* name)
 	return ent;
 }
 
-StelEntity* StelWorldService::Find(const char* name)
+StelEntity* StelWorldService::Find(std::string name)
 {
 	return m_EntityMap.at(name);
 }
@@ -23,10 +23,12 @@ void StelWorldService::Remove(StelEntity* ent)
 	}*/
 }
 
-void StelWorldService::LoadScene(const char* sceneName)
+void StelWorldService::LoadScene(std::string sceneName)
 {
 	if (m_SceneMap.count(sceneName) > 0) {
-		m_SceneMap[sceneName]->Load();
+		UnLoad();
+		m_CurrentScene = m_SceneMap[sceneName];
+		m_CurrentScene->Load();
 	}
 
 }
@@ -34,16 +36,21 @@ void StelWorldService::LoadScene(const char* sceneName)
 void StelWorldService::UnLoad()
 {
 	if (m_CurrentScene != nullptr) {
-		for (auto entity : m_EntityInWorld) {
-			entity->Destroy();
-			delete entity;
-		}
+		/*for (StelEntity* entity : m_EntityInWorld) {
+			if (entity != nullptr){
+				entity->Destroy();
+				delete entity;
+			}
+		}*/
+		delete m_CurrentScene;
+		m_CurrentScene = nullptr;
+
 		m_EntityInWorld.clear();
 		m_EntityMap.clear();
 	}
 }
 
-void StelWorldService::Register(const char* sceneName, IScene* scene)
+void StelWorldService::Register(std::string sceneName, IScene* scene)
 {
 	if (m_SceneMap.count(sceneName) == 0) {
 		m_SceneMap[sceneName] = scene;
@@ -51,9 +58,15 @@ void StelWorldService::Register(const char* sceneName, IScene* scene)
 
 }
 
+void StelWorldService::Add(StelEntity* entity)
+{
+	m_EntityInWorld.push_back(entity);
+	m_EntityMap[entity->GetName()] = entity;
+}
+
 void StelWorldService::Update(float dt)
 {
-	for (std::map<const char*, StelEntity*>::iterator it = m_EntityMap.begin(); it != m_EntityMap.end(); it++)
+	for (std::map<std::string, StelEntity*>::iterator it = m_EntityMap.begin(); it != m_EntityMap.end(); it++)
 	{
 		StelEntity* entity = it->second;	
 		if (entity != nullptr) entity->Update(dt);
@@ -62,7 +75,7 @@ void StelWorldService::Update(float dt)
 
 void StelWorldService::Draw()
 {
-	for (std::map<const char*, StelEntity*>::iterator it = m_EntityMap.begin(); it != m_EntityMap.end(); it++)
+	for (std::map<std::string, StelEntity*>::iterator it = m_EntityMap.begin(); it != m_EntityMap.end(); it++)
 	{
 		StelEntity* entity = it->second;
 		if (entity != nullptr) entity->Draw();

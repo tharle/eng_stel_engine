@@ -62,7 +62,7 @@ public:
 	virtual void DrawTexture(size_t id, const StelRectF& dst, const StelColor& color) = 0;
 	virtual void DrawTexture(size_t id, const StelColor& color) = 0;
 	virtual void GetTextureSize(size_t id, int* w, int* h) = 0;
-	virtual size_t LoadFont(const std::string& filename, int fontSize) = 0;
+	virtual size_t LoadFont(const std::string& filename, size_t fontSize) = 0;
 	virtual void DrawString(const std::string& text, size_t fontId, const StelPointF& position, const StelColor& color) = 0;
 	virtual void GetTextSize(const std::string& text, size_t fontId, int* w, int* h) = 0;
 };

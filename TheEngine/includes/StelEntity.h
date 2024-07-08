@@ -1,6 +1,7 @@
 #pragma once
 #include <vector>
 #include <map>
+#include <string>
 #include "IDrawable.h"
 #include "IUpdatable.h"
 
@@ -10,17 +11,17 @@ class StelEntity final : public IDrawable, public IUpdatable
 {
 	public:
 		StelEntity();
-		StelEntity(const char* name);
+		StelEntity(std::string name);
 		void Update(float dt);
 		void Draw();
 		void Destroy();
 	private:
-		const char* m_Name = "";
+		std::string m_Name = "";
 		std::vector<IDrawable*> m_Drawables;
 		std::vector<IUpdatable*> m_Updatables;
 		std::map<const type_info*, StelComponent*> m_Components;
 	public:	
-		const char* GetName();
+		std::string GetName();
 
 
 		template<typename T>
@@ -29,7 +30,7 @@ class StelEntity final : public IDrawable, public IUpdatable
 			T* comp = new T(this);
 			const type_info* type = &typeid(*comp); // _comp
 			m_Components.emplace(type, comp); // cmp
-
+			 // reinterpret_cast
 			IUpdatable* updable = dynamic_cast<IUpdatable*>(comp);
 			if (updable != nullptr) m_Updatables.push_back(updable);
 

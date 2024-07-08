@@ -10,18 +10,18 @@ void PlayerControls::Start()
 	if (m_RemoveSfx == 0)   Log().Print(LOG_WARNING, "ERROR LOAD AUDIO");
 
 	// Load Fonts
-	m_FontMerlovaz = Gfx().LoadFont("Assets/Fonts/Merlovaz.ttf", 40);
+	m_TitleFontId = Gfx().LoadFont("Assets/Fonts/Merlovaz.ttf", 30);
+	m_DecrpFontId = Gfx().LoadFont("Assets/Fonts/Merlovaz.ttf", 12);
 }
 
 
 void PlayerControls::Update(float dt) 
 {
-#if _DEBUG
-	if (Input().IsKeyDown(IInput::Esc))
+
+	if (Input().IsKeyDown(IInput::Space))
 	{
-		Stel::Engine::Get().Exit();
+		Stel::Engine::Get().GetWorld().LoadScene("MainMenu");
 	}
-#endif
 
 	Move();
 	MouseEvents();
@@ -85,11 +85,11 @@ void PlayerControls::Draw()
 {
 	Gfx().SetColor({0, 0, 0, 255});
 	Gfx().Clear();// TODO met at BEGIN
-	StelRectF _getRect{ m_Position.x , m_Position.y , 200, 200 };
+	StelRectF _getRect{ m_Position.x , m_Position.y , 200.0f, 200.0f };
 	Gfx().FillRect(_getRect, StelColor::BISQUE);
 
-	Gfx().DrawString("TESTE", m_FontMerlovaz, { 50, 50 }, StelColor::TOMATO);
-	Gfx().DrawString("TESTE 2", m_FontMerlovaz, { 300, 50 }, StelColor::AQUA);
+	Gfx().DrawString("GAME SCENE", m_TitleFontId, { 15.0f,15.0f }, StelColor::TOMATO);
+	Gfx().DrawString("- Press space to change scene - ", m_DecrpFontId, { 15.0f, 60.0f }, StelColor::AZURE);
 
 	Gfx().Present(); // TODO met at END
 }

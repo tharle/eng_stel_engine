@@ -3,7 +3,7 @@
 
 StelEntity::StelEntity() : StelEntity("") {}
 
-StelEntity::StelEntity(const char* name) : m_Name(name) {}
+StelEntity::StelEntity(std::string name) : m_Name(name) {}
 
 void StelEntity::Update(float dt)
 {
@@ -23,10 +23,22 @@ void StelEntity::Draw()
 
 void StelEntity::Destroy()
 {
-    // TODO do destroy
+    for (auto updatable : m_Updatables)
+    {
+        delete updatable;
+    }
+
+    for (auto drawlable : m_Drawables)
+    {
+        delete drawlable;
+    }
+
+    m_Drawables.clear();
+    m_Updatables.clear();
+    m_Components.clear();
 }
 
-const char* StelEntity::GetName()
+std::string StelEntity::GetName()
 {
     return m_Name;
 }

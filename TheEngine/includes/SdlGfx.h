@@ -39,7 +39,7 @@ public:
 	void DrawTexture(size_t id, const StelRectF& dst, const StelColor& color) override;
 	void DrawTexture(size_t id, const StelColor& color) override;
 	void GetTextureSize(size_t id, int* w, int* h) override;
-	size_t LoadFont(const std::string& filename, int fontSize) override;
+	size_t LoadFont(const std::string& filename, size_t fontSize) override;
 	void DrawString(const std::string& text, size_t fontId, const StelPointF& position, const StelColor& color) override;
 	void GetTextSize(const std::string& text, size_t fontId, int* w, int* h) override;
 };

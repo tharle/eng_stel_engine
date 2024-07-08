@@ -5,25 +5,27 @@
 #include <vector>
 #include <map>
 
+
 class StelWorldService : public IWorld
 {
     public:
-        virtual StelEntity* Create(const char* name) override;
-        virtual StelEntity* Find(const char* name) override;
+        virtual StelEntity* Create(std::string name) override;
+        virtual StelEntity* Find(std::string name) override;
         virtual void Remove(StelEntity* ent) override;
 
-        virtual void LoadScene(const char* sceneName);
+        virtual void LoadScene(std::string sceneName);
         virtual void UnLoad();
-        virtual void Register(const char* name, IScene* scene);
+        virtual void Register(std::string name, IScene* scene);
+        virtual void Add(StelEntity* entity) override;
 
 
         virtual void Update(float dt) override;
         virtual void Draw() override;
     private:
-        std::map<const char*, StelEntity*> m_EntityMap = std::map<const char*, StelEntity*>();
+        std::map<std::string, StelEntity*> m_EntityMap = std::map<std::string, StelEntity*>();
         std::vector<StelEntity*> m_EntityInWorld = std::vector<StelEntity*>();
         
-        std::map<const char*, IScene*> m_SceneMap = std::map<const char*, IScene*>();
+        std::map<std::string, IScene*> m_SceneMap = std::map<std::string, IScene*>();
         // current scene
         IScene* m_CurrentScene = nullptr;
 

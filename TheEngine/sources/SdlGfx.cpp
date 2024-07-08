@@ -201,14 +201,13 @@ void SdlGfx::GetTextureSize(size_t id, int* w, int* h)
 	}
 }
 
-size_t SdlGfx::LoadFont(const std::string& filename, int fontSize)
+size_t SdlGfx::LoadFont(const std::string& filename, size_t fontSize)
 {
-	const size_t _fntId = std::hash<std::string>()(filename);
+	const size_t _fntId = std::hash<std::string>()(filename) + fontSize;
 	if (m_FontCache.count(_fntId) > 0)
 	{
 		return _fntId;
 	}
-
 	TTF_Font* _font = TTF_OpenFont(filename.c_str(), fontSize);
 	if (_font)
 	{
