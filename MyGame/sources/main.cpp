@@ -9,17 +9,14 @@
 #include "vld.h"
 #endif //  _DEBUG
 
-
-MainMenuScene* mainMenuScene;
-GameScene* gameScene;
+MainMenuScene mainMenuScene = MainMenuScene();
+GameScene gameScene = GameScene();
 
 void InitGameplay()
 {
-	mainMenuScene = new MainMenuScene();
-	gameScene = new GameScene();
 
-	Stel::Engine::Get().GetWorld().Register("MainMenu", mainMenuScene);
-	Stel::Engine::Get().GetWorld().Register("Game", gameScene);
+	Stel::Engine::Get().GetWorld().Register("MainMenu", &mainMenuScene);
+	Stel::Engine::Get().GetWorld().Register("Game", &gameScene);
 	Stel::Engine::Get().GetWorld().LoadScene("MainMenu");
 
 }

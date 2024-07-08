@@ -2,20 +2,16 @@
 
 StelWorldService::~StelWorldService()
 {
-	//if(m_EntityMap.)
-
 	UnLoad();
 	
-	for (auto it = m_SceneMap.end(); it != m_SceneMap.begin(); it--)
+	/*for (auto it = m_SceneMap.begin(); it != m_SceneMap.end(); it++)
 	{
 		IScene* scene = (*it).second;
-
 		if (scene != nullptr) 
 		{
 			delete scene;
-			scene = nullptr;
 		}
-	}
+	}*/
 
 	m_SceneMap.clear();
 

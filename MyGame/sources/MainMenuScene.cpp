@@ -4,11 +4,6 @@
 
 MainMenuScene::~MainMenuScene()
 {
-	/*if (m_MainMenuEntity != nullptr)
-	{
-		delete m_MainMenuEntity;
-		m_MainMenuEntity = nullptr;
-	}*/
 }
 
 void MainMenuScene::Load() 

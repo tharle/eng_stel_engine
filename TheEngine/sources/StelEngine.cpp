@@ -130,11 +130,30 @@ void Stel::Engine::Shutdown()
 		m_Input = nullptr;
 	}
 
+	if (m_Events != nullptr)
+	{
+		delete m_Events;
+		m_Events = nullptr;
+	}
+
 	if (m_Logger != nullptr) 
 	{
 		delete m_Logger;
 		m_Logger = nullptr;
 	}
+
+	if (m_Audio != nullptr)
+	{
+		delete m_Audio;
+		m_Audio = nullptr;
+	}
+
+	if (m_World != nullptr)
+	{
+		delete m_World;
+		m_World = nullptr;
+	}
+
 }
 
 void Stel::Engine::Exit()

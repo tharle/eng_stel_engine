@@ -25,7 +25,7 @@ void StelEntity::Destroy()
 {
     for (auto cmp : m_Components)
     {
-        delete cmp.second;
+        if(cmp.second != nullptr) delete cmp.second;
     }
 
     m_Drawables.clear();

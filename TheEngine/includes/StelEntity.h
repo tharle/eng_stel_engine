@@ -18,9 +18,9 @@ class StelEntity final : public IDrawable, public IUpdatable
 		void Destroy();
 	private:
 		std::string m_Name = "";
-		std::vector<IDrawable*> m_Drawables;
-		std::vector<IUpdatable*> m_Updatables;
-		std::map<const type_info*, StelComponent*> m_Components;
+		std::vector<IDrawable*> m_Drawables = std::vector<IDrawable*>();
+		std::vector<IUpdatable*> m_Updatables = std::vector<IUpdatable*>();
+		std::map<const type_info*, StelComponent*> m_Components = std::map<const type_info*, StelComponent*>();
 	public:	
 		std::string GetName();
 

@@ -9,6 +9,20 @@ SdlAudio::SdlAudio()
 SdlAudio::~SdlAudio()
 {
     Mix_CloseAudio();
+
+    for (auto cmp : m_SoundCache)
+    {
+        if (cmp.second != nullptr) delete cmp.second;
+    }
+
+    for (auto cmp : m_MusicCache)
+    {
+        if (cmp.second != nullptr) delete cmp.second;
+    }
+
+    m_SoundCache.clear();
+    m_MusicCache.clear();
+
 }
 
 size_t SdlAudio::LoadMusic(const std::string& filename)

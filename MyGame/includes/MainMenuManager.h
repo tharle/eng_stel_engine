@@ -6,6 +6,7 @@ class MainMenuManager : public StelComponent, public IDrawable, public IUpdatabl
 {
 public:
 	MainMenuManager(StelEntity* parent) : StelComponent(parent) { };
+	virtual ~MainMenuManager() = default;
 	virtual void Start() override;
 	virtual void Update(float dt) override;
 	virtual void Draw() override;

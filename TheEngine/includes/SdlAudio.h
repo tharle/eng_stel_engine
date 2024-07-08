@@ -26,6 +26,6 @@ private:
     typedef std::map<size_t, Mix_Chunk*> TChunkMap;
     typedef std::map<size_t, Mix_Music*> TMusicMap;
 
-    TChunkMap m_SoundCache;
-    TMusicMap m_MusicCache;
+    TChunkMap m_SoundCache = TChunkMap();
+    TMusicMap m_MusicCache = TMusicMap();
 };

@@ -8,6 +8,6 @@ class GameScene : public IScene
 private:
 	StelEntity* m_Player;
 public:
-	~GameScene();
+	virtual ~GameScene() = default;
 	virtual void Load() override;
 };

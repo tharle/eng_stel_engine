@@ -5,7 +5,8 @@
 class PlayerControls : public StelComponent, public IDrawable, public IUpdatable
 {
 public:
-	PlayerControls(StelEntity* parent) : StelComponent(parent) {  };
+	PlayerControls(StelEntity* parent) : StelComponent(parent) {  }
+	~PlayerControls() = default;
 	virtual void Start() override;
 	virtual void Update(float dt) override;
 	virtual void Draw() override;

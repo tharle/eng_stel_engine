@@ -3,16 +3,6 @@
 #include "PlayerControls.h"
 
 
-GameScene::~GameScene() 
-{
-	if (m_Player != nullptr) 
-	{
-		m_Player->Destroy();
-		delete m_Player;
-		m_Player = nullptr;
-	}
-}
-
 void GameScene::Load()
 {
 	m_Player = Stel::Engine::Get().GetWorld().Create("Player");
