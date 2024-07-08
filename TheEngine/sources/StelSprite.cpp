@@ -11,12 +11,11 @@ void StelSprite::Draw()
 	Gfx().DrawTexture(m_TextureId, m_Frame, m_Position, m_Angle, m_Pivot, m_Flip, m_Color);
 }
 
-StelSprite* StelSprite::Init(std::string filename, StelRectI frame, StelRectF position )
+StelSprite* StelSprite::Init(std::string filename, StelPointF m_Size)
 {
 	m_Filename = filename;
-	m_Frame = frame;
-	m_Position = position;
-
+	m_Position.w = m_Size.x;
+	m_Position.h = m_Size.y;
 	return this;
 }
 

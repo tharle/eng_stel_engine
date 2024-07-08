@@ -15,9 +15,9 @@ public:
 	virtual void Start() override;
 	virtual void Draw() override;
 
-	StelSprite* Init(std::string filename, StelRectI frame, StelRectF position);
+	StelSprite* Init(std::string filename, StelPointF m_Size);
 	void SetPosition(StelPointF position);
-private:
+protected:
 	std::string m_Filename = "";
 	StelRectI m_Frame{0, 0, 0, 0};
 	StelRectF m_Position{ 0.0f, 0.0f, 0.0f, 0.0f };

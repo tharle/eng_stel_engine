@@ -24,6 +24,7 @@ class StelEntity final : public IDrawable, public IUpdatable
 	public:	
 		std::string GetName();
 
+		//TODO ADD transform
 
 		template<typename T>
 		inline T* AddComponent()

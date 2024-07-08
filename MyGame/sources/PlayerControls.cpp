@@ -1,5 +1,5 @@
 ﻿#include "PlayerControls.h"
-#include "StelSprite.h"
+#include "StelAtlas.h"
 
 void PlayerControls::Start()
 {
@@ -14,10 +14,27 @@ void PlayerControls::Start()
 	m_TitleFontId = Gfx().LoadFont("Assets/Fonts/Merlovaz.ttf", 30);
 	m_DecrpFontId = Gfx().LoadFont("Assets/Fonts/Merlovaz.ttf", 12);
 	m_Model = GetModel();
+	//m_Model.
+	m_Model->AddFrame(m_NameFrames[0], {0, 0, 15, 15});
+	m_Model->AddFrame(m_NameFrames[1], { 16, 0, 15, 15 });
+	m_Model->AddFrame(m_NameFrames[2], { 32, 0, 15, 15 });
+	m_Model->AddFrame(m_NameFrames[3], { 48, 0, 15, 15 });
+	m_Model->AddFrame(m_NameFrames[4], { 64, 0, 15, 15 });
+	m_CurrentFrame = 0;
+	m_Model->SetFrame(m_NameFrames[m_CurrentFrame]);
 }
 
 
 void PlayerControls::Update(float dt) 
+{
+	ChangeScene(dt);
+	Move();
+	MouseEvents();
+	AudioUpdate();
+	NextFrame();
+}
+
+void PlayerControls::ChangeScene(float dt) 
 {
 	if (m_ElapseTimeTouched > 0) m_ElapseTimeTouched -= dt;
 	if (Input().IsKeyDown(IInput::Space) && m_ElapseTimeTouched <= 0)
@@ -26,9 +43,6 @@ void PlayerControls::Update(float dt)
 		Log().Print(LOG_INFO, "SPACE WAS PRESSED");
 		m_ElapseTimeTouched = 1.0f;
 	}
-	Move();
-	MouseEvents();
-	AudioUpdate();
 }
 
 void PlayerControls::Move()
@@ -71,25 +85,35 @@ void PlayerControls::MouseEvents()
 
 void PlayerControls::AudioUpdate()
 {
-	if (Input().IsKeyDown(IInput::StelKey::F))
+	if (Input().IsKeyDown(IInput::StelKey::Z))
 	{
 		Audio().PlaySFX(m_RemoveSfx);
 	}
 
-	if (Input().IsKeyDown(IInput::StelKey::Q))
+	if (Input().IsKeyDown(IInput::StelKey::X))
 	{
 		Audio().PlayMusic(m_AmbianceMusic);
 	}
 
-	if (Input().IsKeyDown(IInput::StelKey::E))
+	if (Input().IsKeyDown(IInput::StelKey::V))
 	{
 		Audio().StopMusic();
 	}
 }
 
+void PlayerControls::NextFrame() 
+{
+	if (Input().IsKeyDown(IInput::Q))
+	{
+		m_CurrentFrame++;
+		m_CurrentFrame %= m_NameFrames.size();
+		m_Model->SetFrame(m_NameFrames[m_CurrentFrame]);
+	}
+}
+
 void PlayerControls::Draw() 
 {
-	StelRectF _getRect{ m_Position.x , m_Position.y , 200.0f, 200.0f };
+	//StelRectF _getRect{ m_Position.x , m_Position.y , 200.0f, 200.0f };
 	//Gfx().FillRect(_getRect, StelColor::BISQUE);
 
 	Gfx().DrawString("GAME SCENE", m_TitleFontId, { 15.0f,15.0f }, StelColor::TOMATO);
@@ -107,7 +131,13 @@ void PlayerControls::SetSpeed(float speed)
 	m_Speed = speed;
 }
 
-StelSprite* PlayerControls::GetModel()
+// JAI PAS OUBLIE DE ENLEVER ÇA
+//StelSprite* PlayerControls::GetModel()
+//{
+//	return m_EntityParent->GetComponent<StelSprite>();
+//}
+
+StelAtlas* PlayerControls::GetModel()
 {
-	return m_EntityParent->GetComponent<StelSprite>();
+	return m_EntityParent->GetComponent<StelAtlas>();
 }
