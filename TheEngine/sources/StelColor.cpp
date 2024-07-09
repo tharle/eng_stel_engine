@@ -139,6 +139,7 @@ const StelColor& StelColor::LIGHTGREY = StelColor(211, 211, 211);
 const StelColor& StelColor::GAINSBORO = StelColor(220, 220, 220);
 const StelColor& StelColor::WHITESMOKE = StelColor(245, 245, 245);
 const StelColor& StelColor::WHITE = StelColor(255, 255, 255);
+const StelColor& StelColor::DARKDESERT = StelColor(151, 111, 28);
 
 StelColor::StelColor(uchar _red, uchar _green, uchar _blue, uchar _alpha) : 
 	red(_red),

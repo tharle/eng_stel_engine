@@ -151,6 +151,7 @@ public:
     static const StelColor& GAINSBORO;
     static const StelColor& WHITESMOKE;
     static const StelColor& WHITE;
+    static const StelColor& DARKDESERT;
 
 	uchar red = 255;
 	uchar green = 255;

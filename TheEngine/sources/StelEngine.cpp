@@ -109,7 +109,7 @@ void Stel::Engine::Update(float deltaTime)
 
 void Stel::Engine::Render()
 {
-	m_Gfx->SetColor({ 0, 0, 0, 255 });
+	//m_Gfx->SetColor({ 0, 0, 0, 255 });
 	m_Gfx->Clear();// TODO met at BEGIN
 	m_World->Draw();
 	m_Gfx->Present(); // TODO met at END
