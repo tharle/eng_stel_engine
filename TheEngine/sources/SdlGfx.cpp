@@ -161,20 +161,14 @@ void SdlGfx::DrawTexture(size_t id, const StelColor& color)
 
 StelPointI SdlGfx::GetTextureSize(size_t id)
 {
-	int* w;
-	int* h;
+	StelPointI textureSize{ 0, 0 };
 
 	if (m_TextureCache.count(id) > 0)
 	{
-		SDL_QueryTexture(m_TextureCache[id], nullptr, nullptr, w, h);
-	}
-	else
-	{
-		*w = 0;
-		*h = 0;
+		SDL_QueryTexture(m_TextureCache[id], nullptr, nullptr,&textureSize.x, &textureSize.y);
 	}
 
-	return { *(w), *(h) };
+	return textureSize;
 }
 
 size_t SdlGfx::LoadFont(const std::string& filename, int fontSize)

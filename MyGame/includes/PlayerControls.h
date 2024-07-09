@@ -2,7 +2,7 @@
 #include "StelComponent.h"
 #include "StelEngine.h"
 
-class StelAtlas;
+class StelAnimation;
 
 class PlayerControls : public StelComponent, public IDrawable, public IUpdatable
 {
@@ -16,7 +16,7 @@ public:
 
 	void SetPostion(StelPointF position);
 	void SetSpeed(float speed);
-	StelAtlas* GetModel();
+	StelAnimation* GetModel();
 private:
 	// Delay for keydown
 	float m_ElapseTimeTouched = 1.0f;
@@ -24,7 +24,7 @@ private:
 	// Physics
 	StelPointF m_Position{0, 0};
 	float m_Speed = 0;
-	StelAtlas* m_Model = nullptr;
+	StelAnimation* m_Model = nullptr;
 	int m_CurrentFrame = 0;
 	int m_MaxFrame = 0;
 
@@ -41,5 +41,6 @@ private:
 	void MouseEvents();
 	void AudioUpdate();
 	void ChangeScene(float dt);
-	void NextFrame();
+	// JAI PAS OUBLIE DE ENLEVER ÇA
+	//void NextFrame();
 };

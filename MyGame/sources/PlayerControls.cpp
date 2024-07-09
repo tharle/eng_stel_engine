@@ -1,5 +1,5 @@
 ﻿#include "PlayerControls.h"
-#include "StelAtlas.h"
+#include "StelAnimation.h"
 
 void PlayerControls::Start()
 {
@@ -15,14 +15,18 @@ void PlayerControls::Start()
 	m_DecrpFontId = Gfx().LoadFont("Assets/Fonts/Merlovaz.ttf", 12);
 	m_Model = GetModel();
 	// J'AI LAISSE ICI POUR MONTRER L'ATLAS
-	m_Model->AddFrame({0, 0, 15, 15});
+	/*m_Model->AddFrame({0, 0, 15, 15});
 	m_Model->AddFrame({ 16, 0, 15, 15 });
 	m_Model->AddFrame({ 32, 0, 15, 15 });
 	m_Model->AddFrame({ 48, 0, 15, 15 });
 	m_Model->AddFrame({ 64, 0, 15, 15 });
 	m_CurrentFrame = 0;
 	m_MaxFrame = 5;
-	m_Model->SetFrame(m_CurrentFrame);
+	m_Model->SetFrame(m_CurrentFrame);*/
+	m_Model->AddClip("walk_down"	, 0, 5, 0.1f);
+	m_Model->AddClip("walk_left"	, 5, 5, 0.1f);
+	m_Model->AddClip("walk_up"		, 10, 5, 0.1f);
+	m_Model->AddClip("walk_right"	, 15, 5, 0.1f);
 }
 
 
@@ -32,7 +36,8 @@ void PlayerControls::Update(float dt)
 	Move();
 	MouseEvents();
 	AudioUpdate();
-	NextFrame();
+	// JAI PAS OUBLIE DE ENLEVER ÇA
+	//NextFrame();
 }
 
 void PlayerControls::ChangeScene(float dt) 
@@ -52,9 +57,21 @@ void PlayerControls::Move()
 	float axiosV = Input().GetAxiosVertical();
 	m_Position.x += axiosH * m_Speed;
 	m_Position.y += axiosV * m_Speed;
+	
+	if (m_Model != nullptr)
+	{
+		m_Model->SetPosition(m_Position);
+		m_Model->AddClip("walk_down", 0, 5, 0.1f);
+		m_Model->AddClip("walk_left", 5, 5, 0.1f);
+		m_Model->AddClip("walk_up", 10, 5, 0.1f);
+		m_Model->AddClip("walk_right", 15, 5, 0.1f);
 
-	StelSprite* model = GetModel();
-	if(model != nullptr) model->SetPosition(m_Position);
+		if (axiosV > 0) m_Model->Play("walk_down", true);
+		else if (axiosV < 0) m_Model->Play("walk_up", true);
+		else if (axiosH < 0) m_Model->Play("walk_left", true);
+		else if (axiosH > 0 ) m_Model->Play("walk_right", true);
+		else m_Model->Stop();
+	}
 }
 
 void PlayerControls::MouseEvents()
@@ -102,15 +119,16 @@ void PlayerControls::AudioUpdate()
 	}
 }
 
-void PlayerControls::NextFrame() 
-{
-	if (Input().IsKeyDown(IInput::Q))
-	{
-		m_CurrentFrame++;
-		m_CurrentFrame %= m_MaxFrame;
-		m_Model->SetFrame(m_CurrentFrame);
-	}
-}
+// JAI PAS OUBLIE DE ENLEVER ÇA
+//void PlayerControls::NextFrame() 
+//{
+//	if (Input().IsKeyDown(IInput::Q))
+//	{
+//		m_CurrentFrame++;
+//		m_CurrentFrame %= m_MaxFrame;
+//		m_Model->SetFrame(m_CurrentFrame);
+//	}
+//}
 
 void PlayerControls::Draw() 
 {
@@ -135,7 +153,12 @@ void PlayerControls::SetSpeed(float speed)
 //	return m_EntityParent->GetComponent<StelSprite>();
 //}
 
-StelAtlas* PlayerControls::GetModel()
+//StelAtlas* PlayerControls::GetModel()
+//{
+//	return m_EntityParent->GetComponent<StelAtlas>();
+//}
+
+StelAnimation* PlayerControls::GetModel()
 {
-	return m_EntityParent->GetComponent<StelAtlas>();
+	return m_EntityParent->GetComponent<StelAnimation>();
 }
