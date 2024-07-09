@@ -1,6 +1,7 @@
 ﻿#include "PlayerControls.h"
 #include "StelAnimation.h"
 
+
 void PlayerControls::Start()
 {
 	// Load sounds and audios
@@ -9,6 +10,10 @@ void PlayerControls::Start()
 
 	m_RemoveSfx = Audio().LoadSound("Assets/Audios/Remove1.wav");
 	if (m_RemoveSfx == 0)   Log().Print(LOG_WARNING, "ERROR LOAD AUDIO");
+
+	m_WalkSfx = Audio().LoadSound("Assets/Audios/sound_walk.wav");
+	if (m_WalkSfx == 0)   Log().Print(LOG_WARNING, "ERROR LOAD AUDIO");
+
 
 	// Load Fonts
 	m_TitleFontId = Gfx().LoadFont("Assets/Fonts/Merlovaz.ttf", 30);
@@ -27,6 +32,9 @@ void PlayerControls::Start()
 	m_Model->AddClip("walk_left"	, 5, 5, 0.1f);
 	m_Model->AddClip("walk_up"		, 10, 5, 0.1f);
 	m_Model->AddClip("walk_right"	, 15, 5, 0.1f);
+
+
+	Audio().PlayMusic(m_AmbianceMusic);
 }
 
 
@@ -61,16 +69,18 @@ void PlayerControls::Move()
 	if (m_Model != nullptr)
 	{
 		m_Model->SetPosition(m_Position);
-		m_Model->AddClip("walk_down", 0, 5, 0.1f);
-		m_Model->AddClip("walk_left", 5, 5, 0.1f);
-		m_Model->AddClip("walk_up", 10, 5, 0.1f);
-		m_Model->AddClip("walk_right", 15, 5, 0.1f);
 
+		if (axiosH == 0 && axiosV == 0) 
+		{
+			m_Model->Stop();
+			return;
+		} 
+		
+		Audio().PlaySFX(m_WalkSfx);
 		if (axiosV > 0) m_Model->Play("walk_down", true);
 		else if (axiosV < 0) m_Model->Play("walk_up", true);
 		else if (axiosH < 0) m_Model->Play("walk_left", true);
 		else if (axiosH > 0 ) m_Model->Play("walk_right", true);
-		else m_Model->Stop();
 	}
 }
 

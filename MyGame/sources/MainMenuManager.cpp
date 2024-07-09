@@ -2,6 +2,7 @@
 
 void MainMenuManager::Start()
 {
+	Audio().StopMusic();
 	m_TitleFontId = Gfx().LoadFont("Assets/Fonts/Merlovaz.ttf", 90);
 	m_DecrpFontId = Gfx().LoadFont("Assets/Fonts/Merlovaz.ttf", 25);
 }

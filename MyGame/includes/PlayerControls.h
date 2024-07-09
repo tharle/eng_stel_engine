@@ -8,7 +8,7 @@ class PlayerControls : public StelComponent, public IDrawable, public IUpdatable
 {
 public:
 	PlayerControls(StelEntity* parent) : StelComponent(parent) {  }
-	~PlayerControls() = default;
+	virtual ~PlayerControls() = default;
 	virtual void Start() override;
 	virtual void Update(float dt) override;
 	virtual void Draw() override;
@@ -31,6 +31,7 @@ private:
 	// Audio
 	size_t m_AmbianceMusic = 0;
 	size_t m_RemoveSfx = 0;
+	size_t m_WalkSfx = 0;
 
 	//Fonts Loadeds
 	size_t m_TitleFontId = 0;

@@ -73,6 +73,7 @@ void SdlAudio::PlayMusic(size_t id)
 
 void SdlAudio::PlayMusic(size_t id, int loop)
 {
+    StopMusic();
     Mix_PlayMusic(m_MusicCache[id], loop);
 }
 

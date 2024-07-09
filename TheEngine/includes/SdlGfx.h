@@ -1,12 +1,9 @@
 #pragma once
 #include "IGfx.h"
 #include "SDL_ttf.h"
+#include "SDL.h"
+#include "SDL_image.h"
 #include <map>
-
-
-class SDL_Renderer;
-class SDL_Window;
-class SDL_Texture;
 
 class SdlGfx : public IGfx
 {

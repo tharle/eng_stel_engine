@@ -1,6 +1,5 @@
 #include "SdlGfx.h"
-#include "SDL.h"
-#include "SDL_image.h"
+
 #include "StelEngine.h"
 
 bool SdlGfx::Initialize(const std::string& title, int w, int h, const char* msgError)
