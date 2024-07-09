@@ -1,8 +1,8 @@
 #pragma once
-#include "SDL.h"
 #include "IInput.h"
 #include "IEvents.h"
 #include "IGfx.h"
+#include "SDL.h" // Je n'ai pas réussi de faire un foward declaration pour ça
 #include <map>
 
 class SdlInput : public IInput

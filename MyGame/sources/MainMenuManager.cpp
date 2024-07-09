@@ -19,6 +19,7 @@ void MainMenuManager::Update(float dt)
 
 void MainMenuManager::Draw()
 {
+	Gfx().DrawRect({ 0.0f, 0.0f, 800.0f, 600.0f }, StelColor::BLACK);
 	Gfx().DrawString("MAIN MENU", m_TitleFontId, { 100.0f, 210.0f }, StelColor::AQUA);
 	if (m_ElapseTimeTouched <= 0) Gfx().DrawString("- Press space to change scene - ", m_DecrpFontId, { 230.0f, 400.0f }, StelColor::AZURE);
 }

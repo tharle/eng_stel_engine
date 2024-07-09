@@ -1,7 +1,9 @@
 #pragma once
 #include "IEvents.h"
-#include "SDL.h"
+#include "SDL.h" // Pas réussi le foward declaration
 #include <map>
+
+//class Uint32;
 
 class SdlEvents : public IEvents 
 {

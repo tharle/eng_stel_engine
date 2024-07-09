@@ -1,4 +1,4 @@
- #include "SdlInput.h"
+#include "SdlInput.h"
 
 SdlInput::SdlInput() : m_Axios({0, 0})
 {

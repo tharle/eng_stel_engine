@@ -6,7 +6,7 @@
 
 void GameScene::Load()
 {
-	m_Player = Stel::Engine::Get().GetWorld().Create("Player");
+	m_Player = Instantiate("Player");
 
 	// JAI PAS OUBLIE DE ENLEVER ÇA
 	/*StelSprite* model = m_Player->AddComponent<StelSprite>();

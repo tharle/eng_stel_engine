@@ -1,9 +1,9 @@
 #pragma once
-#include "IScene.h"
+#include "StelScene.h"
 
 class StelEntity;
 
-class MainMenuScene : public IScene
+class MainMenuScene : public StelScene
 {
 private:
 	StelEntity* m_MainMenuEntity;
