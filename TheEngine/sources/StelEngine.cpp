@@ -38,7 +38,7 @@ bool Stel::Engine::Init(const std::string& title, StelPointI screenDimension)
 	m_FPS = 0;
 
 	// Load World
-	m_World = new StelWorldService();
+	m_World = new StelWorld();
 
 	m_IsInit = true;
 

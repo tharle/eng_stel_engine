@@ -1,6 +1,5 @@
 #pragma once
 #include "StelComponent.h"
-#include "StelEngine.h"
 
 class StelAnimation;
 

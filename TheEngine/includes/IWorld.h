@@ -23,4 +23,10 @@ class IWorld
         virtual void LoadScene(std::string  sceneName) = 0;
         virtual void UnLoad() = 0;
         virtual void Register(std::string  name, IScene* scene) = 0;
+
+
+        // -----------------------------
+        // GAME
+        // -----------------------------
+        virtual void ExitGame() = 0;
 };

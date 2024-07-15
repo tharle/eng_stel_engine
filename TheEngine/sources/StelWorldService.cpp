@@ -1,7 +1,7 @@
 #include "StelWorldService.h"
 #include "StelEngine.h"
 
-StelWorldService::~StelWorldService()
+StelWorld::~StelWorld()
 {
 	UnLoad();
 	m_SceneMap.clear();
@@ -14,7 +14,7 @@ StelWorldService::~StelWorldService()
 	}
 }
 
-StelEntity* StelWorldService::Create(std::string name)
+StelEntity* StelWorld::Create(std::string name)
 {
 	StelEntity* ent = new StelEntity(name);
 	m_EntityInWorld.push_back(ent);
@@ -23,7 +23,7 @@ StelEntity* StelWorldService::Create(std::string name)
 	return ent;
 }
 
-void StelWorldService::Update(float dt)
+void StelWorld::Update(float dt)
 {
 	for (StelEntity* entity : m_EntityInWorld)
 	{
@@ -33,7 +33,7 @@ void StelWorldService::Update(float dt)
 	CheckAndLoadScene();
 }
 
-void StelWorldService::Draw()
+void StelWorld::Draw()
 {
 	for (StelEntity* entity : m_EntityInWorld)
 	{
@@ -41,12 +41,12 @@ void StelWorldService::Draw()
 	}
 }
 
-StelEntity* StelWorldService::Find(std::string name)
+StelEntity* StelWorld::Find(std::string name)
 {
 	return m_EntityMap.at(name);
 }
 
-void StelWorldService::Remove(StelEntity* ent)
+void StelWorld::Remove(StelEntity* ent)
 {
 	for (auto it = m_EntityInWorld.end()-1; it != m_EntityInWorld.begin()-1;it--)
 	{
@@ -64,12 +64,12 @@ void StelWorldService::Remove(StelEntity* ent)
 	m_EntityMap.erase(ent->GetName());
 }
 
-void StelWorldService::LoadScene(std::string sceneName)
+void StelWorld::LoadScene(std::string sceneName)
 {
 	m_NextSceneToLoad = sceneName;
 }
 
-void StelWorldService::CheckAndLoadScene()
+void StelWorld::CheckAndLoadScene()
 {
 	if (m_SceneMap.count(m_NextSceneToLoad) > 0)
 	{
@@ -86,7 +86,7 @@ void StelWorldService::CheckAndLoadScene()
 	}
 }
 
-void StelWorldService::UnLoad()
+void StelWorld::UnLoad()
 {
 	if (m_CurrentScene != nullptr) {
 		for (StelEntity* entity : m_EntityInWorld) {
@@ -102,7 +102,7 @@ void StelWorldService::UnLoad()
 	}
 }
 
-void StelWorldService::Register(std::string sceneName, IScene* scene)
+void StelWorld::Register(std::string sceneName, IScene* scene)
 {
 	if (m_SceneMap.count(sceneName) == 0) {
 		m_SceneMap[sceneName] = scene;
@@ -110,8 +110,13 @@ void StelWorldService::Register(std::string sceneName, IScene* scene)
 
 }
 
-void StelWorldService::Add(StelEntity* entity)
+void StelWorld::Add(StelEntity* entity)
 {
 	m_EntityInWorld.push_back(entity);
 	m_EntityMap[entity->GetName()] = entity;
+}
+
+void StelWorld::ExitGame()
+{
+	Stel::Engine::Get().Exit();
 }

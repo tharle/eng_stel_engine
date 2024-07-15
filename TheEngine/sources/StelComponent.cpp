@@ -34,3 +34,8 @@ IEvents& StelComponent::Events()
 {
     return Stel::Engine::Get().GetEventService();
 }
+
+IWorld& StelComponent::World()
+{
+    return Stel::Engine::Get().GetWorld();
+}

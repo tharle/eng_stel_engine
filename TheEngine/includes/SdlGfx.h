@@ -38,6 +38,7 @@ public:
 		double angle, const StelRectF& pivot, const StelFlip& flip, const StelColor& color) override;
 	void DrawTexture(size_t id, const StelRectF& dst, const StelColor& color) override;
 	void DrawTexture(size_t id, const StelColor& color) override;
+	void DrawTexture(size_t id, const StelRectI& src, const StelRectF& dst) override;
 	StelPointI GetTextureSize(size_t id) override;
 	size_t LoadFont(const std::string& filename, int fontSize) override;
 	void DrawString(const std::string& text, size_t fontId, const StelPointF& position, const StelColor& color) override;

@@ -3,7 +3,11 @@
 
 StelEntity::StelEntity() : StelEntity("") {}
 
-StelEntity::StelEntity(std::string name) : m_Name(name) {}
+StelEntity::StelEntity(std::string name) : StelEntity(name, StelRectF::Zero()) {}
+
+StelEntity::StelEntity(std::string name, StelRectF rect) : m_Name(name), m_Transform(rect)
+{
+}
 
 void StelEntity::Update(float dt)
 {
@@ -36,4 +40,9 @@ void StelEntity::Destroy()
 std::string StelEntity::GetName()
 {
     return m_Name;
+}
+
+StelTransform StelEntity::GetTransform()
+{
+    return m_Transform;
 }

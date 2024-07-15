@@ -5,6 +5,7 @@
 #include "IAudio.h"
 #include "IGfx.h"
 #include "IEvents.h"
+#include "IWorld.h"
 
 
 class StelComponent
@@ -29,4 +30,6 @@ protected:
     IAudio& Audio();
     IGfx& Gfx();
     IEvents& Events();
+    IWorld& World();
+    
 };

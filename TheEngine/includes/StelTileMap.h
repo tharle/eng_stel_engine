@@ -10,27 +10,25 @@ typedef std::vector<std::vector<int>> TLayer;
 typedef std::map<std::string, TLayer> TTilemap;
 typedef std::vector<StelRectI> TTileset;
 
-class StelTilemap : public StelComponent, public IDrawable
+class StelTileMap : public StelComponent, public IDrawable
 {
 public:
-    virtual ~StelTilemap() = default;
-    StelTilemap();
-    StelTilemap(StelEntity* parent);
+    virtual ~StelTileMap() = default;
+    StelTileMap();
+    StelTileMap(StelEntity* parent);
 
     virtual void Draw() override;
 
-    void Load(const std::string& filename, int mapW, int mapH, int tileW, int tileH);
+    void Load(const std::string& filename, StelPointI mapSize, StelPointI tileSize, float scaleFactor);
     void AddLayer(const std::string& layer, TLayer tiles);
     TLayer GetLayer(const std::string& name);
     bool IsColliding(const std::string& layer, float x, float y, float w, float h, int* tileIndex);
 
 private:
     TTilemap m_Tilemap;
-    int m_Width = 0;
-    int m_Height = 0;
+    StelPointI m_MapSize = StelPointI::Zero();
     size_t m_TilesetId = 0;
-    int m_TileWidth = 0;
-    int m_TileHeight = 0;
+    StelPointI m_TileSize = StelPointI::Zero();
     TTileset m_Tileset;
     int m_ScaleFactor = 1;
 };

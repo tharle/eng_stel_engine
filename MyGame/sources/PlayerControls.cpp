@@ -19,15 +19,6 @@ void PlayerControls::Start()
 	m_TitleFontId = Gfx().LoadFont("Assets/Fonts/Merlovaz.ttf", 30);
 	m_DecrpFontId = Gfx().LoadFont("Assets/Fonts/Merlovaz.ttf", 12);
 	m_Model = GetModel();
-	// J'AI LAISSE ICI POUR MONTRER L'ATLAS
-	/*m_Model->AddFrame({0, 0, 15, 15});
-	m_Model->AddFrame({ 16, 0, 15, 15 });
-	m_Model->AddFrame({ 32, 0, 15, 15 });
-	m_Model->AddFrame({ 48, 0, 15, 15 });
-	m_Model->AddFrame({ 64, 0, 15, 15 });
-	m_CurrentFrame = 0;
-	m_MaxFrame = 5;
-	m_Model->SetFrame(m_CurrentFrame);*/
 	m_Model->AddClip("walk_down"	, 0, 5, 0.1f);
 	m_Model->AddClip("walk_left"	, 5, 5, 0.1f);
 	m_Model->AddClip("walk_up"		, 10, 5, 0.1f);
@@ -44,8 +35,6 @@ void PlayerControls::Update(float dt)
 	Move();
 	MouseEvents();
 	AudioUpdate();
-	// JAI PAS OUBLIE DE ENLEVER ÇA
-	//NextFrame();
 }
 
 void PlayerControls::ChangeScene(float dt) 
@@ -53,7 +42,8 @@ void PlayerControls::ChangeScene(float dt)
 	if (m_ElapseTimeTouched > 0) m_ElapseTimeTouched -= dt;
 	if (Input().IsKeyDown(IInput::Space) && m_ElapseTimeTouched <= 0)
 	{
-		Stel::Engine::Get().GetWorld().LoadScene("MainMenu");
+		World().LoadScene("MainMenu");
+		
 		Log().Print(LOG_INFO, "SPACE WAS PRESSED");
 		m_ElapseTimeTouched = 1.0f;
 	}
@@ -89,7 +79,7 @@ void PlayerControls::MouseEvents()
 	IEvents::StelEvent stelEvent;
 	if(Events().Contanis(IEvents::Quit, stelEvent))
 	{
-		Stel::Engine::Get().Exit();
+		World().ExitGame();
 	}
 
 	if (Events().Contanis(IEvents::MouseButtonDown, stelEvent))
@@ -128,17 +118,6 @@ void PlayerControls::AudioUpdate()
 		Audio().StopMusic();
 	}
 }
-
-// JAI PAS OUBLIE DE ENLEVER ÇA
-//void PlayerControls::NextFrame() 
-//{
-//	if (Input().IsKeyDown(IInput::Q))
-//	{
-//		m_CurrentFrame++;
-//		m_CurrentFrame %= m_MaxFrame;
-//		m_Model->SetFrame(m_CurrentFrame);
-//	}
-//}
 
 void PlayerControls::Draw() 
 {

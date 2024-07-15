@@ -6,10 +6,10 @@
 #include <map>
 
 
-class StelWorldService : public IWorld
+class StelWorld : public IWorld
 {
     public:
-        virtual ~StelWorldService();
+        virtual ~StelWorld();
         virtual StelEntity* Create(std::string name) override;
         virtual StelEntity* Find(std::string name) override;
         virtual void Remove(StelEntity* ent) override;
@@ -18,6 +18,7 @@ class StelWorldService : public IWorld
         virtual void UnLoad();
         virtual void Register(std::string name, IScene* scene);
         virtual void Add(StelEntity* entity) override;
+        virtual void ExitGame();
 
 
         virtual void Update(float dt) override;

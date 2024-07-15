@@ -15,6 +15,8 @@ struct StelPointI
 {
 	int x;
 	int y;
+
+	static StelPointI Zero() { return { 0, 0}; }
 };
 
 struct StelPointF
@@ -29,6 +31,11 @@ struct StelRectI
 	int y;
 	int w;
 	int h;
+
+	StelRectI Resize(int factor) 
+	{
+		return { x, y, w * factor, h * factor };
+	}
 };
 
 struct StelRectF
@@ -37,6 +44,20 @@ struct StelRectF
 	float y;
 	float w;
 	float h;
+
+	static StelRectF Zero() { return { 0.0f, 0.0f, 0.0f, 0.0f };}
+
+	StelRectF Resize(float factor)
+	{
+		return { x, y, w * factor, h * factor };
+	}
+};
+
+struct StelCircleF
+{
+	float x;
+	float y;
+	float radius;
 };
 
 class IGfx 
@@ -61,6 +82,7 @@ public:
 		double angle, const StelRectF& pivot, const StelFlip& flip, const StelColor& color) = 0;
 	virtual void DrawTexture(size_t id, const StelRectF& dst, const StelColor& color) = 0;
 	virtual void DrawTexture(size_t id, const StelColor& color) = 0;
+	virtual void DrawTexture(size_t id, const StelRectI& src, const StelRectF& dst) = 0;
 	virtual StelPointI GetTextureSize(size_t id) = 0;
 	virtual size_t LoadFont(const std::string& filename, int fontSize) = 0;
 	virtual void DrawString(const std::string& text, size_t fontId, const StelPointF& position, const StelColor& color) = 0;

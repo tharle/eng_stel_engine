@@ -2,7 +2,7 @@ let project = new Project("LegendsOfStel");
 
 await project.addProject("./TheEngine");
 
-project.addFile("MyGame/sources/**"); // Sources
+project.addFile("MyGame/**");
 project.addIncludeDir("./MyGame/includes");
 
 project.setDebugDir("Deployment"); // Assets
