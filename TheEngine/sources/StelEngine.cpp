@@ -7,6 +7,7 @@
 #include "SdlInput.h"
 #include "SdlEvents.h"
 #include "SdlAudio.h"
+#include "StelPhysic.h"
 
 #include "StelWorldService.h"
 
@@ -27,6 +28,7 @@ bool Stel::Engine::Init(const std::string& title, StelPointI screenDimension)
 	m_Events = new SdlEvents();
 	m_Input = new SdlInput();
 	m_Audio = new SdlAudio();
+	m_Physic = new StelPhysic();
 
 	const char* msgError = "";
 	if (!m_Gfx->Initialize(title.c_str(), m_ScreenDimension.x, m_ScreenDimension.y, msgError))

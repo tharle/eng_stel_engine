@@ -19,6 +19,7 @@ public:
 
 	void SetPostion(StelPointF position);
 	void SetSpeed(float speed);
+	void SetSize(StelPointF size, float scaleFactor);
 
 	StelAnimation* GetModel();
 	LevelManager* GetLevel();
@@ -33,6 +34,9 @@ private:
 	StelAnimation* m_Model = nullptr;
 	int m_CurrentFrame = 0;
 	int m_MaxFrame = 0;
+	StelRectF m_Collider = StelRectF::Zero();
+	float m_ScaleFactor = 1.0f;
+	StelPointF m_Size = {0.0f, 0.0f};
 
 	// Audio
 	size_t m_AmbianceMusic = 0;

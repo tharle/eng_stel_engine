@@ -8,12 +8,13 @@
 void GameScene::Load()
 {
 	m_Player = Instantiate("Player");
+	float scaleFactor = 2;
 
 	LevelManager* gameManager = m_Player->AddComponent<LevelManager>();
 	gameManager->Start();
 
 	StelAnimation* model = m_Player->AddComponent<StelAnimation>();
-	model->Init("Assets/adv_lolo_char.png", { 16, 16 }, 2);
+	model->Init("Assets/adv_lolo_char.png", { 16, 16 }, scaleFactor);
 	model->Start();
 	model->AddAnimationFrames(5, { 0, 0 }, {16, 16});
 	model->AddAnimationFrames(5, { 0, 16 }, {16, 16});
@@ -23,6 +24,7 @@ void GameScene::Load()
 	PlayerControls* playerControls = m_Player->AddComponent<PlayerControls>();
 	playerControls->SetPostion({ 200.0f, 300.0f });
 	playerControls->SetSpeed(15.0f);
+	playerControls->SetSize({16, 16}, scaleFactor);
 	playerControls->Start();
 	
 }

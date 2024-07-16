@@ -23,7 +23,7 @@ public:
     void Load(const std::string& filename, StelPointI mapSize, StelPointI tileSize, float scaleFactor);
     void AddLayer(const std::string& layer, TLayer tiles, bool isCollider);
     TLayer GetLayer(const std::string& name);
-    bool IsColliding(const std::string& layer, StelRectF rect, int* tileIndex);
+    bool IsColliding(StelRectF boxCollider, int* tileIndex);
 
     bool DrawColliders = false;
 

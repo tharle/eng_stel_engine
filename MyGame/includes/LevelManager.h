@@ -12,5 +12,5 @@ public:
 	virtual void Update(float dt) override;
 	virtual void Draw() override;
 
-	bool IsColliding(StelRectF rect);
+	bool IsColliding(StelRectF boxCollider);
 };

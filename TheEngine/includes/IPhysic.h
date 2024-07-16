@@ -2,9 +2,9 @@
 #include <string>
 
 class StelEntity;
-class StelPointF;
-class StelCircleF;
-class StelRectF;
+struct StelPointF;
+struct StelCircleF;
+struct StelRectF;
 
 class IPhysic
 {

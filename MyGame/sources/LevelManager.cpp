@@ -9,7 +9,7 @@ void LevelManager::Start()
 	m_Background.Load("Assets/adv_lolo_map.png", { 16, 16 }, { 16, 16 }, 2);
 	TLayer nLayer = {
 		{ -1,4,6,6,6,5,5,6,6,5,5,6,6,7,-1,-1},
-        {-1,40,41,42,42,42,42,42,148,42,42,42,-1,43,-1,-1},
+        {-1,40,41,42,42,42,42,42,148,42,42,42, 42,43,-1,-1},
         {-1,40,36,37,37,37,37,37,1,37,37,73,73,79,-1,-1},
         {-1,40,36,73,73,37,109,1,1,37,37,73,73,79,-1,-1},
         {-1,40,0,73,73,37,37,37,1,37,37,37,73,79,-1,-1},
@@ -58,8 +58,8 @@ void LevelManager::Draw()
 	m_Background.Draw();
 }
 
-bool LevelManager::IsColliding(StelRectF rect)
+bool LevelManager::IsColliding(StelRectF boxCollider)
 {
     int tileIndex;
-    return m_Background.IsColliding("level_1_collider", rect ,&tileIndex);
+    return m_Background.IsColliding(boxCollider, &tileIndex);
 }

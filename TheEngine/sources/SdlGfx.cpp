@@ -119,17 +119,29 @@ size_t SdlGfx::LoadTexture(const std::string& filename)
 	return 0;
 }
 
-void SdlGfx::DrawTexture(size_t id, const StelRectI& src, const StelRectF& dst)
+void SdlGfx::DrawTexture(size_t id, const StelRectI& src, const StelRectF& dst, const StelFlip& flip)
 {
 	SDL_Rect _src = { src.x, src.y, src.w, src.h };
 	SDL_FRect _dst = { dst.x, dst.y, dst.w, dst.h };
 
 	float angle = 0.0f;
-	SDL_FPoint _pivot = { src.x, src.y };
-	const SDL_RendererFlip _rf = static_cast<SDL_RendererFlip>(SDL_FLIP_NONE);
+	SDL_FPoint pivot = { src.x, src.y };
+	int flipType = SDL_FLIP_NONE;
+	if (flip.h)
+	{
+		flipType = SDL_FLIP_HORIZONTAL;
+	}
+
+	if (flip.v)
+	{
+		flipType |= SDL_FLIP_VERTICAL;
+	}
+
+	const SDL_RendererFlip renderFlip = static_cast<SDL_RendererFlip>(flipType);
+
 	SetColorMode(id, StelColor::WHITE);
 
-	SDL_RenderCopyExF(m_Renderer, m_TextureCache[id], &_src, &_dst, angle, &_pivot, _rf);
+	SDL_RenderCopyExF(m_Renderer, m_TextureCache[id], &_src, &_dst, angle, &pivot, renderFlip);
 }
 
 void SdlGfx::DrawTexture(size_t id, const StelRectI& src, const StelRectF& dst, double angle, const StelRectF& pivot,const StelFlip& flip, const StelColor& color)

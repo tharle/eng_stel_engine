@@ -25,7 +25,8 @@ void PlayerControls::Start()
 	m_Model->AddClip("walk_up"		, 10, 5, 0.1f);
 	m_Model->AddClip("walk_right"	, 15, 5, 0.1f);
 
-
+	float offset = 4.0f;
+	m_Collider = { -offset,-offset, - offset , - offset };
 	//Audio().PlayMusic(m_AmbianceMusic);
 }
 
@@ -59,7 +60,14 @@ void PlayerControls::Move(float dt)
 	m_Position.x += axiosH * m_Speed;
 	m_Position.y += axiosV * m_Speed;
 
-	if (GetLevel()->IsColliding({ m_Position.x, m_Position.y, 32.0f, 32.0f }))
+	StelRectF collider = {
+		m_Position.x - m_Collider.x,
+		m_Position.y - m_Collider.y,
+		m_Size.x + m_Collider.x,
+		m_Size.y + m_Collider.y
+	};
+
+	if (GetLevel()->IsColliding(collider.Resize(m_ScaleFactor)))
 	{
 		m_Position.x -= axiosH * m_Speed;
 		m_Position.y -= axiosV * m_Speed;
@@ -136,10 +144,10 @@ void PlayerControls::AudioUpdate()
 
 void PlayerControls::Draw() 
 {
-	//Gfx().DrawRect({ 0.0f, 0.0f, 800.0f, 600.0f }, StelColor::DARKDESERT);
+	Gfx().DrawRect({ 0.0f, 480.0f, 512.0f, 32.0f }, StelColor::WHITE); // down UI
+	Gfx().DrawRect({ 448.0f, 0.0f, 64.0f, 480.0f }, StelColor::WHITE); // Right side UI
 	//Gfx().DrawString("GAME SCENE", m_TitleFontId, { 15.0f,15.0f }, StelColor::AQUA);
-	//if(m_CooldownChangeScene <= 0) Gfx().DrawString("- Press space to change scene - ", m_DecrpFontId, { 15.0f, 60.0f }, StelColor::DARKRED);
-
+	if(m_CooldownChangeScene <= 0) Gfx().DrawString("- Press space to change scene - ", m_DecrpFontId, { 32.0f, 488.0f }, StelColor::DARKRED);
 }
 
 
@@ -151,6 +159,12 @@ void PlayerControls::SetPostion(StelPointF position)
 void PlayerControls::SetSpeed(float speed)
 {
 	m_Speed = speed;
+}
+
+void PlayerControls::SetSize(StelPointF size, float scaleFactor)
+{
+	m_Size = size;
+	m_ScaleFactor = scaleFactor;
 }
 
 StelAnimation* PlayerControls::GetModel()

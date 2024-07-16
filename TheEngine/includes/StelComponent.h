@@ -6,6 +6,7 @@
 #include "IGfx.h"
 #include "IEvents.h"
 #include "IWorld.h"
+#include "IPhysic.h"
 
 
 class StelComponent
@@ -31,5 +32,5 @@ protected:
     IGfx& Gfx();
     IEvents& Events();
     IWorld& World();
-    
+    IPhysic& Physic();
 };

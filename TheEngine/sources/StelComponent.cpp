@@ -39,3 +39,8 @@ IWorld& StelComponent::World()
 {
     return Stel::Engine::Get().GetWorld();
 }
+
+IPhysic& StelComponent::Physic() 
+{
+    return Stel::Engine::Get().GetPhysic();
+}

@@ -75,69 +75,36 @@ int Clamp(int value, const int min, const int max)
     return value;
 }
 
-bool StelTileMap::IsColliding(const std::string& nameLayer, StelRectF rect, int* tileIndex)
+bool StelTileMap::IsColliding(StelRectF boxCollider, int* tileIndex)
 {
+    auto tileSize = m_TileSize.Resize(static_cast<int>(m_ScaleFactor));
+    const int tLeftTile = Clamp(static_cast<int>(boxCollider.x / tileSize.x), 0, m_MapSize.x);
+    const int tRightTile = Clamp(static_cast<int>(boxCollider.x / tileSize.x) + 1, 0, m_MapSize.x);
+    const int tTopTile = Clamp(static_cast<int>(boxCollider.y / tileSize.y), 0, m_MapSize.y);
+    const int tBottomTile = Clamp(static_cast<int>(boxCollider.y / tileSize.y) + 1, 0, m_MapSize.y);
 
-    /*StelRectF _dst = {
-                        static_cast<float>(x),
-                        static_cast<float>(y),
-                        static_cast<float>(m_TileSize.x),
-                        static_cast<float>(m_TileSize.y)
-    };
-
-    _dst = _dst.Resize(m_ScaleFactor);
-    _dst.x *= _dst.w;
-    _dst.y *= _dst.h;*/
-
-    /*auto tileSize =  m_TileSize.Resize(static_cast<int>(m_ScaleFactor));
-    const int tLeftTile = Clamp(static_cast<int>(rect.x / tileSize.x), 0, m_MapSize.x * tileSize.x);
-    const int tRightTile = Clamp(static_cast<int>((rect.x + rect.w) / tileSize.x), 0, m_MapSize.x * tileSize.x);
-    const int tTopTile = Clamp(static_cast<int>(rect.y / tileSize.y), 0, m_MapSize.y * tileSize.y);
-    const int tBottomTile = Clamp(static_cast<int>((rect.y + rect.h) / tileSize.y), 0, m_MapSize.y * tileSize.y);
-
-    for (int i = tLeftTile; i <= tRightTile; i++)
+    for (int x = tLeftTile; x <= tRightTile; x++)
     {
-        for (int j = tTopTile; j <= tBottomTile; j++)
+        for (int y = tTopTile; y <= tBottomTile; y++)
         {
-            if (i < m_MapSize.x && j < m_MapSize.y)
+            StelRectF tileRect = { 
+                (x * tileSize.x), 
+                (y * tileSize.y), 
+                tileSize.x,  
+                tileSize.y 
+            };
+
+            if (!Stel::Engine::Get().GetPhysic().CheckRects(boxCollider, tileRect)) continue;
+
+            for (auto layerCollider : m_Colliders) 
             {
-                if (m_Tilemap[layer][j][i] != 0)
+                if (layerCollider[y][x] >= 0)
                 {
-                    *tileIndex = m_Tilemap[layer][j][i];
-                    Stel::Engine::Get().GetGfxService().DrawTexture(m_TilesetId, m_Tileset[*(tileIndex)], {});
                     return true;
                 }
             }
         }
-    }*/
-
-    //TLayer layer = m_Tilemap[nameLayer];
-    //StelPointF tailSize = m_TileSize.ToFloat();
-    //for (float y = 0; y < layer.size(); y++)
-    //{
-    //    for (float x = 0; x < layer[y].size(); x++)
-    //    {
-    //        int _idx = layer[y][x];
-
-    //        if (_idx >= 0)
-    //        {
-    //            //_idx -= 1;
-
-    //            StelRectF dst = {
-    //                x,
-    //                y,
-    //                tailSize.x,
-    //                tailSize.y
-    //            };
-
-    //            dst = dst.Resize(m_ScaleFactor);
-    //            dst.x *= dst.w;
-    //            dst.y *= dst.h;
-
-    //            Stel::Engine::Get().GetGfxService().DrawRect(dst, StelColor::GREEN);
-    //        }
-    //    }
-    //}
+    }
 
     *tileIndex = -1;
     return false;
@@ -151,6 +118,14 @@ void StelTileMap::DrawLayer(TLayer layer, bool isCollider)
         for (float x = 0; x < layer[y].size(); x++)
         {
             int _idx = layer[y][x];
+            if (_idx == -1) continue;
+
+            StelFlip flip = {false, false};
+            if (_idx < -1) 
+            {
+                _idx = (_idx + 1) * -1;
+                flip.h = true;
+            }
 
             if (_idx >= 0)
             {
@@ -168,7 +143,7 @@ void StelTileMap::DrawLayer(TLayer layer, bool isCollider)
                 dst.y *= dst.h;
 
                 if(isCollider) Stel::Engine::Get().GetGfxService().DrawRect(dst, StelColor::GREEN);
-                else Stel::Engine::Get().GetGfxService().DrawTexture(m_TilesetId, m_Tileset[_idx], dst);
+                else Stel::Engine::Get().GetGfxService().DrawTexture(m_TilesetId, m_Tileset[_idx], dst, flip);
             }
         }
     }

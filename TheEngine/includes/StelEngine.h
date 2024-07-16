@@ -6,6 +6,7 @@
 #include "IEvents.h"
 #include "IAudio.h"
 #include "IWorld.h"
+#include "IPhysic.h"
 
 namespace Stel
 {
@@ -41,6 +42,7 @@ namespace Stel
 		IEvents* m_Events;
 		IGfx* m_Gfx;
 		IAudio* m_Audio;
+		IPhysic* m_Physic;
 		
 
 		// -----------------------
@@ -58,6 +60,7 @@ namespace Stel
 		IGfx& GetGfxService() { return *m_Gfx; };
 		IAudio& GetAudioService() { return *m_Audio; };
 		IWorld& GetWorld() { return *m_World; };
+		IPhysic& GetPhysic() { return *m_Physic; };
 
 	};
 }
