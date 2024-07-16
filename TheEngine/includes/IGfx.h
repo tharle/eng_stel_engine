@@ -2,6 +2,8 @@
 #include <string>
 #include "StelColor.h"
 
+
+
 /// <summary>
 /// �Flip� est une classe servant � regrouper les combinaisons de flip possible pour une texture
 /// </summary>
@@ -9,6 +11,12 @@ struct StelFlip
 {
 	bool h;
 	bool v;
+};
+
+struct StelPointF
+{
+	float x;
+	float y;
 };
 
 struct StelPointI
@@ -22,12 +30,11 @@ struct StelPointI
 	{
 		return {x * factor, y * factor };
 	}
-};
 
-struct StelPointF
-{
-	float x;
-	float y;
+	StelPointF ToFloat() 
+	{
+		return { static_cast<float>(x), static_cast<float>(y) };
+	}
 };
 
 struct StelRectI 

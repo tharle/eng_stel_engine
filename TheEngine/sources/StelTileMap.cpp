@@ -39,9 +39,13 @@ void StelTileMap::Load(const std::string& filename, StelPointI mapSize, StelPoin
     }
 }
 
-void StelTileMap::AddLayer(const std::string& layer, TLayer tiles)
+void StelTileMap::AddLayer(const std::string& layer, TLayer tiles, bool isCollider)
 {
-    if (m_Tilemap.count(layer) == 0)
+    if (isCollider) 
+    {
+        m_Colliders.push_back(tiles);
+    }
+    else if (m_Tilemap.count(layer) == 0)
     {
         m_Tilemap.emplace(layer, tiles);
     }
@@ -107,11 +111,44 @@ bool StelTileMap::IsColliding(const std::string& nameLayer, StelRectF rect, int*
         }
     }*/
 
-    TLayer layer = m_Tilemap[nameLayer];
+    //TLayer layer = m_Tilemap[nameLayer];
+    //StelPointF tailSize = m_TileSize.ToFloat();
+    //for (float y = 0; y < layer.size(); y++)
+    //{
+    //    for (float x = 0; x < layer[y].size(); x++)
+    //    {
+    //        int _idx = layer[y][x];
 
-    for (int y = 0; y < m_MapSize.y; y++)
+    //        if (_idx >= 0)
+    //        {
+    //            //_idx -= 1;
+
+    //            StelRectF dst = {
+    //                x,
+    //                y,
+    //                tailSize.x,
+    //                tailSize.y
+    //            };
+
+    //            dst = dst.Resize(m_ScaleFactor);
+    //            dst.x *= dst.w;
+    //            dst.y *= dst.h;
+
+    //            Stel::Engine::Get().GetGfxService().DrawRect(dst, StelColor::GREEN);
+    //        }
+    //    }
+    //}
+
+    *tileIndex = -1;
+    return false;
+}
+void StelTileMap::DrawLayer(TLayer layer, bool isCollider)
+{
+    
+    StelPointF tailSize = m_TileSize.ToFloat();
+    for (float y = 0; y < layer.size(); y++)
     {
-        for (int x = 0; x < m_MapSize.x; x++)
+        for (float x = 0; x < layer[y].size(); x++)
         {
             int _idx = layer[y][x];
 
@@ -119,54 +156,38 @@ bool StelTileMap::IsColliding(const std::string& nameLayer, StelRectF rect, int*
             {
                 //_idx -= 1;
 
-                StelRectF _dst = {
-                    static_cast<float>(x),
-                    static_cast<float>(y),
-                    static_cast<float>(m_TileSize.x),
-                    static_cast<float>(m_TileSize.y)
+                StelRectF dst = {
+                    x,
+                    y,
+                    tailSize.x,
+                    tailSize.y
                 };
 
-                _dst = _dst.Resize(m_ScaleFactor);
-                _dst.x *= _dst.w;
-                _dst.y *= _dst.h;
+                dst = dst.Resize(m_ScaleFactor);
+                dst.x *= dst.w;
+                dst.y *= dst.h;
 
-                Stel::Engine::Get().GetGfxService().DrawTexture(m_TilesetId, m_Tileset[_idx], _dst);
+                if(isCollider) Stel::Engine::Get().GetGfxService().DrawRect(dst, StelColor::GREEN);
+                else Stel::Engine::Get().GetGfxService().DrawTexture(m_TilesetId, m_Tileset[_idx], dst);
             }
         }
     }
-
-    *tileIndex = -1;
-    return false;
 }
+
 
 void StelTileMap::Draw()
 {
+    TLayer layer = m_Tilemap["level_1_collider"];
+
     for (auto layer : m_Tilemap)
     {
-        for (int y = 0; y < m_MapSize.y; y++)
-        {
-            for (int x = 0; x < m_MapSize.x; x++)
-            {
-                int _idx = layer.second[y][x];
+        DrawLayer(layer.second, false);
+    }
+    
+    if (!DrawColliders) return;
 
-                if (_idx >= 0)
-                {
-                    //_idx -= 1;
-
-                    StelRectF _dst = {
-                        static_cast<float>(x),
-                        static_cast<float>(y),
-                        static_cast<float>(m_TileSize.x),
-                        static_cast<float>(m_TileSize.y)
-                    };
-
-                    _dst = _dst.Resize(m_ScaleFactor);
-                    _dst.x *= _dst.w;
-                    _dst.y *= _dst.h;
-
-                    Stel::Engine::Get().GetGfxService().DrawTexture(m_TilesetId, m_Tileset[_idx], _dst);
-                }
-            }
-        }
+    for (auto layer : m_Colliders) 
+    {
+        DrawLayer(layer, true);
     }
 }

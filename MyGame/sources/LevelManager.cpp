@@ -25,7 +25,7 @@ void LevelManager::Start()
         {-1,112,113,114,114,113,114,113,113,113,113,113,113,115,-1,-1},
         {-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1}
 	};
-	//m_Background.AddLayer("level_1_map", nLayer);
+	m_Background.AddLayer("level_1_map", nLayer, false);
 
     TLayer colliderLayer = {
         {-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1},
@@ -45,7 +45,8 @@ void LevelManager::Start()
         {-1,-1,-1,-1,-1,-1,-1,200,200,200,200,200,200,200,-1,-1},
         {-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1}
     };
-    m_Background.AddLayer("level_1_collider", colliderLayer);
+    m_Background.AddLayer("level_1_collider", colliderLayer, true);
+    m_Background.DrawColliders = true;
 }
 
 void LevelManager::Update(float dt)

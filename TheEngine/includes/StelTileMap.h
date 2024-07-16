@@ -8,6 +8,7 @@
 
 typedef std::vector<std::vector<int>> TLayer;
 typedef std::map<std::string, TLayer> TTilemap;
+typedef std::vector<TLayer> TCollider;
 typedef std::vector<StelRectI> TTileset;
 
 class StelTileMap : public StelComponent, public IDrawable
@@ -20,9 +21,11 @@ public:
     virtual void Draw() override;
 
     void Load(const std::string& filename, StelPointI mapSize, StelPointI tileSize, float scaleFactor);
-    void AddLayer(const std::string& layer, TLayer tiles);
+    void AddLayer(const std::string& layer, TLayer tiles, bool isCollider);
     TLayer GetLayer(const std::string& name);
     bool IsColliding(const std::string& layer, StelRectF rect, int* tileIndex);
+
+    bool DrawColliders = false;
 
 private:
     int m_ScaleFactor = 1;
@@ -31,4 +34,7 @@ private:
     size_t m_TilesetId = 0;
     StelPointI m_TileSize = StelPointI::Zero();
     TTileset m_Tileset;
+    TCollider m_Colliders;
+
+    void DrawLayer(TLayer layer, bool isCollider);
 };

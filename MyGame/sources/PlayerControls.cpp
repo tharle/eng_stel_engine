@@ -136,9 +136,9 @@ void PlayerControls::AudioUpdate()
 
 void PlayerControls::Draw() 
 {
-	Gfx().DrawRect({ 0.0f, 0.0f, 800.0f, 600.0f }, StelColor::DARKDESERT);
-	Gfx().DrawString("GAME SCENE", m_TitleFontId, { 15.0f,15.0f }, StelColor::AQUA);
-	if(m_CooldownChangeScene <= 0) Gfx().DrawString("- Press space to change scene - ", m_DecrpFontId, { 15.0f, 60.0f }, StelColor::DARKRED);
+	//Gfx().DrawRect({ 0.0f, 0.0f, 800.0f, 600.0f }, StelColor::DARKDESERT);
+	//Gfx().DrawString("GAME SCENE", m_TitleFontId, { 15.0f,15.0f }, StelColor::AQUA);
+	//if(m_CooldownChangeScene <= 0) Gfx().DrawString("- Press space to change scene - ", m_DecrpFontId, { 15.0f, 60.0f }, StelColor::DARKRED);
 
 }
 
