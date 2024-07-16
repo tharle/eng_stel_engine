@@ -1,5 +1,6 @@
 ﻿#include "PlayerControls.h"
 #include "StelAnimation.h"
+#include "LevelManager.h"
 
 
 void PlayerControls::Start()
@@ -25,36 +26,44 @@ void PlayerControls::Start()
 	m_Model->AddClip("walk_right"	, 15, 5, 0.1f);
 
 
-	Audio().PlayMusic(m_AmbianceMusic);
+	//Audio().PlayMusic(m_AmbianceMusic);
 }
 
 
 void PlayerControls::Update(float dt) 
 {
 	ChangeScene(dt);
-	Move();
+	Move(dt);
 	MouseEvents();
 	AudioUpdate();
 }
 
 void PlayerControls::ChangeScene(float dt) 
 {
-	if (m_ElapseTimeTouched > 0) m_ElapseTimeTouched -= dt;
-	if (Input().IsKeyDown(IInput::Space) && m_ElapseTimeTouched <= 0)
+	if (m_CooldownChangeScene > 0) m_CooldownChangeScene -= dt;
+	if (Input().IsKeyDown(IInput::Space) && m_CooldownChangeScene <= 0)
 	{
 		World().LoadScene("MainMenu");
 		
 		Log().Print(LOG_INFO, "SPACE WAS PRESSED");
-		m_ElapseTimeTouched = 1.0f;
+		m_CooldownChangeScene = COOLDOWN_CHANGE_SCENE;
 	}
 }
 
-void PlayerControls::Move()
+void PlayerControls::Move(float dt)
 {
+ 
+	// TODO change for Transform in entity
 	float axiosH = Input().GetAxiosHorizontal();
 	float axiosV = Input().GetAxiosVertical();
 	m_Position.x += axiosH * m_Speed;
 	m_Position.y += axiosV * m_Speed;
+
+	if (GetLevel()->IsColliding({ m_Position.x, m_Position.y, 32.0f, 32.0f }))
+	{
+		m_Position.x -= axiosH * m_Speed;
+		m_Position.y -= axiosV * m_Speed;
+	}
 	
 	if (m_Model != nullptr)
 	{
@@ -66,7 +75,13 @@ void PlayerControls::Move()
 			return;
 		} 
 		
-		Audio().PlaySFX(m_WalkSfx);
+		if (m_CooldownWalkSound <= 0)
+		{
+			m_CooldownWalkSound = COOLDOWN_WALK_SOUND;
+			Audio().PlaySFX(m_WalkSfx);
+		}
+		else m_CooldownWalkSound -= dt;
+		
 		if (axiosV > 0) m_Model->Play("walk_down", true);
 		else if (axiosV < 0) m_Model->Play("walk_up", true);
 		else if (axiosH < 0) m_Model->Play("walk_left", true);
@@ -123,7 +138,7 @@ void PlayerControls::Draw()
 {
 	Gfx().DrawRect({ 0.0f, 0.0f, 800.0f, 600.0f }, StelColor::DARKDESERT);
 	Gfx().DrawString("GAME SCENE", m_TitleFontId, { 15.0f,15.0f }, StelColor::AQUA);
-	if(m_ElapseTimeTouched <= 0) Gfx().DrawString("- Press space to change scene - ", m_DecrpFontId, { 15.0f, 60.0f }, StelColor::DARKRED);
+	if(m_CooldownChangeScene <= 0) Gfx().DrawString("- Press space to change scene - ", m_DecrpFontId, { 15.0f, 60.0f }, StelColor::DARKRED);
 
 }
 
@@ -138,18 +153,14 @@ void PlayerControls::SetSpeed(float speed)
 	m_Speed = speed;
 }
 
-// JAI PAS OUBLIE DE ENLEVER ÇA
-//StelSprite* PlayerControls::GetModel()
-//{
-//	return m_EntityParent->GetComponent<StelSprite>();
-//}
-
-//StelAtlas* PlayerControls::GetModel()
-//{
-//	return m_EntityParent->GetComponent<StelAtlas>();
-//}
-
 StelAnimation* PlayerControls::GetModel()
 {
 	return m_EntityParent->GetComponent<StelAnimation>();
 }
+
+LevelManager* PlayerControls::GetLevel()
+{
+	return m_EntityParent->GetComponent<LevelManager>();
+}
+
+

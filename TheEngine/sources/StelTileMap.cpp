@@ -15,7 +15,7 @@ void StelTileMap::Load(const std::string& filename, StelPointI mapSize, StelPoin
     m_TilesetId = graphics.LoadTexture(filename);
     m_TileSize = tileSize;
     m_MapSize = mapSize;
-    m_ScaleFactor = m_ScaleFactor;
+    m_ScaleFactor = scaleFactor;
 
     StelPointI textureSize = graphics.GetTextureSize(m_TilesetId);
 
@@ -71,12 +71,25 @@ int Clamp(int value, const int min, const int max)
     return value;
 }
 
-bool StelTileMap::IsColliding(const std::string& layer, float x, float y, float w, float h, int* tileIndex)
+bool StelTileMap::IsColliding(const std::string& nameLayer, StelRectF rect, int* tileIndex)
 {
-    const int tLeftTile = Clamp(static_cast<int>(x / m_TileSize.x), 0, m_MapSize.x);
-    const int tRightTile = Clamp(static_cast<int>((x + w) / m_TileSize.x), 0, m_MapSize.x);
-    const int tTopTile = Clamp(static_cast<int>(y / m_TileSize.y), 0, m_MapSize.y);
-    const int tBottomTile = Clamp(static_cast<int>((y + h) / m_TileSize.y), 0, m_MapSize.y);
+
+    /*StelRectF _dst = {
+                        static_cast<float>(x),
+                        static_cast<float>(y),
+                        static_cast<float>(m_TileSize.x),
+                        static_cast<float>(m_TileSize.y)
+    };
+
+    _dst = _dst.Resize(m_ScaleFactor);
+    _dst.x *= _dst.w;
+    _dst.y *= _dst.h;*/
+
+    /*auto tileSize =  m_TileSize.Resize(static_cast<int>(m_ScaleFactor));
+    const int tLeftTile = Clamp(static_cast<int>(rect.x / tileSize.x), 0, m_MapSize.x * tileSize.x);
+    const int tRightTile = Clamp(static_cast<int>((rect.x + rect.w) / tileSize.x), 0, m_MapSize.x * tileSize.x);
+    const int tTopTile = Clamp(static_cast<int>(rect.y / tileSize.y), 0, m_MapSize.y * tileSize.y);
+    const int tBottomTile = Clamp(static_cast<int>((rect.y + rect.h) / tileSize.y), 0, m_MapSize.y * tileSize.y);
 
     for (int i = tLeftTile; i <= tRightTile; i++)
     {
@@ -87,8 +100,37 @@ bool StelTileMap::IsColliding(const std::string& layer, float x, float y, float 
                 if (m_Tilemap[layer][j][i] != 0)
                 {
                     *tileIndex = m_Tilemap[layer][j][i];
+                    Stel::Engine::Get().GetGfxService().DrawTexture(m_TilesetId, m_Tileset[*(tileIndex)], {});
                     return true;
                 }
+            }
+        }
+    }*/
+
+    TLayer layer = m_Tilemap[nameLayer];
+
+    for (int y = 0; y < m_MapSize.y; y++)
+    {
+        for (int x = 0; x < m_MapSize.x; x++)
+        {
+            int _idx = layer[y][x];
+
+            if (_idx >= 0)
+            {
+                //_idx -= 1;
+
+                StelRectF _dst = {
+                    static_cast<float>(x),
+                    static_cast<float>(y),
+                    static_cast<float>(m_TileSize.x),
+                    static_cast<float>(m_TileSize.y)
+                };
+
+                _dst = _dst.Resize(m_ScaleFactor);
+                _dst.x *= _dst.w;
+                _dst.y *= _dst.h;
+
+                Stel::Engine::Get().GetGfxService().DrawTexture(m_TilesetId, m_Tileset[_idx], _dst);
             }
         }
     }
@@ -107,17 +149,9 @@ void StelTileMap::Draw()
             {
                 int _idx = layer.second[y][x];
 
-                if (_idx > 0)
+                if (_idx >= 0)
                 {
-                    _idx -= 1;
-                    /*int _w = m_TileSize.x * m_ScaleFactor;
-                    int _h = m_TileSize.y * m_ScaleFactor;
-                    StelRectF _dst = {
-                        static_cast<float>(x * _w),
-                        static_cast<float>(y * _h),
-                        static_cast<float>(_w),
-                        static_cast<float>(_h)
-                    };*/
+                    //_idx -= 1;
 
                     StelRectF _dst = {
                         static_cast<float>(x),
@@ -126,7 +160,11 @@ void StelTileMap::Draw()
                         static_cast<float>(m_TileSize.y)
                     };
 
-                    Stel::Engine::Get().GetGfxService().DrawTexture(m_TilesetId, m_Tileset[_idx], _dst.Resize(m_ScaleFactor));
+                    _dst = _dst.Resize(m_ScaleFactor);
+                    _dst.x *= _dst.w;
+                    _dst.y *= _dst.h;
+
+                    Stel::Engine::Get().GetGfxService().DrawTexture(m_TilesetId, m_Tileset[_idx], _dst);
                 }
             }
         }

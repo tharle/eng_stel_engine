@@ -1,7 +1,11 @@
 #pragma once
 #include "StelComponent.h"
 
+#define COOLDOWN_CHANGE_SCENE 1.0f
+#define COOLDOWN_WALK_SOUND 0.2f
+
 class StelAnimation;
+class LevelManager;
 
 class PlayerControls : public StelComponent, public IDrawable, public IUpdatable
 {
@@ -15,10 +19,13 @@ public:
 
 	void SetPostion(StelPointF position);
 	void SetSpeed(float speed);
+
 	StelAnimation* GetModel();
+	LevelManager* GetLevel();
 private:
 	// Delay for keydown
-	float m_ElapseTimeTouched = 1.0f;
+	float m_CooldownChangeScene = COOLDOWN_CHANGE_SCENE;
+	float m_CooldownWalkSound = 0.0f;
 
 	// Physics
 	StelPointF m_Position{0, 0};
@@ -37,7 +44,7 @@ private:
 	size_t m_DecrpFontId = 0;
 
 
-	void Move();
+	void Move(float dt);
 	void MouseEvents();
 	void AudioUpdate();
 	void ChangeScene(float dt);

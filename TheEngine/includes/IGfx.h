@@ -17,6 +17,11 @@ struct StelPointI
 	int y;
 
 	static StelPointI Zero() { return { 0, 0}; }
+	
+	StelPointI Resize(int factor)
+	{
+		return {x * factor, y * factor };
+	}
 };
 
 struct StelPointF

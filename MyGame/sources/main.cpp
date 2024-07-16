@@ -17,13 +17,13 @@ void InitGameplay()
 
 	Stel::Engine::Get().GetWorld().Register("MainMenu", &mainMenuScene);
 	Stel::Engine::Get().GetWorld().Register("Game", &gameScene);
-	Stel::Engine::Get().GetWorld().LoadScene("MainMenu");
+	Stel::Engine::Get().GetWorld().LoadScene("Game");
 
 }
 
 INT WINAPI WinMain(_In_ HINSTANCE, _In_opt_ HINSTANCE, _In_ PSTR, _In_ INT)
 {
-	if (Stel::Engine::Get().Init("Legends of Stel", { 800, 600 }))
+	if (Stel::Engine::Get().Init("Legends of Stel", { 512, 512 }))
 	{
 		InitGameplay();
 		Stel::Engine::Get().Start();
