@@ -113,9 +113,9 @@ void StelTileMap::DrawLayer(TLayer layer, bool isCollider)
 {
     
     StelPointF tailSize = GetTransform().Size;
-    for (float y = 0; y < layer.size(); y++)
+    for (int y = 0; y < layer.size(); y++)
     {
-        for (float x = 0; x < layer[y].size(); x++)
+        for (int x = 0; x < layer[y].size(); x++)
         {
             int _idx = layer[y][x];
             if (_idx == -1) continue;
@@ -132,8 +132,8 @@ void StelTileMap::DrawLayer(TLayer layer, bool isCollider)
                 //_idx -= 1;
 
                 StelRectF dst = {
-                    x,
-                    y,
+                    static_cast<float>(x),
+                    static_cast<float>(y),
                     tailSize.x,
                     tailSize.y
                 };

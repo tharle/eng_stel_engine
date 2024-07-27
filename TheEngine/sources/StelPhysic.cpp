@@ -2,6 +2,7 @@
 #include <math.h>
 #include "StelEntity.h"
 
+
 bool StelPhysic::CheckPointCircle(StelPointF point, StelCircleF circle)
 {
     float vecX = point.x - circle.x;
@@ -65,15 +66,15 @@ bool StelPhysic::CollideWithLayer(StelEntity* entity, const std::string& layerNa
 
     if (m_Layers.count(layerName) > 0)
     {
-        StelRectF r1 = entity->GetTransform().GetRect();
+        StelRectF entityCollider = entity->GetTransform().GetTrueRect();
 
-        for (StelEntity* e : m_Layers[layerName])
+        for (StelEntity* entityInLayer : m_Layers[layerName])
         {
-            StelRectF r2 = e->GetTransform().GetRect();
+            StelRectF entityInLayerColldier = entityInLayer->GetTransform().GetTrueRect();
 
-            if (CheckRects(r1, r2))
+            if (CheckRects(entityCollider, entityInLayerColldier))
             {
-                *other = e;
+                *other = entityInLayer;
                 return true;
             }
         }

@@ -8,12 +8,6 @@
 
 class StelComponent;
 
-// TODO change for Transform in entity
-//StelPointF m_Position{ 0, 0 };
-//StelPointF m_Size = { 0.0f, 0.0f };
-//float m_ScaleFactor = 1.0f;
-//StelRectF m_Collider = StelRectF::Zero();
-
 struct StelTransform {
 	StelPointF Position{ 0.0f, 0.0f };
 	StelPointF Size { 0.0f, 0.0f };

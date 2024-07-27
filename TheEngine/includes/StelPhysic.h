@@ -6,6 +6,7 @@
 class StelPhysic : public IPhysic
     {
     public:
+        ~StelPhysic() = default;
         virtual bool CheckPointCircle(StelPointF point, StelCircleF circle) override;
         virtual bool CheckCircles(StelCircleF c1, StelCircleF c2) override;
         virtual bool CheckPointRect(StelPointF point, StelRectF rect) override;

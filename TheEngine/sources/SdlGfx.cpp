@@ -125,7 +125,7 @@ void SdlGfx::DrawTexture(size_t id, const StelRectI& src, const StelRectF& dst, 
 	SDL_FRect _dst = { dst.x, dst.y, dst.w, dst.h };
 
 	float angle = 0.0f;
-	SDL_FPoint pivot = { src.x, src.y };
+	SDL_FPoint pivot = { static_cast<float>(src.x), static_cast<float>(src.y) };
 	int flipType = SDL_FLIP_NONE;
 	if (flip.h)
 	{

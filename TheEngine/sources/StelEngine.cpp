@@ -157,6 +157,12 @@ void Stel::Engine::Shutdown()
 		m_World = nullptr;
 	}
 
+	if (m_Physic != nullptr)
+	{
+		delete m_Physic;
+		m_Physic = nullptr;
+	}
+
 }
 
 void Stel::Engine::Exit()
