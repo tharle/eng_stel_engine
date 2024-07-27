@@ -20,9 +20,15 @@ void GameScene::Load()
 	PlayerControls* playerControls = m_Player->AddComponent<PlayerControls>();
 	playerControls->Start(levelManager, 5.0f);
 
-	m_Heart = Instantiate("Item1");
-	m_Heart->SetTransform({ 2.0f * 16, 2.0f * 16 }, { 16.0f, 16.0f }, scaleFactor, 0.0f);
-	Collectable* heart1 = m_Heart->AddComponent<Collectable>();
-	heart1->Start();
+	m_Heart1 = Instantiate("Item1");
+	m_Heart1->SetTransform({ 6.0f * 32.0f, 3.0f * 32.0f }, { 16.0f, 16.0f }, scaleFactor, 0.0f);
+	Collectable* c1 = m_Heart1->AddComponent<Collectable>();
+	c1->Start();
+
+	m_Heart2 = Instantiate("Item2");
+	m_Heart2->SetTransform({ 12.0f * 32.0f, 6.0f * 32.0f }, { 16.0f, 16.0f }, scaleFactor, 0.0f);
+	Collectable* c2 = m_Heart2->AddComponent<Collectable>();
+	c2->Start();
+
 	
 }

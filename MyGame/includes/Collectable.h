@@ -1,6 +1,6 @@
 #pragma once
 #include "StelComponent.h"
-
+//#include <string>
 
 class StelAtlas;
 
@@ -13,4 +13,6 @@ public:
 
 	virtual void Start() override;
 	virtual void Update(float dt) override;
+
+	inline static char* Layer() { return "COLLECTABLE"; }
 };

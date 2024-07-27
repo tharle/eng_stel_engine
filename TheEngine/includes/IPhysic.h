@@ -18,6 +18,6 @@ public:
     virtual bool CheckRectCircle(StelRectF rect, StelCircleF circle) = 0;
 
     virtual void AddToLayer(const std::string& layerName, StelEntity* entity) = 0;
-    virtual bool CollideWithLayer(StelEntity* entity, const std::string& layerName, StelEntity** other) = 0;
+    virtual StelEntity* CollideWithLayer(StelEntity* entity, const std::string& layerName) = 0;
     virtual void Remove(StelEntity* entity) = 0;
 };

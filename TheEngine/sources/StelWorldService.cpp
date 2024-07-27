@@ -37,7 +37,7 @@ void StelWorld::Draw()
 {
 	for (StelEntity* entity : m_EntityInWorld)
 	{
-		if (entity != nullptr) entity->Draw();
+		if (entity != nullptr && entity->IsActive()) entity->Draw();
 	}
 }
 

@@ -23,10 +23,8 @@ void PlayerControls::Start(LevelManager* currentLevel, float speed)
 	// Load sounds and audios
 	m_RemoveSfx = Audio().LoadSound("Assets/Audios/Remove1.wav");
 	if (m_RemoveSfx == 0)   Log().Print(LOG_WARNING, "ERROR LOAD AUDIO");
-
 	m_WalkSfx = Audio().LoadSound("Assets/Audios/sound_walk.wav");
 	if (m_WalkSfx == 0)   Log().Print(LOG_WARNING, "ERROR LOAD AUDIO");
-
 
 	// Load Fonts
 	m_TitleFontId = Gfx().LoadFont("Assets/Fonts/Merlovaz.ttf", 30);
@@ -36,8 +34,10 @@ void PlayerControls::Start(LevelManager* currentLevel, float speed)
 	m_Model->AddClip("walk_up"		, 10, 5, 0.1f);
 	m_Model->AddClip("walk_right"	, 15, 5, 0.1f);
 
+	// COLLIDER
 	float offset = 4.0f;
 	m_Collider = { -offset,-offset, - offset , - offset };
+	Physic().AddToLayer(PlayerControls::Layer(), m_EntityParent);
 }
 
 

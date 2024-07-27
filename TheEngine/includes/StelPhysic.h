@@ -13,7 +13,7 @@ class StelPhysic : public IPhysic
         virtual bool CheckRects(StelRectF r1, StelRectF r2) override;
         virtual bool CheckRectCircle(StelRectF rect, StelCircleF circle) override;
         virtual void AddToLayer(const std::string& layerName, StelEntity* entity) override;
-        virtual bool CollideWithLayer(StelEntity* entity, const std::string& layerName, StelEntity** other) override;
+        virtual StelEntity* CollideWithLayer(StelEntity* entity, const std::string& layerName) override;
         virtual void Remove(StelEntity* entity) override;
 
     private:

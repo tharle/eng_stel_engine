@@ -60,10 +60,8 @@ void StelPhysic::AddToLayer(const std::string& layerName, StelEntity* entity)
     m_Layers[layerName].push_back(entity);
 }
 
-bool StelPhysic::CollideWithLayer(StelEntity* entity, const std::string& layerName, StelEntity** other)
+StelEntity* StelPhysic::CollideWithLayer(StelEntity* entity, const std::string& layerName)
 {
-    *other = nullptr;
-
     if (m_Layers.count(layerName) > 0)
     {
         StelRectF entityCollider = entity->GetTransform().GetTrueRect();
@@ -74,13 +72,12 @@ bool StelPhysic::CollideWithLayer(StelEntity* entity, const std::string& layerNa
 
             if (CheckRects(entityCollider, entityInLayerColldier))
             {
-                *other = entityInLayer;
-                return true;
+                return entityInLayer;
             }
         }
     }
 
-    return false;
+    return nullptr;
 }
 
 void StelPhysic::Remove(StelEntity* entity)

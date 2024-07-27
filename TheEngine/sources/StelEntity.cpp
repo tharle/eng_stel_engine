@@ -35,11 +35,17 @@ void StelEntity::Destroy()
     m_Drawables.clear();
     m_Updatables.clear();
     m_Components.clear();
+    m_IsActive = false;
 }
 
 std::string StelEntity::GetName()
 {
     return m_Name;
+}
+
+bool StelEntity::IsActive()
+{
+    return m_IsActive;
 }
 
 StelTransform StelEntity::GetTransform()

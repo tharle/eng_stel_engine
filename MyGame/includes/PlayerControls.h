@@ -14,11 +14,10 @@ public:
 	virtual void Start(LevelManager* currentLevel, float speed);
 	virtual void Update(float dt) override;
 	//virtual void Draw() override;
+	inline static char* Layer() { return "PLAYER"; }
 private:
-	// Transform
-	StelRectF m_Collider = StelRectF::Zero();
-
-	// Player model
+	// Physics
+	StelRectF m_Collider = StelRectF::Zero(); // only for Tilemaps
 	float m_Speed = 0;
 
 	// Animation

@@ -51,8 +51,10 @@ class StelEntity final : public IDrawable, public IUpdatable
 		std::vector<IDrawable*> m_Drawables = std::vector<IDrawable*>();
 		std::vector<IUpdatable*> m_Updatables = std::vector<IUpdatable*>();
 		std::map<const type_info*, StelComponent*> m_Components = std::map<const type_info*, StelComponent*>();
+		bool m_IsActive = true;
 	public:	
 		std::string GetName();
+		bool IsActive();
 		StelTransform GetTransform();
 		// { 200.0f, 300.0f }, { 16, 16 }, scaleFactor
 		
