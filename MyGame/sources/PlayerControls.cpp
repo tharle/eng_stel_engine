@@ -3,12 +3,13 @@
 #include "LevelManager.h"
 
 
-void PlayerControls::Start()
+void PlayerControls::Start(LevelManager* currentLevel) 
 {
-	// Load sounds and audios
-	m_AmbianceMusic = Audio().LoadMusic("Assets/Audios/bgm.wav");
-	if (m_AmbianceMusic == 0)  Log().Print(LOG_WARNING, "ERROR LOAD MUSIC");
+	StelComponent::Start();
 
+	m_CurrentLevel = currentLevel;
+
+	// Load sounds and audios
 	m_RemoveSfx = Audio().LoadSound("Assets/Audios/Remove1.wav");
 	if (m_RemoveSfx == 0)   Log().Print(LOG_WARNING, "ERROR LOAD AUDIO");
 
@@ -27,28 +28,14 @@ void PlayerControls::Start()
 
 	float offset = 4.0f;
 	m_Collider = { -offset,-offset, - offset , - offset };
-	//Audio().PlayMusic(m_AmbianceMusic);
 }
 
 
 void PlayerControls::Update(float dt) 
 {
-	ChangeScene(dt);
 	Move(dt);
 	MouseEvents();
 	AudioUpdate();
-}
-
-void PlayerControls::ChangeScene(float dt) 
-{
-	if (m_CooldownChangeScene > 0) m_CooldownChangeScene -= dt;
-	if (Input().IsKeyDown(IInput::Space) && m_CooldownChangeScene <= 0)
-	{
-		World().LoadScene("MainMenu");
-		
-		Log().Print(LOG_INFO, "SPACE WAS PRESSED");
-		m_CooldownChangeScene = COOLDOWN_CHANGE_SCENE;
-	}
 }
 
 void PlayerControls::Move(float dt)
@@ -67,7 +54,7 @@ void PlayerControls::Move(float dt)
 		m_Size.y + m_Collider.y
 	};
 
-	if (GetLevel()->IsColliding(collider.Resize(m_ScaleFactor)))
+	if (m_CurrentLevel->IsColliding(collider.Resize(m_ScaleFactor)))
 	{
 		m_Position.x -= axiosH * m_Speed;
 		m_Position.y -= axiosV * m_Speed;
@@ -130,16 +117,6 @@ void PlayerControls::AudioUpdate()
 	{
 		Audio().PlaySFX(m_RemoveSfx);
 	}
-
-	if (Input().IsKeyDown(IInput::StelKey::X))
-	{
-		Audio().PlayMusic(m_AmbianceMusic);
-	}
-
-	if (Input().IsKeyDown(IInput::StelKey::V))
-	{
-		Audio().StopMusic();
-	}
 }
 
 void PlayerControls::Draw() 
@@ -147,7 +124,7 @@ void PlayerControls::Draw()
 	Gfx().DrawRect({ 0.0f, 480.0f, 512.0f, 32.0f }, StelColor::WHITE); // down UI
 	Gfx().DrawRect({ 448.0f, 0.0f, 64.0f, 480.0f }, StelColor::WHITE); // Right side UI
 	//Gfx().DrawString("GAME SCENE", m_TitleFontId, { 15.0f,15.0f }, StelColor::AQUA);
-	if(m_CooldownChangeScene <= 0) Gfx().DrawString("- Press space to change scene - ", m_DecrpFontId, { 32.0f, 488.0f }, StelColor::DARKRED);
+	//if(m_CooldownChangeScene <= 0) Gfx().DrawString("- Press space to change scene - ", m_DecrpFontId, { 32.0f, 488.0f }, StelColor::DARKRED);
 }
 
 
@@ -170,11 +147,6 @@ void PlayerControls::SetSize(StelPointF size, float scaleFactor)
 StelAnimation* PlayerControls::GetModel()
 {
 	return m_EntityParent->GetComponent<StelAnimation>();
-}
-
-LevelManager* PlayerControls::GetLevel()
-{
-	return m_EntityParent->GetComponent<LevelManager>();
 }
 
 
