@@ -9,18 +9,18 @@ StelTileMap::StelTileMap(StelEntity* parent) : StelComponent(parent)
 {
 }
 
-void StelTileMap::Load(const std::string& filename, StelPointI mapSize, StelPointI tileSize, float scaleFactor)
+void StelTileMap::Load(const std::string& filename, StelPointI mapSize)
 {
     auto& graphics = Stel::Engine::Get().GetGfxService();
     m_TilesetId = graphics.LoadTexture(filename);
-    m_TileSize = tileSize;
     m_MapSize = mapSize;
-    m_ScaleFactor = scaleFactor;
 
     StelPointI textureSize = graphics.GetTextureSize(m_TilesetId);
 
-    int _tilePerRow = textureSize.x / m_TileSize.x;
-    int _tilePerCol = textureSize.y / m_TileSize.y;
+    StelRectI size = GetTransform().GetRect().ToInt();
+
+    int _tilePerRow = textureSize.x / size.w;
+    int _tilePerCol = textureSize.y / size.h;
     int _tileCount = _tilePerRow * _tilePerCol;
 
     for (int i = 0; i < _tileCount; i++)
@@ -29,10 +29,10 @@ void StelTileMap::Load(const std::string& filename, StelPointI mapSize, StelPoin
         int _tx = i - _ty * _tilePerRow;
 
         StelRectI _tile = {
-            _tx * m_TileSize.x,
-            _ty * m_TileSize.y,
-            m_TileSize.x,
-            m_TileSize.y
+            _tx * size.w,
+            _ty * size.h,
+            size.w,
+            size.h
         };
 
         m_Tileset.push_back(_tile);
@@ -77,21 +77,21 @@ int Clamp(int value, const int min, const int max)
 
 bool StelTileMap::IsColliding(StelRectF boxCollider, int* tileIndex)
 {
-    auto tileSize = m_TileSize.Resize(static_cast<int>(m_ScaleFactor));
-    const int tLeftTile = Clamp(static_cast<int>(boxCollider.x / tileSize.x), 0, m_MapSize.x);
-    const int tRightTile = Clamp(static_cast<int>(boxCollider.x / tileSize.x) + 1, 0, m_MapSize.x);
-    const int tTopTile = Clamp(static_cast<int>(boxCollider.y / tileSize.y), 0, m_MapSize.y);
-    const int tBottomTile = Clamp(static_cast<int>(boxCollider.y / tileSize.y) + 1, 0, m_MapSize.y);
+    auto tileSize = GetTransform().GetTrueRect();
+    const int tLeftTile = Clamp(static_cast<int>(boxCollider.x / tileSize.w), 0, m_MapSize.x);
+    const int tRightTile = Clamp(static_cast<int>(boxCollider.x / tileSize.w) + 1, 0, m_MapSize.x);
+    const int tTopTile = Clamp(static_cast<int>(boxCollider.y / tileSize.h), 0, m_MapSize.y);
+    const int tBottomTile = Clamp(static_cast<int>(boxCollider.y / tileSize.h) + 1, 0, m_MapSize.y);
 
     for (int x = tLeftTile; x <= tRightTile; x++)
     {
         for (int y = tTopTile; y <= tBottomTile; y++)
         {
             StelRectF tileRect = { 
-                (x * tileSize.x), 
-                (y * tileSize.y), 
-                tileSize.x,  
-                tileSize.y 
+                (static_cast<float>(x) * tileSize.w), 
+                (static_cast<float>(y) * tileSize.h),
+                tileSize.w,  
+                tileSize.h 
             };
 
             if (!Stel::Engine::Get().GetPhysic().CheckRects(boxCollider, tileRect)) continue;
@@ -112,7 +112,7 @@ bool StelTileMap::IsColliding(StelRectF boxCollider, int* tileIndex)
 void StelTileMap::DrawLayer(TLayer layer, bool isCollider)
 {
     
-    StelPointF tailSize = m_TileSize.ToFloat();
+    StelPointF tailSize = GetTransform().Size;
     for (float y = 0; y < layer.size(); y++)
     {
         for (float x = 0; x < layer[y].size(); x++)
@@ -138,7 +138,7 @@ void StelTileMap::DrawLayer(TLayer layer, bool isCollider)
                     tailSize.y
                 };
 
-                dst = dst.Resize(m_ScaleFactor);
+                dst = dst.Resize(GetTransform().Scale);
                 dst.x *= dst.w;
                 dst.y *= dst.h;
 

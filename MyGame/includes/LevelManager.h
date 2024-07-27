@@ -7,7 +7,7 @@
 
 class LevelManager : public StelComponent, public IUpdatable, public IDrawable {
 private:
-	StelTileMap m_Background;
+	StelTileMap* m_Background = nullptr;
 
 	// Delay for keydown
 	float m_CooldownChangeScene = COOLDOWN_CHANGE_SCENE;

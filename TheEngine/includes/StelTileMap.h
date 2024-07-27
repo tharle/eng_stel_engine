@@ -20,7 +20,7 @@ public:
 
     virtual void Draw() override;
 
-    void Load(const std::string& filename, StelPointI mapSize, StelPointI tileSize, float scaleFactor);
+    void Load(const std::string& filename, StelPointI mapSize);
     void AddLayer(const std::string& layer, TLayer tiles, bool isCollider);
     TLayer GetLayer(const std::string& name);
     bool IsColliding(StelRectF boxCollider, int* tileIndex);
@@ -28,11 +28,9 @@ public:
     bool DrawColliders = false;
 
 private:
-    int m_ScaleFactor = 1;
     TTilemap m_Tilemap;
     StelPointI m_MapSize = StelPointI::Zero();
     size_t m_TilesetId = 0;
-    StelPointI m_TileSize = StelPointI::Zero();
     TTileset m_Tileset;
     TCollider m_Colliders;
 

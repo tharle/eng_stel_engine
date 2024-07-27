@@ -6,16 +6,14 @@ class LevelManager;
 
 
 // All controls for player
-class PlayerControls : public StelComponent, public IDrawable, public IUpdatable
+class PlayerControls : public StelComponent, public IUpdatable
 {
 public:
 	PlayerControls(StelEntity* parent) : StelComponent(parent) {  }
 	virtual ~PlayerControls() = default;
 	virtual void Start(LevelManager* currentLevel, float speed);
 	virtual void Update(float dt) override;
-	virtual void Draw() override;
-
-	StelAnimation* GetModel();
+	//virtual void Draw() override;
 private:
 	// Transform
 	StelRectF m_Collider = StelRectF::Zero();

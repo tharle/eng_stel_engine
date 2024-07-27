@@ -1,12 +1,11 @@
 #include "LevelManager.h"
 
-
-
-
 void LevelManager::Start()
 {
-	m_Background = StelTileMap(m_EntityParent);
-	m_Background.Load("Assets/adv_lolo_map.png", { 16, 16 }, { 16, 16 }, 2);
+	//m_Background = StelTileMap(m_EntityParent);
+    m_Background = m_EntityParent->AddComponent<StelTileMap>();
+	m_Background->Load("Assets/adv_lolo_map.png", { 16, 16 });
+
 	TLayer nLayer = {
 		{ -1,4,6,6,6,5,5,6,6,5,5,6,6,7,-1,-1},
         {-1,40,41,42,42,42,42,42,148,42,42,42, 42,43,-1,-1},
@@ -25,7 +24,7 @@ void LevelManager::Start()
         {-1,112,113,114,114,113,114,113,113,113,113,113,113,115,-1,-1},
         {-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1}
 	};
-	m_Background.AddLayer("level_1_map", nLayer, false);
+	m_Background->AddLayer("level_1_map", nLayer, false);
 
     TLayer colliderLayer = {
         {-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1},
@@ -45,8 +44,8 @@ void LevelManager::Start()
         {-1,-1,-1,-1,-1,-1,-1,200,200,200,200,200,200,200,-1,-1},
         {-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1}
     };
-    m_Background.AddLayer("level_1_collider", colliderLayer, true);
-    m_Background.DrawColliders = true;
+    m_Background->AddLayer("level_1_collider", colliderLayer, true);
+    m_Background->DrawColliders = true;
 
     // Load sounds and audios
     m_AmbianceMusic = Audio().LoadMusic("Assets/Audios/bgm.wav");
@@ -73,11 +72,11 @@ void LevelManager::ChangeScene(float dt)
 
 void LevelManager::Draw()
 {
-	m_Background.Draw();
+	//m_Background.Draw();
 }
 
 bool LevelManager::IsColliding(StelRectF boxCollider)
 {
     int tileIndex;
-    return m_Background.IsColliding(boxCollider, &tileIndex);
+    return m_Background->IsColliding(boxCollider, &tileIndex);
 }

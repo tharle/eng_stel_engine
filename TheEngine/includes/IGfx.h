@@ -2,7 +2,12 @@
 #include <string>
 #include "StelColor.h"
 
-
+//#include "StelCircleF.h"
+//#include "StelPointF.h"
+//#include "StelRectF.h"
+//#include "StelPointI.h"
+//#include "StelRectI.h"
+//#include "StelFlip.h"
 
 /// <summary>
 /// �Flip� est une classe servant � regrouper les combinaisons de flip possible pour une texture
@@ -17,6 +22,8 @@ struct StelPointF
 {
 	float x;
 	float y;
+
+	static StelPointF Zero() { return { 0.0f, 0.0f }; }
 };
 
 struct StelPointI
@@ -34,6 +41,14 @@ struct StelPointI
 	StelPointF ToFloat() 
 	{
 		return { static_cast<float>(x), static_cast<float>(y) };
+	}
+
+	static StelPointI FromFloat(float _x, float _y) {
+		StelPointI point;
+		point.x = static_cast<int>(_x);
+		point.y = static_cast<int>(_y);
+
+		return point;
 	}
 };
 
@@ -63,6 +78,11 @@ struct StelRectF
 	{
 		return { x, y, w * factor, h * factor };
 	}
+
+	StelRectI ToInt() 
+	{
+		return { static_cast<int>(x), static_cast<int>(y), static_cast<int>(w), static_cast<int>(h) };
+	}
 };
 
 struct StelCircleF
@@ -71,6 +91,7 @@ struct StelCircleF
 	float y;
 	float radius;
 };
+
 
 class IGfx 
 {

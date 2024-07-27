@@ -5,6 +5,9 @@
 #include "SDL_image.h"
 #include <map>
 
+
+
+
 class SdlGfx : public IGfx
 {
 private:

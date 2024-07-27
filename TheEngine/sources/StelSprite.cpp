@@ -21,9 +21,3 @@ StelSprite* StelSprite::Init(std::string filename)
 	m_Filename = filename;
 	return this;
 }
-
-//void StelSprite::SetPosition(StelPointF position)
-//{
-//	m_Position.x = position.x;
-//	m_Position.y = position.y;
-//}

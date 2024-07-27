@@ -7,6 +7,16 @@ void PlayerControls::Start(LevelManager* currentLevel, float speed)
 {
 	StelComponent::Start();
 
+	// Animation
+	m_Model = m_EntityParent->AddComponent<StelAnimation>();
+	m_Model->Init("Assets/adv_lolo_char.png");
+	m_Model->Start();
+	m_Model->AddAnimationFrames(5, { 0, 0 }, { 16, 16 });
+	m_Model->AddAnimationFrames(5, { 0, 16 }, { 16, 16 });
+	m_Model->AddAnimationFrames(5, { 0, 32 }, { 16, 16 });
+	m_Model->AddAnimationFrames(5, { 0, 48 }, { 16, 16 });
+
+
 	m_CurrentLevel = currentLevel;
 	m_Speed = speed;
 
@@ -21,7 +31,6 @@ void PlayerControls::Start(LevelManager* currentLevel, float speed)
 	// Load Fonts
 	m_TitleFontId = Gfx().LoadFont("Assets/Fonts/Merlovaz.ttf", 30);
 	m_DecrpFontId = Gfx().LoadFont("Assets/Fonts/Merlovaz.ttf", 12);
-	m_Model = GetModel();
 	m_Model->AddClip("walk_down"	, 0, 5, 0.1f);
 	m_Model->AddClip("walk_left"	, 5, 5, 0.1f);
 	m_Model->AddClip("walk_up"		, 10, 5, 0.1f);
@@ -106,17 +115,12 @@ void PlayerControls::AudioUpdate()
 	}
 }
 
-void PlayerControls::Draw() 
-{
-	Gfx().DrawRect({ 0.0f, 480.0f, 512.0f, 32.0f }, StelColor::WHITE); // down UI
-	Gfx().DrawRect({ 448.0f, 0.0f, 64.0f, 480.0f }, StelColor::WHITE); // Right side UI
-	//Gfx().DrawString("GAME SCENE", m_TitleFontId, { 15.0f,15.0f }, StelColor::AQUA);
-	//if(m_CooldownChangeScene <= 0) Gfx().DrawString("- Press space to change scene - ", m_DecrpFontId, { 32.0f, 488.0f }, StelColor::DARKRED);
-}
-
-StelAnimation* PlayerControls::GetModel()
-{
-	return m_EntityParent->GetComponent<StelAnimation>();
-}
+//void PlayerControls::Draw() 
+//{
+//	Gfx().DrawRect({ 0.0f, 480.0f, 512.0f, 32.0f }, StelColor::WHITE); // down UI
+//	Gfx().DrawRect({ 448.0f, 0.0f, 64.0f, 480.0f }, StelColor::WHITE); // Right side UI
+//	//Gfx().DrawString("GAME SCENE", m_TitleFontId, { 15.0f,15.0f }, StelColor::AQUA);
+//	//if(m_CooldownChangeScene <= 0) Gfx().DrawString("- Press space to change scene - ", m_DecrpFontId, { 32.0f, 488.0f }, StelColor::DARKRED);
+//}
 
 
