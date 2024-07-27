@@ -44,3 +44,13 @@ IPhysic& StelComponent::Physic()
 {
     return Stel::Engine::Get().GetPhysic();
 }
+
+StelTransform StelComponent::GetTransform()
+{
+    return m_EntityParent->GetTransform();
+}
+
+void StelComponent::SetTransform(StelTransform nTransform)
+{
+    return m_EntityParent->SetTransform(nTransform);
+}

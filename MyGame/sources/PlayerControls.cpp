@@ -3,11 +3,12 @@
 #include "LevelManager.h"
 
 
-void PlayerControls::Start(LevelManager* currentLevel) 
+void PlayerControls::Start(LevelManager* currentLevel, float speed)
 {
 	StelComponent::Start();
 
 	m_CurrentLevel = currentLevel;
+	m_Speed = speed;
 
 	// Load sounds and audios
 	m_RemoveSfx = Audio().LoadSound("Assets/Audios/Remove1.wav");
@@ -44,26 +45,30 @@ void PlayerControls::Move(float dt)
 	// TODO change for Transform in entity
 	float axiosH = Input().GetAxiosHorizontal();
 	float axiosV = Input().GetAxiosVertical();
-	m_Position.x += axiosH * m_Speed;
-	m_Position.y += axiosV * m_Speed;
+
+	StelTransform transform = GetTransform();
+	StelPointF position = transform.Position;
+	position.x += axiosH * m_Speed;
+	position.y += axiosV * m_Speed;
 
 	StelRectF collider = {
-		m_Position.x - m_Collider.x,
-		m_Position.y - m_Collider.y,
-		m_Size.x + m_Collider.x,
-		m_Size.y + m_Collider.y
+		position.x - m_Collider.x,
+		position.y - m_Collider.y,
+		GetTransform().Size.x + m_Collider.x,
+		GetTransform().Size.y + m_Collider.y
 	};
 
-	if (m_CurrentLevel->IsColliding(collider.Resize(m_ScaleFactor)))
+	if (m_CurrentLevel->IsColliding(collider.Resize(GetTransform().Scale)))
 	{
-		m_Position.x -= axiosH * m_Speed;
-		m_Position.y -= axiosV * m_Speed;
+		position.x -= axiosH * m_Speed;
+		position.y -= axiosV * m_Speed;
 	}
+
+	transform.Position = position;
+	SetTransform(transform);
 	
 	if (m_Model != nullptr)
 	{
-		m_Model->SetPosition(m_Position);
-
 		if (axiosH == 0 && axiosV == 0) 
 		{
 			m_Model->Stop();
@@ -91,24 +96,6 @@ void PlayerControls::MouseEvents()
 	{
 		World().ExitGame();
 	}
-
-	if (Events().Contanis(IEvents::MouseButtonDown, stelEvent))
-	{
-		Log().Print(LOG_INFO,"Button DOWN [%d] : %d)", stelEvent.order, stelEvent.button.id);
-		Log().Print(LOG_INFO, "at (%d, %d)", stelEvent.button.position.x, stelEvent.button.position.y);
-	}
-
-	if (Events().Contanis(IEvents::MouseButtonUp, stelEvent))
-	{
-		Log().Print(LOG_INFO, "Button UP [%d] : %d)", stelEvent.order, stelEvent.button.id);
-		Log().Print(LOG_INFO, "at (%d, %d)", stelEvent.button.position.x, stelEvent.button.position.y);
-	}
-
-	if (Events().Contanis(IEvents::MouseMotion, stelEvent))
-	{
-		Log().Print(LOG_INFO, "Button MOVE [%d] : %d)", stelEvent.order, stelEvent.button.id);
-		Log().Print(LOG_INFO, "at (%d, %d)", stelEvent.button.position.x, stelEvent.button.position.y);
-	}
 }
 
 void PlayerControls::AudioUpdate()
@@ -125,23 +112,6 @@ void PlayerControls::Draw()
 	Gfx().DrawRect({ 448.0f, 0.0f, 64.0f, 480.0f }, StelColor::WHITE); // Right side UI
 	//Gfx().DrawString("GAME SCENE", m_TitleFontId, { 15.0f,15.0f }, StelColor::AQUA);
 	//if(m_CooldownChangeScene <= 0) Gfx().DrawString("- Press space to change scene - ", m_DecrpFontId, { 32.0f, 488.0f }, StelColor::DARKRED);
-}
-
-
-void PlayerControls::SetPostion(StelPointF position)
-{
-	m_Position = position;
-}
-
-void PlayerControls::SetSpeed(float speed)
-{
-	m_Speed = speed;
-}
-
-void PlayerControls::SetSize(StelPointF size, float scaleFactor)
-{
-	m_Size = size;
-	m_ScaleFactor = scaleFactor;
 }
 
 StelAnimation* PlayerControls::GetModel()

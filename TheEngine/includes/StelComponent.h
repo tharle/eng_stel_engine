@@ -33,4 +33,6 @@ protected:
     IEvents& Events();
     IWorld& World();
     IPhysic& Physic();
+    StelTransform GetTransform();
+    void SetTransform(StelTransform nTransform);
 };

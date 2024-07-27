@@ -8,22 +8,36 @@
 
 class StelComponent;
 
-struct StelTransform {
-	StelPointF Position;
-	StelPointF Dimension;
-	float Angle;
+// TODO change for Transform in entity
+//StelPointF m_Position{ 0, 0 };
+//StelPointF m_Size = { 0.0f, 0.0f };
+//float m_ScaleFactor = 1.0f;
+//StelRectF m_Collider = StelRectF::Zero();
 
-	inline StelTransform(StelRectF rect, float angle) : 
+struct StelTransform {
+	StelPointF Position{ 0.0f, 0.0f };
+	StelPointF Size { 0.0f, 0.0f };
+	float Angle = 0.0f;
+	float Scale = 1.0f;
+
+	inline StelTransform(StelRectF rect, float scale, float angle) : 
 		Position({ rect.x, rect.y }),
-		Dimension({ rect.w, rect.h }),
+		Size({ rect.w, rect.h }),
+		Scale(scale),
 		Angle(angle)
 	{}
 
-	inline StelTransform(StelRectF rect) : StelTransform(rect, 0.0f){}
+	inline StelTransform(StelRectF rect, float scale) : StelTransform(rect, scale ,0.0f){}
+	inline StelTransform(StelRectF rect) : StelTransform(rect, 1.0f, 0.0f) {}
 
 	inline StelRectF GetRect() 
 	{
-		return { Position.x, Position.y, Dimension.x, Dimension.y };
+		return { Position.x, Position.y, Size.x, Size.y };
+	}
+
+	inline StelRectF GetTrueRect() 
+	{
+		return { Position.x, Position.y, Size.x * Scale, Size.y * Scale };
 	}
 };
 
@@ -46,6 +60,16 @@ class StelEntity final : public IDrawable, public IUpdatable
 	public:	
 		std::string GetName();
 		StelTransform GetTransform();
+		// { 200.0f, 300.0f }, { 16, 16 }, scaleFactor
+		
+		inline void SetTransform(StelPointF position, StelPointF size, float scale, float angle)
+		{
+			SetTransform(StelTransform({ position.x, position.y, size.x, size.y }, scale, angle));
+		}
+
+		inline void SetTransform(StelTransform nTransform) {
+			m_Transform = nTransform;
+		}
 
 		template<typename T>
 		inline T* AddComponent()
