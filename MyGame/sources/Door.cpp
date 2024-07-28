@@ -2,14 +2,14 @@
 #include "StelAtlas.h"
 #include "PlayerControls.h"
 
-void Door::Start(std::string nextScene)
+void Door::Start(std::string spriteSheet, std::string nextScene)
 {
 	StelComponent::Start();
 
 	m_NextScene = nextScene;
 
 	m_Model = m_EntityParent->AddComponent<StelAtlas>();
-	m_Model->Init("Assets/adv_lolo_map.png");
+	m_Model->Init(spriteSheet);
 	StelPointI size = StelPointI::FromFloat(m_EntityParent->GetTransform().Size.x, m_EntityParent->GetTransform().Size.y);
 	m_Model->AddFrame({ 4 * size.x, 4 * size.y, size.x, size.y });
 	m_Model->AddFrame({ 5 * size.x, 4 * size.y, size.x, size.y });

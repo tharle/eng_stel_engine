@@ -13,8 +13,10 @@ public:
 	virtual ~PlayerControls() = default;
 	virtual void Start(LevelManager* currentLevel, float speed);
 	virtual void Update(float dt) override;
-	//virtual void Draw() override;
+	
 	inline static char* Layer() { return "PLAYER"; }
+
+	inline float GetSpeed() { return m_Speed; }
 private:
 	// Physics
 	StelRectF m_Collider = StelRectF::Zero(); // only for Tilemaps

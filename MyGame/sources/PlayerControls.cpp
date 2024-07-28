@@ -50,11 +50,8 @@ void PlayerControls::Update(float dt)
 
 void PlayerControls::Move(float dt)
 {
- 
-	// TODO change for Transform in entity
-	float axiosV = Input().GetAxiosVertical();
-
 	// In the original game, if you press up/down, will ignore left or right
+	float axiosV = Input().GetAxiosVertical();
 	float axiosH = axiosV == 0? Input().GetAxiosHorizontal() : 0; 
 
 	StelTransform transform = GetTransform();
@@ -76,6 +73,8 @@ void PlayerControls::Move(float dt)
 		SetTransform(transform);
 	}
 	
+
+	// Animation
 	if (m_Model != nullptr)
 	{
 		if (axiosH == 0 && axiosV == 0) 
@@ -114,13 +113,4 @@ void PlayerControls::AudioUpdate()
 		Audio().PlaySFX(m_RemoveSfx);
 	}
 }
-
-//void PlayerControls::Draw() 
-//{
-//	Gfx().DrawRect({ 0.0f, 480.0f, 512.0f, 32.0f }, StelColor::WHITE); // down UI
-//	Gfx().DrawRect({ 448.0f, 0.0f, 64.0f, 480.0f }, StelColor::WHITE); // Right side UI
-//	//Gfx().DrawString("GAME SCENE", m_TitleFontId, { 15.0f,15.0f }, StelColor::AQUA);
-//	//if(m_CooldownChangeScene <= 0) Gfx().DrawString("- Press space to change scene - ", m_DecrpFontId, { 32.0f, 488.0f }, StelColor::DARKRED);
-//}
-
 

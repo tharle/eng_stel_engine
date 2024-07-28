@@ -16,7 +16,7 @@ public:
 	Chest(StelEntity* parent) : StelComponent(parent) {  }
 	virtual ~Chest() = default;
 
-	virtual void Start(int chestAmount);
+	virtual void Start(char* spriteSheet, int chestAmount);
 	virtual void Update(float dt) override;
 	virtual void OnNotify(const bool& value) override;
 

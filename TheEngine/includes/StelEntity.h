@@ -33,6 +33,14 @@ struct StelTransform {
 	{
 		return { Position.x, Position.y, Size.x * Scale, Size.y * Scale };
 	}
+
+	inline StelTransform Translate(StelPointF shift) 
+	{
+		Position.x += shift.x;
+		Position.y += shift.y;
+
+		return *(this);
+	}
 };
 
 class StelEntity final : public IDrawable, public IUpdatable

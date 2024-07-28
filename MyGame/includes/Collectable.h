@@ -12,7 +12,7 @@ public:
 	Collectable(StelEntity* parent) : StelComponent(parent) {  }
 	virtual ~Collectable() = default;
 
-	virtual void Start() override;
+	virtual void Start(char* spriteSheet, StelPointI frame);
 	virtual void Update(float dt) override;
 
 	StelSubject<bool> OnItem;

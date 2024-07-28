@@ -23,6 +23,11 @@ struct StelPointF
 	float x;
 	float y;
 
+	StelPointF Diff(StelPointF other) 
+	{
+		return { x - other.x, y - other.y };
+	}
+
 	static StelPointF Zero() { return { 0.0f, 0.0f }; }
 };
 

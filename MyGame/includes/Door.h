@@ -15,7 +15,7 @@ public:
 	Door(StelEntity* parent) : StelComponent(parent) {  }
 	virtual ~Door() = default;
 
-	virtual void Start(std::string nextSceneName);
+	virtual void Start(std::string spriteSheet, std::string nextSceneName);
 	virtual void Update(float dt) override;
 
 	virtual void OnNotify(const bool& value) override;
