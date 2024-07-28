@@ -12,5 +12,5 @@ public:
     virtual ~StelAtlas() = default;
 
     void AddFrame(StelRectI frame);
-    void SetFrame(int index);
+    virtual void SetFrame(int index);
 };

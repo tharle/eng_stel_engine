@@ -3,6 +3,9 @@
 #include "StelObserver.h"
 #include "StelSubject.h"
 
+#define EVENT_OPEN_CHEST_ID 0
+#define EVENT_GET_PEARL_ID 1
+
 class StelAtlas;
 
 class Chest : public StelComponent, public IUpdatable, public StelObserver<bool>
@@ -22,5 +25,6 @@ public:
 
 	bool IsOpen();
 
-	StelSubject<bool> OnGetPearl;
+	StelSubject<int> OnOpenChest;
+	StelSubject<int> OnGetPearl;
 };

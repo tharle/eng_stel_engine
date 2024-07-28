@@ -24,11 +24,11 @@ void StelAnimation::Update(float dt)
 	}
 }
 
-void StelAnimation::AddAnimationFrames(int frameInRows, StelPointI start, StelPointI dimension)
+void StelAnimation::AddAnimationFrames(int frameInRows, StelPointI start, StelPointI dimension) 
 {
 	//frameInRows
-	int x = start.x;
-	int y = start.y;
+	int x = start.x * dimension.x;
+	int y = start.y * dimension.y;
 
 	StelPointI fullSize = GetTextureSize();
 

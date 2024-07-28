@@ -7,7 +7,7 @@
 #include "Chest.h"
 #include "Door.h"
 #include "Box.h"
-
+#include "Enemy.h"
 
 void GameScene::Load()
 {
@@ -15,11 +15,11 @@ void GameScene::Load()
 	StelPointF size = { 16.0f , 16.0f };
 	float mult = scaleFactor * size.x;
 	char* spriteSheet = "Assets/adv_lolo_map.png";
+	char* spriteSheetMisc = "Assets/adv_lolo_misc.png";
 
 
 	m_Level  = Instantiate("Level");
 	m_Level->SetTransform(StelPointF::Zero(), size, scaleFactor, 0.0f);
-
 	LevelManager* levelManager = m_Level->AddComponent<LevelManager>();
 	levelManager->Start();
 
@@ -49,13 +49,20 @@ void GameScene::Load()
 	m_Box = Instantiate("Box");
 	m_Box->SetTransform({ 4.0f * mult, 7.0f * mult }, size, scaleFactor, 0.0f);
 	Box* box = m_Box->AddComponent<Box>();
-    //box->OnGetPearl.AddListener(door);
 	box->Start(spriteSheet, {0, 3}, levelManager);
+
+	m_GreenWorm = Instantiate("Green Worm");
+	m_GreenWorm->SetTransform({ 3.0f * mult, 6.0f * mult }, size, scaleFactor, 0.0f);
+	Enemy* greenWorm = m_GreenWorm->AddComponent<Enemy>();
+	chest->OnOpenChest.AddListener(greenWorm);
+	chest->OnGetPearl.AddListener(greenWorm);
+	greenWorm->Start(spriteSheetMisc);
 
 
 	m_Player = Instantiate("Player");
 	m_Player->SetTransform({ 6.0f * mult, 9.0f * mult }, size, scaleFactor, 0.0f);
 	PlayerControls* playerControls = m_Player->AddComponent<PlayerControls>();
+	playerControls->OnMove.AddListener(greenWorm);
 	playerControls->Start(levelManager, 5.0f);
 
 	

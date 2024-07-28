@@ -20,7 +20,7 @@ public:
 	{
 		for (StelObserver<T>* o : m_Observers)
 		{
-			o->OnNotify(value);
+			if(o->IsActive()) o->OnNotify(value);
 		}
 	}
 private:

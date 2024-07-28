@@ -17,6 +17,8 @@ private:
 	StelEntity* m_Door;
 
 	StelEntity* m_Box;
+
+	StelEntity* m_GreenWorm;
 public:
 	virtual ~GameScene() = default;
 	virtual void Load() override;

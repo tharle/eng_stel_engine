@@ -5,7 +5,7 @@
 
 class StelAtlas;
 
-class Door : public StelComponent, public IUpdatable, public StelObserver<bool>
+class Door : public StelComponent, public IUpdatable, public StelObserver<int>
 {
 private:
 	StelAtlas* m_Model = nullptr;
@@ -18,5 +18,5 @@ public:
 	virtual void Start(std::string spriteSheet, std::string nextSceneName);
 	virtual void Update(float dt) override;
 
-	virtual void OnNotify(const bool& value) override;
+	virtual void OnNotify(const int& idEvent) override;
 };

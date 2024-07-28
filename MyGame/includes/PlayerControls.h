@@ -1,5 +1,14 @@
 #pragma once
 #include "StelComponent.h"
+#include "StelSubject.h"
+#include "StelObserver.h"
+
+#define LAYER_NAME_PLAYER "PLAYER"
+
+#define ANIMATION_PLAYER_DOWN "walk_down"
+#define ANIMATION_PLAYER_LEFT "walk_left"
+#define ANIMATION_PLAYER_UP "walk_up"
+#define ANIMATION_PLAYER_RIGHT "walk_right"
 
 class StelAnimation;
 class LevelManager;
@@ -14,9 +23,9 @@ public:
 	virtual void Start(LevelManager* currentLevel, float speed);
 	virtual void Update(float dt) override;
 	
-	inline static char* Layer() { return "PLAYER"; }
-
 	inline float GetSpeed() { return m_Speed; }
+
+	StelSubject<StelTransform> OnMove;
 private:
 	// Physics
 	StelRectF m_Collider = StelRectF::Zero(); // only for Tilemaps
@@ -43,5 +52,4 @@ private:
 	void Move(float dt);
 	void MouseEvents();
 	void AudioUpdate();
-	
 };

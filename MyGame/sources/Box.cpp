@@ -29,7 +29,7 @@ void Box::Update(float dt)
 
 void Box::Move(float dt)
 {
-	StelEntity* other = Physic().CollideWithLayer(m_EntityParent, PlayerControls::Layer());
+	StelEntity* other = Physic().CollideWithLayer(m_EntityParent, LAYER_NAME_PLAYER);
 	if (other != nullptr)
 	{
 		//m_EntityParent->Destroy();

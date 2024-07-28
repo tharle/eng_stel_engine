@@ -21,10 +21,10 @@ void Chest::Update(float dt)
 {
 	if (!IsOpen()) return;
 
-	if (Physic().CollideWithLayer(m_EntityParent, PlayerControls::Layer()) != nullptr)
+	if (Physic().CollideWithLayer(m_EntityParent, LAYER_NAME_PLAYER) != nullptr)
 	{
 		m_Model->SetFrame(2);
-		OnGetPearl.Invoke(true);
+		OnGetPearl.Invoke(EVENT_GET_PEARL_ID);
 	}
 	
 }
@@ -37,5 +37,9 @@ void Chest::OnNotify(const bool& value)
 {
 	if(value) m_CountHeartsTakes++;
 
-	if(IsOpen()) m_Model->SetFrame(1);
+	if (IsOpen()) 
+	{
+		m_Model->SetFrame(1);
+		OnOpenChest.Invoke(EVENT_OPEN_CHEST_ID);
+	} 
 }

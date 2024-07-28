@@ -1,6 +1,7 @@
 ﻿#include "PlayerControls.h"
 #include "StelAnimation.h"
 #include "LevelManager.h"
+#include "Chest.h"
 
 
 void PlayerControls::Start(LevelManager* currentLevel, float speed)
@@ -12,9 +13,9 @@ void PlayerControls::Start(LevelManager* currentLevel, float speed)
 	m_Model->Init("Assets/adv_lolo_char.png");
 	m_Model->Start();
 	m_Model->AddAnimationFrames(5, { 0, 0 }, { 16, 16 });
-	m_Model->AddAnimationFrames(5, { 0, 16 }, { 16, 16 });
-	m_Model->AddAnimationFrames(5, { 0, 32 }, { 16, 16 });
-	m_Model->AddAnimationFrames(5, { 0, 48 }, { 16, 16 });
+	m_Model->AddAnimationFrames(5, { 0, 1 }, { 16, 16 });
+	m_Model->AddAnimationFrames(5, { 0, 2 }, { 16, 16 });
+	m_Model->AddAnimationFrames(5, { 0, 3 }, { 16, 16 });
 
 
 	m_CurrentLevel = currentLevel;
@@ -29,15 +30,15 @@ void PlayerControls::Start(LevelManager* currentLevel, float speed)
 	// Load Fonts
 	m_TitleFontId = Gfx().LoadFont("Assets/Fonts/Merlovaz.ttf", 30);
 	m_DecrpFontId = Gfx().LoadFont("Assets/Fonts/Merlovaz.ttf", 12);
-	m_Model->AddClip("walk_down"	, 0, 5, 0.02f);
-	m_Model->AddClip("walk_left"	, 5, 5, 0.02f);
-	m_Model->AddClip("walk_up"		, 10, 5, 0.02f);
-	m_Model->AddClip("walk_right"	, 15, 5, 0.02f);
+	m_Model->AddClip(ANIMATION_PLAYER_DOWN, 0, 5, 0.02f);
+	m_Model->AddClip(ANIMATION_PLAYER_LEFT, 5, 5, 0.02f);
+	m_Model->AddClip(ANIMATION_PLAYER_UP, 10, 5, 0.02f);
+	m_Model->AddClip(ANIMATION_PLAYER_RIGHT, 15, 5, 0.02f);
 
 	// COLLIDER
 	float offset = 4.0f;
 	m_Collider = { -offset,-offset, - offset , - offset };
-	Physic().AddToLayer(PlayerControls::Layer(), m_EntityParent);
+	Physic().AddToLayer(LAYER_NAME_PLAYER, m_EntityParent);
 }
 
 
@@ -71,6 +72,8 @@ void PlayerControls::Move(float dt)
 	{
 		transform.Position = position;
 		SetTransform(transform);
+
+		OnMove.Invoke(transform);
 	}
 	
 
@@ -90,10 +93,10 @@ void PlayerControls::Move(float dt)
 		}
 		else m_CooldownWalkSound -= dt;
 		
-		if (axiosV > 0) m_Model->Play("walk_down", true);
-		else if (axiosV < 0) m_Model->Play("walk_up", true);
-		else if (axiosH < 0) m_Model->Play("walk_left", true);
-		else if (axiosH > 0 ) m_Model->Play("walk_right", true);
+		if (axiosV > 0) m_Model->Play(ANIMATION_PLAYER_DOWN, true);
+		else if (axiosV < 0) m_Model->Play(ANIMATION_PLAYER_UP, true);
+		else if (axiosH < 0) m_Model->Play(ANIMATION_PLAYER_LEFT, true);
+		else if (axiosH > 0 ) m_Model->Play(ANIMATION_PLAYER_RIGHT, true);
 	}
 }
 

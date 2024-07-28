@@ -1,6 +1,7 @@
 #include "Door.h"
 #include "StelAtlas.h"
 #include "PlayerControls.h"
+#include "Chest.h"
 
 void Door::Start(std::string spriteSheet, std::string nextScene)
 {
@@ -21,15 +22,18 @@ void Door::Update(float dt)
 {
 	if (!m_IsOpen) return;
 	
-	if (Physic().CollideWithLayer(m_EntityParent, PlayerControls::Layer()) != nullptr)
+	if (Physic().CollideWithLayer(m_EntityParent, LAYER_NAME_PLAYER) != nullptr)
 	{
 		// Change scene
 		World().LoadScene(m_NextScene);
 	}
 }
 
-void Door::OnNotify(const bool& value)
+void Door::OnNotify(const int& idEvent)
 {
-	m_IsOpen = value;
-	if (m_IsOpen) m_Model->SetFrame(1);
+	if (idEvent == EVENT_GET_PEARL_ID) 
+	{
+		m_IsOpen = true;
+		if (m_IsOpen) m_Model->SetFrame(1);
+	}
 }

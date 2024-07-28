@@ -14,7 +14,7 @@ void Collectable::Start(char* spriteSheet, StelPointI frame)
 
 void Collectable::Update(float dt)
 {
-	StelEntity* other = Physic().CollideWithLayer(m_EntityParent, PlayerControls::Layer());
+	StelEntity* other = Physic().CollideWithLayer(m_EntityParent, LAYER_NAME_PLAYER);
 	if (other != nullptr) 
 	{
 		OnItem.Invoke(true);
