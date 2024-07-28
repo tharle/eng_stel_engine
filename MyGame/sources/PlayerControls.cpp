@@ -29,10 +29,10 @@ void PlayerControls::Start(LevelManager* currentLevel, float speed)
 	// Load Fonts
 	m_TitleFontId = Gfx().LoadFont("Assets/Fonts/Merlovaz.ttf", 30);
 	m_DecrpFontId = Gfx().LoadFont("Assets/Fonts/Merlovaz.ttf", 12);
-	m_Model->AddClip("walk_down"	, 0, 5, 0.1f);
-	m_Model->AddClip("walk_left"	, 5, 5, 0.1f);
-	m_Model->AddClip("walk_up"		, 10, 5, 0.1f);
-	m_Model->AddClip("walk_right"	, 15, 5, 0.1f);
+	m_Model->AddClip("walk_down"	, 0, 5, 0.02f);
+	m_Model->AddClip("walk_left"	, 5, 5, 0.02f);
+	m_Model->AddClip("walk_up"		, 10, 5, 0.02f);
+	m_Model->AddClip("walk_right"	, 15, 5, 0.02f);
 
 	// COLLIDER
 	float offset = 4.0f;

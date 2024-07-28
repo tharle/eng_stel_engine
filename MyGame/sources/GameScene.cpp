@@ -3,8 +3,8 @@
 #include "PlayerControls.h"
 #include "StelAnimation.h"
 #include "LevelManager.h"
-#include "Collectable.h";
-#include "Chest.h";
+#include "Collectable.h"
+#include "Chest.h"
 #include "Door.h"
 
 
