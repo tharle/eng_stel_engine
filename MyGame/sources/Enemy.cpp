@@ -22,7 +22,7 @@ void Enemy::Start(std::string spriteSheet)
 	m_Model->AddClip(ENEMY_STATE_IDLE, 1, 1, 0.0f);
 	m_Model->AddClip(ENEMY_STATE_ATTACK, 1, 4, 0.2f);
 
-	m_Model->Play(ENEMY_STATE_IDLE, true);
+	m_Model->Play(ENEMY_STATE_IDLE, false);
 
 }
 

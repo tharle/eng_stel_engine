@@ -30,10 +30,8 @@ void Box::Update(float dt)
 void Box::Move(float dt)
 {
 	StelEntity* other = Physic().CollideWithLayer(m_EntityParent, LAYER_NAME_PLAYER);
-	if (other != nullptr)
+	if (other && other->GetComponent<PlayerControls>())
 	{
-		//m_EntityParent->Destroy();
-		// TODO nullpointer after playercontrolls be destroyed (change scene)
 		float speed = other->GetComponent<PlayerControls>()->GetSpeed();
 		float axiosV = Input().GetAxiosVertical();
 		float axiosH = axiosV == 0 ? Input().GetAxiosHorizontal() : 0;

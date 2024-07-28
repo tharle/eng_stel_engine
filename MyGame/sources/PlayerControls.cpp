@@ -55,6 +55,13 @@ void PlayerControls::Move(float dt)
 	float axiosV = Input().GetAxiosVertical();
 	float axiosH = axiosV == 0? Input().GetAxiosHorizontal() : 0; 
 
+	if (axiosH == 0 && axiosV == 0)
+	{
+		m_Model->Stop();
+		return;
+	}
+
+
 	StelTransform transform = GetTransform();
 	StelPointF position = transform.Position;
 	position.x += axiosH * dt * m_Speed * GetTransform().GetTrueRect().h;
@@ -77,27 +84,19 @@ void PlayerControls::Move(float dt)
 	}
 	
 
-	// Animation
-	if (m_Model != nullptr)
+	// Animation	
+	if (m_CooldownWalkSound <= 0)
 	{
-		if (axiosH == 0 && axiosV == 0) 
-		{
-			m_Model->Stop();
-			return;
-		} 
-		
-		if (m_CooldownWalkSound <= 0)
-		{
-			m_CooldownWalkSound = COOLDOWN_WALK_SOUND;
-			Audio().PlaySFX(m_WalkSfx);
-		}
-		else m_CooldownWalkSound -= dt;
-		
-		if (axiosV > 0) m_Model->Play(ANIMATION_PLAYER_DOWN, true);
-		else if (axiosV < 0) m_Model->Play(ANIMATION_PLAYER_UP, true);
-		else if (axiosH < 0) m_Model->Play(ANIMATION_PLAYER_LEFT, true);
-		else if (axiosH > 0 ) m_Model->Play(ANIMATION_PLAYER_RIGHT, true);
+		m_CooldownWalkSound = COOLDOWN_WALK_SOUND;
+		Audio().PlaySFX(m_WalkSfx);
 	}
+	else m_CooldownWalkSound -= dt;
+		
+	if (axiosV > 0) m_Model->Play(ANIMATION_PLAYER_DOWN, true);
+	else if (axiosV < 0) m_Model->Play(ANIMATION_PLAYER_UP, true);
+	else if (axiosH < 0) m_Model->Play(ANIMATION_PLAYER_LEFT, true);
+	else if (axiosH > 0 ) m_Model->Play(ANIMATION_PLAYER_RIGHT, true);
+	
 }
 
 void PlayerControls::MouseEvents()
