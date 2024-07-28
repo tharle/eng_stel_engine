@@ -52,13 +52,15 @@ void PlayerControls::Move(float dt)
 {
  
 	// TODO change for Transform in entity
-	float axiosH = Input().GetAxiosHorizontal();
 	float axiosV = Input().GetAxiosVertical();
+
+	// In the original game, if you press up/down, will ignore left or right
+	float axiosH = axiosV == 0? Input().GetAxiosHorizontal() : 0; 
 
 	StelTransform transform = GetTransform();
 	StelPointF position = transform.Position;
-	position.x += axiosH * m_Speed;
-	position.y += axiosV * m_Speed;
+	position.x += axiosH * dt * m_Speed * GetTransform().GetTrueRect().h;
+	position.y += axiosV * dt * m_Speed * GetTransform().GetTrueRect().h;
 
 	StelRectF collider = {
 		position.x - m_Collider.x,
@@ -67,14 +69,12 @@ void PlayerControls::Move(float dt)
 		GetTransform().Size.y + m_Collider.y
 	};
 
-	if (m_CurrentLevel->IsColliding(collider.Resize(GetTransform().Scale)))
+	// Colling with tile
+	if (!m_CurrentLevel->IsColliding(collider.Resize(GetTransform().Scale)))
 	{
-		position.x -= axiosH * m_Speed;
-		position.y -= axiosV * m_Speed;
+		transform.Position = position;
+		SetTransform(transform);
 	}
-
-	transform.Position = position;
-	SetTransform(transform);
 	
 	if (m_Model != nullptr)
 	{

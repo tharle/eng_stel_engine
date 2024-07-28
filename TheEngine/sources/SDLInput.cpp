@@ -67,12 +67,6 @@ float SdlInput::GetAxiosHorizontal()
 
 float SdlInput::GetAxiosVertical()
 {
-    float axios = 0.0f;
-
-    if (IsKeyDown(S) || IsKeyDown(Down)) axios = 1;
-    else if (IsKeyDown(W) || IsKeyDown(Up)) axios = -1;
-
-
     return m_Axios.y;
 }
 
@@ -87,16 +81,18 @@ void SdlInput::UpdateAxios(float dt)
     // TODO change when have controls inputs saves in engine
     if (IsKeyDown(A) || IsKeyDown(Left))
     {
-        m_Axios.x = m_Axios.x < 0 ? m_Axios.x : 0;
+        /*m_Axios.x = m_Axios.x < 0 ? m_Axios.x : 0;
         m_Axios.x -= dt;
 
-        m_Axios.x = m_Axios.x > -1 ? m_Axios.x : -1;
+        m_Axios.x = m_Axios.x > -1 ? m_Axios.x : -1;*/
+        m_Axios.x = -1;
     }
     else if (IsKeyDown(D) || IsKeyDown(Right))
     {
-        m_Axios.x = m_Axios.x > 0 ? m_Axios.x : 0;
+        /*m_Axios.x = m_Axios.x > 0 ? m_Axios.x : 0;
         m_Axios.x += dt;
-        m_Axios.x = m_Axios.x < 1 ? m_Axios.x : 1;
+        m_Axios.x = m_Axios.x < 1 ? m_Axios.x : 1;*/
+        m_Axios.x = 1;
     }
     else {
         m_Axios.x = 0;
@@ -104,15 +100,17 @@ void SdlInput::UpdateAxios(float dt)
 
     if (IsKeyDown(S) || IsKeyDown(Down))
     {
-        m_Axios.y = m_Axios.y > 0 ? m_Axios.y : 0;
+       /* m_Axios.y = m_Axios.y > 0 ? m_Axios.y : 0;
         m_Axios.y += dt;
-        m_Axios.y = m_Axios.y < 1 ? m_Axios.y : 1;
+        m_Axios.y = m_Axios.y < 1 ? m_Axios.y : 1;*/
+        m_Axios.y = 1;
     }
     else if (IsKeyDown(W) || IsKeyDown(Up))
     {
-        m_Axios.y = m_Axios.y < 0 ? m_Axios.y : 0;
+        /*m_Axios.y = m_Axios.y < 0 ? m_Axios.y : 0;
         m_Axios.y -= dt;
-        m_Axios.y = m_Axios.y > -1 ? m_Axios.y : -1;
+        m_Axios.y = m_Axios.y > -1 ? m_Axios.y : -1;*/
+        m_Axios.y = -1;
     }
     else {
         m_Axios.y = 0;
