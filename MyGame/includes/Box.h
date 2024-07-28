@@ -1,6 +1,9 @@
 #pragma once
 #include "StelComponent.h"
 
+#define OFFSET_SHIFT 10.0f
+#define OFFSET_COLLIDER 4.0f
+
 class StelAtlas;
 class LevelManager;
 
@@ -9,6 +12,8 @@ private:
 	StelAtlas* m_Model = nullptr;
 	LevelManager* m_CurrentLevel = nullptr;
 	StelRectF m_Collider = StelRectF::Zero(); // only for Tilemaps
+
+	void Move(float dt);
 public:
 	Box(StelEntity* parent) : StelComponent(parent) {  }
 	virtual ~Box() = default;
