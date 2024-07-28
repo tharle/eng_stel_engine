@@ -5,7 +5,7 @@
 #define COOLDOWN_CHANGE_SCENE 1.0f
 #define COOLDOWN_WALK_SOUND 0.2f
 
-class LevelManager : public StelComponent, public IUpdatable, public IDrawable {
+class LevelManager : public StelComponent, public IUpdatable, public IDrawable{
 private:
 	StelTileMap* m_Background = nullptr;
 

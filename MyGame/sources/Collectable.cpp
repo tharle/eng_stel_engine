@@ -16,6 +16,7 @@ void Collectable::Update(float dt)
 	StelEntity* other = Physic().CollideWithLayer(m_EntityParent, PlayerControls::Layer());
 	if (other != nullptr) 
 	{
+		OnItem.Invoke(true);
 		m_EntityParent->Destroy();
 	}
 }

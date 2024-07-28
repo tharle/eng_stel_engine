@@ -1,5 +1,6 @@
 #pragma once
 #include "StelComponent.h"
+#include "StelSubject.h"
 //#include <string>
 
 class StelAtlas;
@@ -13,4 +14,6 @@ public:
 
 	virtual void Start() override;
 	virtual void Update(float dt) override;
+
+	StelSubject<bool> OnItem;
 };

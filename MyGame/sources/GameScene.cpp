@@ -32,12 +32,16 @@ void GameScene::Load()
 	m_Chest = Instantiate("Chest");
 	m_Chest->SetTransform({ 6.0f * mult, 12.0f * mult }, size, scaleFactor, 0.0f);
 	Chest* chest = m_Chest->AddComponent<Chest>();
-	chest->Start();
+	c1->OnItem.AddListener(chest);
+	c2->OnItem.AddListener(chest);
+	chest->Start(2);
 
 	m_Door = Instantiate("Door");
 	m_Door->SetTransform({ 8.0f * mult, 1.0f * mult }, size, scaleFactor, 0.0f);
 	Door* door = m_Door->AddComponent<Door>();
-	door->Start();
+	chest->OnGetPearl.AddListener(door);
+	door->Start("Game");
+
 
 	m_Player = Instantiate("Player");
 	m_Player->SetTransform({ 6.0f * mult, 9.0f * mult }, size, scaleFactor, 0.0f);

@@ -11,12 +11,14 @@
 
 MainMenuScene mainMenuScene = MainMenuScene();
 GameScene gameScene = GameScene();
+GameScene gameScene2 = GameScene();
 
 void InitGameplay()
 {
 
 	Stel::Engine::Get().GetWorld().Register("MainMenu", &mainMenuScene);
 	Stel::Engine::Get().GetWorld().Register("Game", &gameScene);
+	Stel::Engine::Get().GetWorld().Register("Game2", &gameScene2);
 	Stel::Engine::Get().GetWorld().LoadScene("Game");
 
 }
