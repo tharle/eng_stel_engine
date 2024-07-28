@@ -10,8 +10,9 @@ void Door::Start(std::string nextScene)
 
 	m_Model = m_EntityParent->AddComponent<StelAtlas>();
 	m_Model->Init("Assets/adv_lolo_map.png");
-	m_Model->AddFrame({ 4 * 16, 4 * 16, 16, 16 });
-	m_Model->AddFrame({ 5 * 16, 4 * 16, 16, 16 });
+	StelPointI size = StelPointI::FromFloat(m_EntityParent->GetTransform().Size.x, m_EntityParent->GetTransform().Size.y);
+	m_Model->AddFrame({ 4 * size.x, 4 * size.y, size.x, size.y });
+	m_Model->AddFrame({ 5 * size.x, 4 * size.y, size.x, size.y });
 	m_Model->SetFrame(0);
 	m_Model->Start();
 }

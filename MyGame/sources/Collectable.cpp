@@ -6,7 +6,8 @@ void Collectable::Start()
 {
 	m_Model = m_EntityParent->AddComponent<StelAtlas>();
 	m_Model->Init("Assets/adv_lolo_map.png");
-	m_Model->AddFrame({ 1 * 16, 3 * 16, 16, 16 });
+	StelPointI size = StelPointI::FromFloat(m_EntityParent->GetTransform().Size.x, m_EntityParent->GetTransform().Size.y);
+	m_Model->AddFrame({ 1 * size.x, 3 * size.y, size.x, size.y });
 	m_Model->SetFrame(0);
 	m_Model->Start();
 }

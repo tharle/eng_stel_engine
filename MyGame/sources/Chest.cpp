@@ -9,9 +9,10 @@ void Chest::Start(int chestAmount)
 	m_Model = m_EntityParent->AddComponent<StelAtlas>();
 	m_ChestAmount = chestAmount;
 	m_Model->Init("Assets/adv_lolo_map.png");
-	m_Model->AddFrame({ 2 * 16, 3 * 16, 16, 16 });
-	m_Model->AddFrame({ 3 * 16, 2 * 16, 16, 16 });
-	m_Model->AddFrame({ 3 * 16, 3 * 16, 16, 16 });
+	StelPointI size = StelPointI::FromFloat(m_EntityParent->GetTransform().Size.x, m_EntityParent->GetTransform().Size.y);
+	m_Model->AddFrame({ 2 * size.x, 3 * size.y, size.x, size.y });
+	m_Model->AddFrame({ 3 * size.x, 2 * size.y, size.x, size.y });
+	m_Model->AddFrame({ 3 * size.x, 3 * size.y, size.x, size.y });
 	m_Model->SetFrame(0);
 	m_Model->Start();
 }
