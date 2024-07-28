@@ -11,6 +11,7 @@ private:
 	// Item colletable
 	StelEntity* m_Heart1;
 	StelEntity* m_Heart2;
+	StelEntity* m_Chest;
 public:
 	virtual ~GameScene() = default;
 	virtual void Load() override;
