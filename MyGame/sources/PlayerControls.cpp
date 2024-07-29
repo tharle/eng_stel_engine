@@ -4,6 +4,11 @@
 #include "Chest.h"
 
 
+PlayerControls::~PlayerControls()
+{
+	Physic().Remove(m_EntityParent);
+}
+
 void PlayerControls::Start(LevelManager* currentLevel, float speed)
 {
 	StelComponent::Start();
@@ -79,8 +84,6 @@ void PlayerControls::Move(float dt)
 	{
 		transform.Position = position;
 		SetTransform(transform);
-
-		OnMove.Invoke(transform);
 	}
 	
 

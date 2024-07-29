@@ -24,8 +24,10 @@ void Box::Update(float dt)
 
 void Box::MoveAndDrag(float dt)
 {
+	// Nullpointer after change scene(player was destroyed but box try to find him
+	// This why I try need to use "reference" of player and not other from colision
 	StelEntity* other = Physic().CollideWithLayer(m_EntityParent, LAYER_NAME_PLAYER);
-	if (other && other->GetComponent<PlayerControls>())
+	if (other && other->GetComponent<PlayerControls>()) 
 	{
 		float speed = other->GetComponent<PlayerControls>()->GetSpeed();
 

@@ -82,6 +82,13 @@ StelEntity* StelPhysic::CollideWithLayer(StelEntity* entity, const std::string& 
     return nullptr;
 }
 
+void StelPhysic::RemoveLayer(const std::string& layerName)
+{
+    if (m_Layers.count(layerName) < 0) return;
+
+    m_Layers[layerName].clear();
+}
+
 void StelPhysic::Remove(StelEntity* entity)
 {
     for (auto layer : m_Layers)

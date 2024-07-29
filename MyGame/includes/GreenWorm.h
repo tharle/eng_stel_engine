@@ -2,5 +2,5 @@
 #include "Enemy.h"
 
 class GreenWorm : public Enemy {
-	void Start(std::string spriteSheet, std::map<std::string, IEnemyState*> states);
+	void Start(std::string spriteSheet, std::map<std::string, AEnemyState*> states);
 };

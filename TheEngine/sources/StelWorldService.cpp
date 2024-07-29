@@ -95,6 +95,7 @@ void StelWorld::UnLoad()
 				delete entity;
 			}
 		}
+		m_CurrentScene->OnClose();
 		m_CurrentScene = nullptr;
 
 		m_EntityInWorld.clear();

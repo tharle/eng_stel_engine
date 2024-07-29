@@ -15,5 +15,6 @@ public:
 	virtual void Start(char* spriteSheet, StelPointI frame);
 	virtual void Update(float dt) override;
 
-	StelSubject<bool> OnItem;
+	static StelSubject<bool> OnItem;
 };
+

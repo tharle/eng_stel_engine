@@ -2,6 +2,9 @@
 #include "StelAtlas.h"
 #include "PlayerControls.h"
 
+// Subjects
+StelSubject<bool> Collectable::OnItem;
+
 void Collectable::Start(char* spriteSheet, StelPointI frame)
 {
 	m_Model = m_EntityParent->AddComponent<StelAtlas>();
@@ -17,7 +20,7 @@ void Collectable::Update(float dt)
 	StelEntity* other = Physic().CollideWithLayer(m_EntityParent, LAYER_NAME_PLAYER);
 	if (other != nullptr) 
 	{
-		OnItem.Invoke(true);
+		Collectable::OnItem.Invoke(true);
 		m_EntityParent->Destroy();
 	}
 }

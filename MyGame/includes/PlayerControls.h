@@ -1,6 +1,5 @@
 #pragma once
 #include "StelComponent.h"
-#include "StelSubject.h"
 #include "StelObserver.h"
 
 #define LAYER_NAME_PLAYER "PLAYER"
@@ -19,13 +18,11 @@ class PlayerControls : public StelComponent, public IUpdatable
 {
 public:
 	PlayerControls(StelEntity* parent) : StelComponent(parent) {  }
-	virtual ~PlayerControls() = default;
+	virtual ~PlayerControls();
 	virtual void Start(LevelManager* currentLevel, float speed);
 	virtual void Update(float dt) override;
 	
 	inline float GetSpeed() { return m_Speed; }
-
-	StelSubject<StelTransform> OnMove;
 private:
 	// Physics
 	StelRectF m_Collider = StelRectF::Zero(); // only for Tilemaps

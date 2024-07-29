@@ -25,6 +25,6 @@ public:
 
 	bool IsOpen();
 
-	StelSubject<int> OnOpenChest;
-	StelSubject<int> OnGetPearl;
+	static StelSubject<int> OnOpenChest;
+	static StelSubject<int> OnGetPearl;
 };

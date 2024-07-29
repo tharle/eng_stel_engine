@@ -2,6 +2,10 @@
 #include "StelAtlas.h"
 #include "PlayerControls.h"
 
+// Subjects
+StelSubject<int> Chest::OnOpenChest;
+StelSubject<int> Chest::OnGetPearl;
+
 void Chest::Start(char* spriteSheet, int chestAmount)
 {
 	StelComponent::Start();
@@ -24,7 +28,7 @@ void Chest::Update(float dt)
 	if (Physic().CollideWithLayer(m_EntityParent, LAYER_NAME_PLAYER) != nullptr)
 	{
 		m_Model->SetFrame(2);
-		OnGetPearl.Invoke(EVENT_GET_PEARL_ID);
+		Chest::OnGetPearl.Invoke(EVENT_GET_PEARL_ID);
 	}
 	
 }
@@ -40,6 +44,6 @@ void Chest::OnNotify(const bool& value)
 	if (IsOpen()) 
 	{
 		m_Model->SetFrame(1);
-		OnOpenChest.Invoke(EVENT_OPEN_CHEST_ID);
+		Chest::OnOpenChest.Invoke(EVENT_OPEN_CHEST_ID);
 	} 
 }

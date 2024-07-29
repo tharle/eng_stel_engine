@@ -18,10 +18,17 @@ public:
 
 	void Invoke(const T& value)
 	{
+		if (m_Observers.size() <= 0) return;
+
 		for (StelObserver<T>* o : m_Observers)
 		{
 			if(o->IsActive()) o->OnNotify(value);
 		}
+	}
+
+	void Clear() 
+	{
+		m_Observers.clear();
 	}
 private:
 	std::list<StelObserver<T>*> m_Observers;

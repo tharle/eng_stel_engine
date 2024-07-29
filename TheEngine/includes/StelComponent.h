@@ -18,7 +18,8 @@ public:
 
     virtual void Start() {};
     virtual void Destroy() {};
-
+    StelTransform GetTransform();
+    void SetTransform(StelTransform nTransform);
 
 protected:
     StelEntity* m_EntityParent = nullptr;
@@ -33,6 +34,4 @@ protected:
     IEvents& Events();
     IWorld& World();
     IPhysic& Physic();
-    StelTransform GetTransform();
-    void SetTransform(StelTransform nTransform);
 };

@@ -15,6 +15,7 @@ class StelPhysic : public IPhysic
         virtual void AddToLayer(const std::string& layerName, StelEntity* entity) override;
         virtual StelEntity* CollideWithLayer(StelEntity* entity, const std::string& layerName) override;
         virtual void Remove(StelEntity* entity) override;
+        virtual void RemoveLayer(const std::string& layerName);
 
     private:
         std::map<std::string, std::vector<StelEntity*>> m_Layers;

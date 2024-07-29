@@ -36,14 +36,13 @@ void GameScene::Load()
 	StelEntity* chestEnitty = Instantiate("Chest");
 	chestEnitty->SetTransform({ 6.0f * mult, 12.0f * mult }, size, scaleFactor, 0.0f);
 	Chest* chest = chestEnitty->AddComponent<Chest>();
-	c1->OnItem.AddListener(chest);
-	c2->OnItem.AddListener(chest);
+	Collectable::OnItem.AddListener(chest);
 	chest->Start(spriteSheet, 2);
 
 	StelEntity* doorEntity = Instantiate("Door");
 	doorEntity->SetTransform({ 8.0f * mult, 1.0f * mult }, size, scaleFactor, 0.0f);
 	Door* door = doorEntity->AddComponent<Door>();
-	chest->OnGetPearl.AddListener(door);
+	Chest::OnGetPearl.AddListener(door);
 	door->Start(spriteSheet, "Game");
 
 	StelEntity* player = Instantiate("Player");
@@ -64,13 +63,17 @@ void GameScene::Load()
 	StelEntity* greenWormEntity = Instantiate("Green Worm");
 	greenWormEntity->SetTransform({ 3.0f * mult, 6.0f * mult }, size, scaleFactor, 0.0f);
 	Enemy* greenWorm = greenWormEntity->AddComponent<Enemy>();
-	chest->OnOpenChest.AddListener(greenWorm);
-	chest->OnGetPearl.AddListener(greenWorm);
-	greenWorm->Start(spriteSheetMisc);
+	greenWorm->Start(spriteSheetMisc, player);
 	Box* greenWormBox = greenWormEntity->AddComponent<Box>();
 	greenWormBox->SetDraggable(false);
 	greenWormBox->Start(levelManager);
-	playerControls->OnMove.AddListener(greenWorm);
 
 	
+}
+
+void GameScene::OnClose()
+{
+	Chest::OnGetPearl.Clear();
+	Chest::OnOpenChest.Clear();
+	Collectable::OnItem.Clear();
 }

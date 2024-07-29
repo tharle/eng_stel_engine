@@ -1,18 +1,15 @@
 #include "Enemy.h"
-#include "IEnemyState.h" 
 #include "StelAnimation.h"
 #include "Chest.h"
+#include "Box.h"
 
 
-void Enemy::Start(std::string spriteSheet)
+void Enemy::Start(std::string spriteSheet, StelEntity* player)
 {
 	StelComponent::Start();
-
-	//m_States = states;
+	m_Player = player;
 
 	StelPointI size = StelPointI::FromFloat(GetTransform().Size.x, GetTransform().Size.y);
-
-	// Box
 	
 	// Animation
 	m_Model = m_EntityParent->AddComponent<StelAnimation>();
@@ -26,52 +23,39 @@ void Enemy::Start(std::string spriteSheet)
 
 	m_Model->Play(ENEMY_STATE_IDLE, false);
 
+	// States
+	m_States.emplace(ENEMY_STATE_IDLE, new EnemyStateIdle(this));
+	m_States.emplace(ENEMY_STATE_ATTACK, new EnemyStateAttack(this));
+	m_States.emplace(ENEMY_STATE_DEAD, new EnemyStateDead(this));
+
+	ChangeState(ENEMY_STATE_IDLE);
+
 }
 
 void Enemy::ChangeState(const std::string& state)
 {
 	if (m_States.count(state) <= 0) return;
 
-	if (m_CurrentState) m_CurrentState->OnExit(this);
+	if (m_CurrentState) m_CurrentState->OnExit();
 
 	m_CurrentState = m_States[state];
-	m_CurrentState->OnEnter(this);
+	m_CurrentState->OnEnter();
 }
 
 void Enemy::Update(float dt)
 {
-	//if(m_CurrentState != nullptr) m_CurrentState->Execute(this, dt);
-
-	// Looking to Player
-	
+	if(m_CurrentState != nullptr) m_CurrentState->Execute(dt);
 }
 
-
-void Enemy::OnNotify(const StelTransform& playerTransform)
+void Enemy::Destroy()
 {
-	if (!m_IsAlive) return;
-	if (m_IsChestOpen) return;
+	m_EntityParent->Destroy();
+}
 
-	StelPointF playerPos =  playerTransform.Position;
+StelPointF Enemy::GetDiffPlayer()
+{
+	StelPointF playerPos = m_Player->GetTransform().Position;
 	StelPointF diff = playerPos.Diff(GetTransform().Position);
 
-	if (diff.x < 0 && abs(diff.x) > GetTransform().GetTrueRect().w) m_Model->SetFrame(1);
-	else if (diff.x <= 0 && abs(diff.x) <= GetTransform().GetTrueRect().w) m_Model->SetFrame(2);
-	else if (diff.x >= 0 && abs(diff.x) <= GetTransform().GetTrueRect().w) m_Model->SetFrame(3);
-	else if (diff.x > 0 && abs(diff.x) > GetTransform().GetTrueRect().w) m_Model->SetFrame(4);
-}
-
-void Enemy::OnNotify(const int& idEvent)
-{
-	if (idEvent == EVENT_OPEN_CHEST_ID) 
-	{
-		m_IsChestOpen = true;
-		m_Model->Play(ENEMY_STATE_ATTACK, true);
-	}
-	else if (idEvent == EVENT_GET_PEARL_ID) 
-	{
-		m_Model->Stop();
-		m_Model->SetFrame(0);
-		m_IsAlive = false;
-	}
+	return diff;
 }
