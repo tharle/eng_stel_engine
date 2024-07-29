@@ -4,7 +4,7 @@
 #include "LevelManager.h"
 
 
-void Box::Start(char* spriteSheet, StelPointI frame, LevelManager* currentLevel)
+void Box::Start(LevelManager* currentLevel)
 {
 	StelComponent::Start();
 
@@ -13,64 +13,78 @@ void Box::Start(char* spriteSheet, StelPointI frame, LevelManager* currentLevel)
 	float offset = OFFSET_COLLIDER;
 	m_Collider = { -offset,-offset, -offset , -offset };
 
-	m_Model = m_EntityParent->AddComponent<StelAtlas>();
-	m_Model->Init(spriteSheet);
-	StelPointI size = StelPointI::FromFloat(m_EntityParent->GetTransform().Size.x, m_EntityParent->GetTransform().Size.y);
-	m_Model->AddFrame({ frame.x * size.x, frame.y * size.y, size.x, size.y });
-	m_Model->SetFrame(0);
-	m_Model->Start();
+	Physic().AddToLayer(LAYER_NAME_COLLIDABLE, m_EntityParent);
 }
 
 void Box::Update(float dt)
 {
-	Move(dt);
+	MoveAndDrag(dt);
 }
 
 
-void Box::Move(float dt)
+void Box::MoveAndDrag(float dt)
 {
 	StelEntity* other = Physic().CollideWithLayer(m_EntityParent, LAYER_NAME_PLAYER);
 	if (other && other->GetComponent<PlayerControls>())
 	{
 		float speed = other->GetComponent<PlayerControls>()->GetSpeed();
-		float axiosV = Input().GetAxiosVertical();
-		float axiosH = axiosV == 0 ? Input().GetAxiosHorizontal() : 0;
+
+		
+		int axiosV = static_cast<int>(Input().GetAxiosVertical());
+		int axiosH = axiosV == 0 ? static_cast<int>(Input().GetAxiosHorizontal()) : 0;
+		StelPointI direction = { axiosH, axiosV };
 
 		StelPointF diff = GetTransform().Position.Diff(other->GetTransform().Position);
 
-
 		// Check if player is moving the box in the good direction 
-		if ((diff.x > 0 && axiosH > 0)
-			|| (diff.x < 0 && axiosH < 0)
-			|| (diff.y > 0 && axiosV > 0)
-			|| (diff.y < 0 && axiosV < 0))
+		if ((diff.x > 0 && direction.x > 0)
+			|| (diff.x < 0 && direction.x < 0)
+			|| (diff.y > 0 && direction.y > 0)
+			|| (diff.y < 0 && direction.y < 0))
 		{
+			// DRAG
 			StelTransform transform = GetTransform();
 			StelPointF position = transform.Position;
-			position.x += axiosH * dt * speed * GetTransform().GetTrueRect().w + (OFFSET_SHIFT * axiosH);
-			position.y += axiosV * dt * speed * GetTransform().GetTrueRect().h + (OFFSET_SHIFT * axiosV);
+			position.x += direction.x * dt * speed * GetTransform().GetTrueRect().w + (OFFSET_SHIFT * direction.x);
+			position.y += direction.y * dt * speed * GetTransform().GetTrueRect().h + (OFFSET_SHIFT * direction.y);
 
-			StelRectF collider = {
-				position.x - m_Collider.x,
-				position.y - m_Collider.y,
-				GetTransform().Size.x + m_Collider.x,
-				GetTransform().Size.y + m_Collider.y
-			};
 			// Check colling with tile 
-			if (m_CurrentLevel->IsColliding(collider.Resize(GetTransform().Scale)))
-			{
-				// Make the player be in before position
-				StelPointF knockBack = transform.Position.Diff(position);
-				knockBack.x += (10.0f * axiosH);
-				knockBack.y += (10.0f * axiosV);
-				other->SetTransform(other->GetTransform().Translate(knockBack));
-			}
-			else
+			if (CanDragBox(position, direction))
 			{
 				// Confirm translade
 				transform.Position = position;
 				SetTransform(transform);
 			}
+			else
+			{
+				// Make the player be in before position
+				StelPointF knockBack = transform.Position.Diff(position);
+				knockBack.x += (OFFSET_SHIFT * axiosH);
+				knockBack.y += (OFFSET_SHIFT * axiosV);
+				other->SetTransform(other->GetTransform().Translate(knockBack));
+
+			}
 		}
 	}
+}
+
+bool Box::CanDragBox(StelPointF position, StelPointI direction) {
+
+	if (!m_IsDraggable) return false;
+
+	StelEntity* other = Physic().CollideWithLayer(m_EntityParent, LAYER_NAME_COLLIDABLE);
+	
+
+	// In my version of game, if the box touch other "Collidable" (ennemy or other box) will be stuck
+	if (other) {
+		return false;
+	}
+
+	StelRectF collider = {
+				position.x - m_Collider.x,
+				position.y - m_Collider.y,
+				GetTransform().Size.x + m_Collider.x,
+				GetTransform().Size.y + m_Collider.y
+	};
+	return !m_CurrentLevel->IsColliding(collider.Resize(GetTransform().Scale));
 }

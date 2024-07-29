@@ -1,5 +1,6 @@
 #pragma once
 #include <string>
+#define LAYER_NAME_COLLIDABLE "LAYER_NAME_COLLIDABLE"
 
 class StelEntity;
 struct StelPointF;

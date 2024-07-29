@@ -5,7 +5,7 @@ StelEntity::StelEntity() : StelEntity("") {}
 
 StelEntity::StelEntity(std::string name) : StelEntity(name, StelRectF::Zero()) {}
 
-StelEntity::StelEntity(std::string name, StelRectF rect) : m_Name(name), m_Transform(rect)
+StelEntity::StelEntity(std::string name, StelRectF rect) : m_Name(name), m_Transform(rect), m_IsActive(true)
 {
 }
 
@@ -27,6 +27,7 @@ void StelEntity::Draw()
 
 void StelEntity::Destroy()
 {
+    m_IsActive = false;
     for (auto cmp : m_Components)
     {
         if(cmp.second != nullptr) delete cmp.second;
@@ -35,7 +36,6 @@ void StelEntity::Destroy()
     m_Drawables.clear();
     m_Updatables.clear();
     m_Components.clear();
-    m_IsActive = false;
 }
 
 std::string StelEntity::GetName()

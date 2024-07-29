@@ -12,14 +12,16 @@ private:
 	StelAtlas* m_Model = nullptr;
 	LevelManager* m_CurrentLevel = nullptr;
 	StelRectF m_Collider = StelRectF::Zero(); // only for Tilemaps
+	bool m_IsDraggable = true;
 
-	void Move(float dt);
+	void MoveAndDrag(float dt);
+	bool CanDragBox(StelPointF position, StelPointI direction);
 public:
 	Box(StelEntity* parent) : StelComponent(parent) {  }
 	virtual ~Box() = default;
 
-	virtual void Start(char* spriteSheet, StelPointI frame, LevelManager* currentLevel);
+	virtual void Start(LevelManager* currentLevel);
 	virtual void Update(float dt) override;
 
-	//StelSubject<bool> OnItem;
+	void SetDraggable(bool value) { m_IsDraggable = value; }
 };

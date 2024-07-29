@@ -68,6 +68,8 @@ StelEntity* StelPhysic::CollideWithLayer(StelEntity* entity, const std::string& 
 
         for (StelEntity* entityInLayer : m_Layers[layerName])
         {
+            if (entity == entityInLayer) continue;
+
             StelRectF entityInLayerColldier = entityInLayer->GetTransform().GetTrueRect();
 
             if (CheckRects(entityCollider, entityInLayerColldier))

@@ -11,6 +11,8 @@ void Enemy::Start(std::string spriteSheet)
 	//m_States = states;
 
 	StelPointI size = StelPointI::FromFloat(GetTransform().Size.x, GetTransform().Size.y);
+
+	// Box
 	
 	// Animation
 	m_Model = m_EntityParent->AddComponent<StelAnimation>();

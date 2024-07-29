@@ -49,7 +49,7 @@ class StelEntity final : public IDrawable, public IUpdatable
 		StelEntity();
 		StelEntity(std::string name);
 		StelEntity(std::string name, StelRectF rect);
-		virtual ~StelEntity() = default;
+		virtual ~StelEntity() { m_IsActive = false; };
 		void Update(float dt);
 		void Draw();
 		void Destroy();
@@ -59,7 +59,7 @@ class StelEntity final : public IDrawable, public IUpdatable
 		std::vector<IDrawable*> m_Drawables = std::vector<IDrawable*>();
 		std::vector<IUpdatable*> m_Updatables = std::vector<IUpdatable*>();
 		std::map<const type_info*, StelComponent*> m_Components = std::map<const type_info*, StelComponent*>();
-		bool m_IsActive = true;
+		bool m_IsActive = false;
 	public:	
 		std::string GetName();
 		bool IsActive();
@@ -94,6 +94,8 @@ class StelEntity final : public IDrawable, public IUpdatable
 		template<typename T>
 		T* GetComponent()
 		{
+			if (!m_IsActive) return nullptr;
+
 			T temp(this);
 			const type_info* type = &typeid(temp); // _comp
 
