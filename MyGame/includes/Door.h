@@ -13,7 +13,7 @@ private:
 	std::string m_NextScene = "";
 public:
 	Door(StelEntity* parent) : StelComponent(parent) {  }
-	virtual ~Door() = default;
+	virtual ~Door();
 
 	virtual void Start(std::string spriteSheet, std::string nextSceneName);
 	virtual void Update(float dt) override;

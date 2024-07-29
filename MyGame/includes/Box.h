@@ -1,5 +1,6 @@
 #pragma once
 #include "StelComponent.h"
+#include "PlayerControls.h"
 
 #define OFFSET_SHIFT 10.0f
 #define OFFSET_COLLIDER 4.0f
@@ -13,6 +14,7 @@ private:
 	LevelManager* m_CurrentLevel = nullptr;
 	StelRectF m_Collider = StelRectF::Zero(); // only for Tilemaps
 	bool m_IsDraggable = true;
+	float m_Speed = PLAYER_SPEED;
 
 	void MoveAndDrag(float dt);
 	bool CanDragBox(StelPointF position, StelPointI direction);

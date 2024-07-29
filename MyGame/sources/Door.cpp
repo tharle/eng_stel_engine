@@ -3,9 +3,15 @@
 #include "PlayerControls.h"
 #include "Chest.h"
 
+Door::~Door()
+{
+	Chest::OnGetPearl.RemoveListener(this);
+}
+
 void Door::Start(std::string spriteSheet, std::string nextScene)
 {
 	StelComponent::Start();
+	Chest::OnGetPearl.AddListener(this);
 
 	m_NextScene = nextScene;
 

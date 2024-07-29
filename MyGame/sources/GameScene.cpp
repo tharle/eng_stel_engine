@@ -42,13 +42,12 @@ void GameScene::Load()
 	StelEntity* doorEntity = Instantiate("Door");
 	doorEntity->SetTransform({ 8.0f * mult, 1.0f * mult }, size, scaleFactor, 0.0f);
 	Door* door = doorEntity->AddComponent<Door>();
-	Chest::OnGetPearl.AddListener(door);
 	door->Start(spriteSheet, "Game");
 
 	StelEntity* player = Instantiate("Player");
 	player->SetTransform({ 6.0f * mult, 9.0f * mult }, size, scaleFactor, 0.0f);
 	PlayerControls* playerControls = player->AddComponent<PlayerControls>();
-	playerControls->Start(levelManager, 5.0f);
+	playerControls->Start(levelManager);
 
 	StelEntity* dragBox = Instantiate("Box");
 	dragBox->SetTransform({ 6.0f * mult, 7.0f * mult }, size, scaleFactor, 0.0f);
@@ -76,4 +75,7 @@ void GameScene::OnClose()
 	Chest::OnGetPearl.Clear();
 	Chest::OnOpenChest.Clear();
 	Collectable::OnItem.Clear();
+	Stel::Engine::Get().GetPhysic().RemoveLayer(LAYER_NAME_PLAYER);
+	Stel::Engine::Get().GetPhysic().RemoveLayer(LAYER_NAME_COLLIDABLE);
+
 }

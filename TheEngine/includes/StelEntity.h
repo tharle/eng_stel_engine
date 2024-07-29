@@ -96,6 +96,8 @@ class StelEntity final : public IDrawable, public IUpdatable
 		{
 			if (!m_IsActive) return nullptr;
 
+			if (m_Components.size() < 0) return nullptr;
+
 			T temp(this);
 			const type_info* type = &typeid(temp); // _comp
 

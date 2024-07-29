@@ -9,6 +9,8 @@
 #define ANIMATION_PLAYER_UP "walk_up"
 #define ANIMATION_PLAYER_RIGHT "walk_right"
 
+#define PLAYER_SPEED 5.0f
+
 class StelAnimation;
 class LevelManager;
 
@@ -19,14 +21,14 @@ class PlayerControls : public StelComponent, public IUpdatable
 public:
 	PlayerControls(StelEntity* parent) : StelComponent(parent) {  }
 	virtual ~PlayerControls();
-	virtual void Start(LevelManager* currentLevel, float speed);
+	virtual void Start(LevelManager* currentLevel);
 	virtual void Update(float dt) override;
 	
 	inline float GetSpeed() { return m_Speed; }
 private:
 	// Physics
 	StelRectF m_Collider = StelRectF::Zero(); // only for Tilemaps
-	float m_Speed = 0;
+	float m_Speed = PLAYER_SPEED;
 
 	// Animation
 	StelAnimation* m_Model = nullptr;

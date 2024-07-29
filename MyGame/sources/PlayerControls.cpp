@@ -9,7 +9,7 @@ PlayerControls::~PlayerControls()
 	Physic().Remove(m_EntityParent);
 }
 
-void PlayerControls::Start(LevelManager* currentLevel, float speed)
+void PlayerControls::Start(LevelManager* currentLevel)
 {
 	StelComponent::Start();
 
@@ -24,7 +24,6 @@ void PlayerControls::Start(LevelManager* currentLevel, float speed)
 
 
 	m_CurrentLevel = currentLevel;
-	m_Speed = speed;
 
 	// Load sounds and audios
 	m_RemoveSfx = Audio().LoadSound("Assets/Audios/Remove1.wav");

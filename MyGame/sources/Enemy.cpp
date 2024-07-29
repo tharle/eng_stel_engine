@@ -17,9 +17,12 @@ void Enemy::Start(std::string spriteSheet, StelEntity* player)
 	m_Model->Start();
 	m_Model->AddAnimationFrames(1, { 0, 8 }, { size.x, size.y });
 	m_Model->AddAnimationFrames(4, { 0, 6 }, { size.x, size .y});
+	m_Model->AddAnimationFrames(1, { 3, 6 }, { size.x, size.y });
+	m_Model->AddAnimationFrames(1, { 2, 6 }, { size.x, size.y });
+	m_Model->AddAnimationFrames(1, { 1, 6 }, { size.x, size.y });
 
 	m_Model->AddClip(ENEMY_STATE_IDLE, 1, 1, 0.0f);
-	m_Model->AddClip(ENEMY_STATE_ATTACK, 1, 4, 0.2f);
+	m_Model->AddClip(ENEMY_STATE_ATTACK, 1, 7, 0.1f);
 
 	m_Model->Play(ENEMY_STATE_IDLE, false);
 

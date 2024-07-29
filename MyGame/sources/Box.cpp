@@ -27,11 +27,8 @@ void Box::MoveAndDrag(float dt)
 	// Nullpointer after change scene(player was destroyed but box try to find him
 	// This why I try need to use "reference" of player and not other from colision
 	StelEntity* other = Physic().CollideWithLayer(m_EntityParent, LAYER_NAME_PLAYER);
-	if (other && other->GetComponent<PlayerControls>()) 
-	{
-		float speed = other->GetComponent<PlayerControls>()->GetSpeed();
-
-		
+	if (other) 
+	{	
 		int axiosV = static_cast<int>(Input().GetAxiosVertical());
 		int axiosH = axiosV == 0 ? static_cast<int>(Input().GetAxiosHorizontal()) : 0;
 		StelPointI direction = { axiosH, axiosV };
@@ -47,8 +44,8 @@ void Box::MoveAndDrag(float dt)
 			// DRAG
 			StelTransform transform = GetTransform();
 			StelPointF position = transform.Position;
-			position.x += direction.x * dt * speed * GetTransform().GetTrueRect().w + (OFFSET_SHIFT * direction.x);
-			position.y += direction.y * dt * speed * GetTransform().GetTrueRect().h + (OFFSET_SHIFT * direction.y);
+			position.x += direction.x * dt * m_Speed * GetTransform().GetTrueRect().w + (OFFSET_SHIFT * direction.x);
+			position.y += direction.y * dt * m_Speed * GetTransform().GetTrueRect().h + (OFFSET_SHIFT * direction.y);
 
 			// Check colling with tile 
 			if (CanDragBox(position, direction))
