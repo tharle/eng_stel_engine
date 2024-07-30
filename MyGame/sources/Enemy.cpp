@@ -51,6 +51,12 @@ void Enemy::ChangeState(const std::string& state)
 	m_CurrentState->OnEnter();
 }
 
+Enemy::~Enemy()
+{
+	for (auto state : m_States) { delete state.second; }
+	m_States.clear();
+}
+
 void Enemy::Update(float dt)
 {
 	if(m_CurrentState != nullptr) m_CurrentState->Execute(dt);

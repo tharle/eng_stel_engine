@@ -30,7 +30,7 @@ private:
 
 public:
 	Enemy(StelEntity* parent) : StelComponent(parent) {  }
-	virtual ~Enemy() = default;
+	virtual ~Enemy();
 
 	virtual void Update(float dt) override;
 	virtual void Destroy() override;
