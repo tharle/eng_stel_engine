@@ -10,7 +10,7 @@
 #endif //  _DEBUG
 
 MainMenuScene mainMenuScene = MainMenuScene();
-GameScene gameScene = GameScene();
+GameScene gameScene = GameScene("Game");
 
 void InitGameplay()
 {

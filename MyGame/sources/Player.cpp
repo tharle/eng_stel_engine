@@ -10,11 +10,13 @@ Player::~Player()
 	Physic().Remove(m_EntityParent);
 }
 
-void Player::Start(LevelManager* currentLevel)
+void Player::Start(LevelManager* currentLevel, std::string currentSceneName)
 {
 	StelComponent::Start();
 	m_CurrentLevel = currentLevel;
 	m_Foward = StelPointI::Down();
+	m_IsAlive = true;
+	m_CurrentScene = currentSceneName;
 
 	// Load sounds and audios
 	m_RemoveSfx = Audio().LoadSound("Assets/Audios/Remove1.wav");
@@ -34,11 +36,16 @@ void Player::Start(LevelManager* currentLevel)
 	m_Model->AddAnimationFrames(5, { 0, 1 }, { 16, 16 });
 	m_Model->AddAnimationFrames(5, { 0, 2 }, { 16, 16 });
 	m_Model->AddAnimationFrames(5, { 0, 3 }, { 16, 16 });
+	m_Model->AddAnimationFrames(4, { 0, 4 }, { 16, 16 });
+	m_Model->AddAnimationFrames(4, { 0, 5 }, { 16, 16 });
 
 	m_Model->AddClip(ANIMATION_PLAYER_DOWN, 0, 5, 0.02f);
 	m_Model->AddClip(ANIMATION_PLAYER_LEFT, 5, 5, 0.02f);
 	m_Model->AddClip(ANIMATION_PLAYER_UP, 10, 5, 0.02f);
 	m_Model->AddClip(ANIMATION_PLAYER_RIGHT, 15, 5, 0.02f);
+
+	m_Model->AddClip(ANIMATION_PLAYER_DIE, 20, 4, 0.2f);
+	m_Model->AddClip(ANIMATION_PLAYER_VICTORY, 24, 4, 0.2f);
 	
 
 	// COLLIDER
@@ -50,6 +57,15 @@ void Player::Start(LevelManager* currentLevel)
 
 void Player::Update(float dt) 
 {
+	if (!m_IsAlive) 
+	{
+		m_ElapseTimeDie += dt;
+
+		if(m_ElapseTimeDie >= DELAY_TO_DIE) World().LoadScene(m_CurrentScene);
+
+		return;
+	}
+
 	Move(dt);
 	InputEvents(dt);
 	AudioUpdate();
@@ -57,6 +73,9 @@ void Player::Update(float dt)
 
 void Player::Die()
 {
+	m_IsAlive = false;
+	m_ElapseTimeDie = 0;
+	m_Model->Play(ANIMATION_PLAYER_DIE, false);
 }
 
 void Player::Move(float dt)
@@ -126,12 +145,21 @@ void Player::Move(float dt)
 
 void Player::InputEvents(float dt)
 {
+	// QUIT
 	IEvents::StelEvent stelEvent;
 	if(Events().Contanis(IEvents::Quit, stelEvent))
 	{
 		World().ExitGame();
 	}
 
+	// DIE
+	if (Input().IsKeyDown(IInput::LShift) || Input().IsKeyDown(IInput::RShift)) 
+	{
+		Die();
+	}
+
+
+	// HIT
 	if (m_CooldownFire > 0) m_CooldownFire -= dt;
 	if (m_CooldownFire <= 0 && Input().IsKeyDown(IInput::J))
 	{

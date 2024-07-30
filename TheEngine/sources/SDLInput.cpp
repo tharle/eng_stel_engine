@@ -47,6 +47,8 @@ void SdlInput::InitInputMap()
     m_InputMap[Y] = SDL_SCANCODE_Y;
     m_InputMap[Z] = SDL_SCANCODE_Z;
     m_InputMap[Space] = SDL_SCANCODE_SPACE;
+    m_InputMap[LShift] = SDL_SCANCODE_LSHIFT;
+    m_InputMap[RShift] = SDL_SCANCODE_RSHIFT;
 
 }
  

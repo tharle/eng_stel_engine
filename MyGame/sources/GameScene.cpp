@@ -47,7 +47,7 @@ void GameScene::Load()
 	StelEntity* player = Instantiate("Player");
 	player->SetTransform({ 6.0f * mult, 9.0f * mult }, size, scaleFactor, 0.0f);
 	Player* playerControls = player->AddComponent<Player>();
-	playerControls->Start(levelManager);
+	playerControls->Start(levelManager, m_Name);
 
 	StelEntity* dragBox = Instantiate("Box");
 	dragBox->SetTransform({ 6.0f * mult, 7.0f * mult }, size, scaleFactor, 0.0f);
