@@ -10,6 +10,7 @@
 #define ANIMATION_PLAYER_RIGHT "walk_right"
 
 #define PLAYER_SPEED 5.0f
+#define BULLET_PER_SECOND 0.5f 
 
 class StelAnimation;
 class LevelManager;
@@ -31,6 +32,8 @@ private:
 	// Physics
 	StelRectF m_Collider = StelRectF::Zero(); // only for Tilemaps
 	float m_Speed = PLAYER_SPEED;
+	float m_CooldownFire = 0;
+	StelPointI m_Foward = StelPointI::Down();
 
 	// Animation
 	StelAnimation* m_Model = nullptr;
@@ -51,6 +54,6 @@ private:
 
 
 	void Move(float dt);
-	void InputEvents();
+	void InputEvents(float dt);
 	void AudioUpdate();
 };

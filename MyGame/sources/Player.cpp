@@ -13,18 +13,8 @@ Player::~Player()
 void Player::Start(LevelManager* currentLevel)
 {
 	StelComponent::Start();
-
-	// Animation
-	m_Model = m_EntityParent->AddComponent<StelAnimation>();
-	m_Model->Init("Assets/adv_lolo_char.png");
-	m_Model->Start();
-	m_Model->AddAnimationFrames(5, { 0, 0 }, { 16, 16 });
-	m_Model->AddAnimationFrames(5, { 0, 1 }, { 16, 16 });
-	m_Model->AddAnimationFrames(5, { 0, 2 }, { 16, 16 });
-	m_Model->AddAnimationFrames(5, { 0, 3 }, { 16, 16 });
-
-
 	m_CurrentLevel = currentLevel;
+	m_Foward = StelPointI::Down();
 
 	// Load sounds and audios
 	m_RemoveSfx = Audio().LoadSound("Assets/Audios/Remove1.wav");
@@ -35,10 +25,21 @@ void Player::Start(LevelManager* currentLevel)
 	// Load Fonts
 	m_TitleFontId = Gfx().LoadFont("Assets/Fonts/Merlovaz.ttf", 30);
 	m_DecrpFontId = Gfx().LoadFont("Assets/Fonts/Merlovaz.ttf", 12);
+	
+	// Animation
+	m_Model = m_EntityParent->AddComponent<StelAnimation>();
+	m_Model->Init("Assets/adv_lolo_char.png");
+	m_Model->Start();
+	m_Model->AddAnimationFrames(5, { 0, 0 }, { 16, 16 });
+	m_Model->AddAnimationFrames(5, { 0, 1 }, { 16, 16 });
+	m_Model->AddAnimationFrames(5, { 0, 2 }, { 16, 16 });
+	m_Model->AddAnimationFrames(5, { 0, 3 }, { 16, 16 });
+
 	m_Model->AddClip(ANIMATION_PLAYER_DOWN, 0, 5, 0.02f);
 	m_Model->AddClip(ANIMATION_PLAYER_LEFT, 5, 5, 0.02f);
 	m_Model->AddClip(ANIMATION_PLAYER_UP, 10, 5, 0.02f);
 	m_Model->AddClip(ANIMATION_PLAYER_RIGHT, 15, 5, 0.02f);
+	
 
 	// COLLIDER
 	float offset = 4.0f;
@@ -50,7 +51,7 @@ void Player::Start(LevelManager* currentLevel)
 void Player::Update(float dt) 
 {
 	Move(dt);
-	InputEvents();
+	InputEvents(dt);
 	AudioUpdate();
 }
 
@@ -99,14 +100,31 @@ void Player::Move(float dt)
 	}
 	else m_CooldownWalkSound -= dt;
 		
-	if (axiosV > 0) m_Model->Play(ANIMATION_PLAYER_DOWN, true);
-	else if (axiosV < 0) m_Model->Play(ANIMATION_PLAYER_UP, true);
-	else if (axiosH < 0) m_Model->Play(ANIMATION_PLAYER_LEFT, true);
-	else if (axiosH > 0 ) m_Model->Play(ANIMATION_PLAYER_RIGHT, true);
+	if (axiosV > 0) 
+	{
+		m_Model->Play(ANIMATION_PLAYER_DOWN, true);
+		m_Foward = StelPointI::Down();
+	}
+	else if (axiosV < 0) 
+	{
+		m_Model->Play(ANIMATION_PLAYER_UP, true);
+		m_Foward = StelPointI::Up();
+	}
+	else if (axiosH < 0)
+	{
+		m_Model->Play(ANIMATION_PLAYER_LEFT, true);
+		m_Foward = StelPointI::Left();
+		
+	}
+	else if (axiosH > 0) 
+	{
+		m_Model->Play(ANIMATION_PLAYER_RIGHT, true);
+		m_Foward = StelPointI::Right();
+	} 
 	
 }
 
-void Player::InputEvents()
+void Player::InputEvents(float dt)
 {
 	IEvents::StelEvent stelEvent;
 	if(Events().Contanis(IEvents::Quit, stelEvent))
@@ -114,17 +132,17 @@ void Player::InputEvents()
 		World().ExitGame();
 	}
 
-	if (Input().IsKeyDown(IInput::J)) 
+	if (m_CooldownFire > 0) m_CooldownFire -= dt;
+	if (m_CooldownFire <= 0 && Input().IsKeyDown(IInput::J))
 	{
+		m_CooldownFire = BULLET_PER_SECOND;
+
 		StelRectF collider = GetTransform().GetTrueRect();
 		StelEntity* projectilEntity = World().CreateLater("Projectil");
-		projectilEntity->SetTransform({ 6.0f * collider.w, 9.0f * collider.h }, 
-			GetTransform().Size, 
-			GetTransform().Scale, 
-			GetTransform().Angle);
+		projectilEntity->SetTransform(GetTransform());
 		Projectil* projectil = projectilEntity->AddComponent<Projectil>();
 	
-		projectil->Start({ 1, 0 });
+		projectil->Start(m_Foward);
 	}
 }
 

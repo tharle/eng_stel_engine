@@ -15,6 +15,7 @@ private:
 	float m_Speed = PROJECTIL_SPEED;
 	bool m_IsPlayerOwner = true;
 	StelPointI m_Direction = StelPointI::Zero();
+	StelRectF m_Limits;
 public:
 	Projectil(StelEntity* parent) : StelComponent(parent) {};
 	virtual ~Projectil() = default;

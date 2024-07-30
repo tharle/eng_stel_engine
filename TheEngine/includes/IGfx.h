@@ -36,7 +36,6 @@ struct StelPointI
 	int x;
 	int y;
 
-	static StelPointI Zero() { return { 0, 0}; }
 	
 	StelPointI Resize(int factor)
 	{
@@ -47,6 +46,12 @@ struct StelPointI
 	{
 		return { static_cast<float>(x), static_cast<float>(y) };
 	}
+
+	static StelPointI Zero() { return { 0, 0}; }
+	static StelPointI Up() { return { 0, -1 }; }
+	static StelPointI Down() { return { 0, 1 }; }
+	static StelPointI Left() { return { -1, 0 }; }
+	static StelPointI Right() { return { 1, 0 }; }
 
 	static StelPointI FromFloat(float _x, float _y) {
 		StelPointI point;
