@@ -17,7 +17,7 @@ void InitGameplay()
 
 	Stel::Engine::Get().GetWorld().Register("MainMenu", &mainMenuScene);
 	Stel::Engine::Get().GetWorld().Register("Game1", &gameSceneLevel1);
-	Stel::Engine::Get().GetWorld().LoadScene("Game1");
+	Stel::Engine::Get().GetWorld().LoadScene("MainMenu");
 
 }
 

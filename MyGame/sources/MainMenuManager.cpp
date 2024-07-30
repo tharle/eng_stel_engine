@@ -3,8 +3,8 @@
 void MainMenuManager::Start()
 {
 	Audio().StopMusic();
-	m_TitleFontId = Gfx().LoadFont("Assets/Fonts/Merlovaz.ttf", 90);
-	m_DecrpFontId = Gfx().LoadFont("Assets/Fonts/Merlovaz.ttf", 25);
+	m_TitleFontId = Gfx().LoadFont("Assets/Fonts/Merlovaz.ttf", 26);
+	m_DecrpFontId = Gfx().LoadFont("Assets/Fonts/Merlovaz.ttf", 14);
 }
 
 void MainMenuManager::Update(float dt)
@@ -12,15 +12,15 @@ void MainMenuManager::Update(float dt)
 	if (m_ElapseTimeTouched > 0) m_ElapseTimeTouched -= dt;
 	if (Input().IsKeyDown(IInput::Space) && m_ElapseTimeTouched <= 0)
 	{
-		Stel::Engine::Get().GetWorld().LoadScene("Game");
-		Log().Print(LOG_INFO, "SPACE WAS PRESSED");
+		Stel::Engine::Get().GetWorld().LoadScene("Game1");
 		m_ElapseTimeTouched = 1.0f;
 	}
 }
 
 void MainMenuManager::Draw()
 {
-	Gfx().DrawRect({ 0.0f, 0.0f, 800.0f, 600.0f }, StelColor::BLACK);
-	Gfx().DrawString("MAIN MENU", m_TitleFontId, { 100.0f, 210.0f }, StelColor::AQUA);
-	if (m_ElapseTimeTouched <= 0) Gfx().DrawString("- Press space to change scene - ", m_DecrpFontId, { 230.0f, 400.0f }, StelColor::AZURE);
+	Gfx().FillRect({ 0.0f, 0.0f, 512.0f, 512.0f }, StelColor::BLUE);
+	Gfx().FillRect({ 100.0f, 80.0f, 312.0f, 240.0f }, StelColor::BLACK);
+	Gfx().DrawString("AVENTURE OF LOLO", m_TitleFontId, { 120.0f, 140.0f }, StelColor::AQUA);
+	if (m_ElapseTimeTouched <= 0) Gfx().DrawString("- Press space to START - ", m_DecrpFontId, { 180.0f, 250.0f }, StelColor::AZURE);
 }
