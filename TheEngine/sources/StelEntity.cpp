@@ -42,6 +42,12 @@ void StelEntity::Destroy()
     m_Components.clear();
 }
 
+void StelEntity::SetPosition(StelPointF pos)
+{
+    m_Transform.Position = pos;
+    SetTransform(m_Transform);
+}
+
 std::string StelEntity::GetName()
 {
     return m_Name;

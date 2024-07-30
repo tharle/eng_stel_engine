@@ -54,3 +54,9 @@ void StelComponent::SetTransform(StelTransform nTransform)
 {
     return m_EntityParent->SetTransform(nTransform);
 }
+
+// Not working
+void StelComponent::SetPosition(StelPointF pos)
+{
+    m_EntityParent->SetPosition(pos);
+}

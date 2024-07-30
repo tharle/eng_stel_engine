@@ -53,6 +53,7 @@ class StelEntity final : public IDrawable, public IUpdatable
 		void Update(float dt);
 		void Draw();
 		void Destroy();
+		void SetPosition(StelPointF pos);
 	private:
 		StelTransform m_Transform;
 		std::string m_Name = "";

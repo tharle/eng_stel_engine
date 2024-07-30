@@ -16,15 +16,17 @@ class LevelManager;
 
 
 // All controls for player
-class PlayerControls : public StelComponent, public IUpdatable
+class Player : public StelComponent, public IUpdatable
 {
 public:
-	PlayerControls(StelEntity* parent) : StelComponent(parent) {  }
-	virtual ~PlayerControls();
+	Player(StelEntity* parent) : StelComponent(parent) {  }
+	virtual ~Player();
 	virtual void Start(LevelManager* currentLevel);
 	virtual void Update(float dt) override;
 	
 	inline float GetSpeed() { return m_Speed; }
+
+	void Die();
 private:
 	// Physics
 	StelRectF m_Collider = StelRectF::Zero(); // only for Tilemaps
@@ -49,6 +51,6 @@ private:
 
 
 	void Move(float dt);
-	void MouseEvents();
+	void InputEvents();
 	void AudioUpdate();
 };

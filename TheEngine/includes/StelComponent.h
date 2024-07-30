@@ -20,6 +20,7 @@ public:
     virtual void Destroy() {};
     StelTransform GetTransform();
     void SetTransform(StelTransform nTransform);
+    void SetPosition(StelPointF pos);
 
 protected:
     StelEntity* m_EntityParent = nullptr;

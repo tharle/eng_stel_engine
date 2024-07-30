@@ -1,6 +1,6 @@
 #include "Collectable.h"
 #include "StelAtlas.h"
-#include "PlayerControls.h"
+#include "Player.h"
 
 // Subjects
 StelSubject<bool> Collectable::OnItem;

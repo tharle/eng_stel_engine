@@ -5,6 +5,15 @@
 #include "StelAnimation.h"
 #include "Chest.h"
 
+#define LAYER_NAME_ENEMY "ENEMY"
+
+#define ENEMY_ANIMATION_FRAME_DEAD 0
+#define ENEMY_ANIMATION_FRAME_FROZEN_0 1
+#define ENEMY_ANIMATION_FRAME_FROZEN_1 2
+
+#define DELAY_STUNNED 5.0f
+
+
 class AEnemyState;
 class StelAnimation;
 
@@ -16,6 +25,7 @@ private:
 	StelAnimation* m_Model = nullptr;
 	bool m_IsChestOpen = false;
 	bool m_IsAlive = true;
+	int m_Damage = 0;
 
 public:
 	Enemy(StelEntity* parent) : StelComponent(parent) {  }
@@ -31,23 +41,30 @@ public:
 	inline StelAnimation& GetAnimation() { return *m_Model; }
 
 	StelPointF GetDiffPlayer();
-
-
-	bool IsCurrentState(AEnemyState* state) {
-		return m_CurrentState == state;
-	};
+	bool IsCurrentState(AEnemyState* state);
+	void TakeHit();
+	void GotHeal();
 };
 
 class EnemyStateIdle : public AEnemyState, public StelObserver<int>
 {
+private:
+	bool m_StayIdle = true;
 public:
 	EnemyStateIdle(Enemy* parent) : AEnemyState(parent) {};
 	virtual ~EnemyStateIdle() = default;
 
 	virtual void OnEnter() override
 	{
-		Chest::OnOpenChest.AddListener(this);
-		m_Enemy->GetAnimation().Play(ENEMY_STATE_IDLE, false);
+		if (m_StayIdle) 
+		{
+			Chest::OnOpenChest.AddListener(this);
+			m_Enemy->GetAnimation().Play(ENEMY_STATE_IDLE, false);
+		}
+		else {
+			m_Enemy->ChangeState(ENEMY_STATE_ATTACK);
+		}
+		
 	};
 	
 	virtual void Execute(float dt) 
@@ -63,7 +80,6 @@ public:
 
 	virtual void OnExit() 
 	{
-		//Chest::OnOpenChest.RemoveListener(this);
 	};
 
 	virtual void OnNotify(const int& eventId)
@@ -71,6 +87,7 @@ public:
 		if (eventId == EVENT_OPEN_CHEST_ID)
 		{
 			m_Enemy->ChangeState(ENEMY_STATE_ATTACK);
+			m_StayIdle = false;
 		}
 	};
 
@@ -96,7 +113,6 @@ public:
 
 	virtual void OnExit()
 	{
-		//Chest::OnGetPearl.RemoveListener(this);
 	};
 
 	virtual void OnNotify(const int& eventId)
@@ -110,22 +126,64 @@ public:
 	virtual bool IsActive() { return m_Enemy->IsCurrentState(this); }
 };
 
+class EnemyStateFrozen: public AEnemyState
+{
+private:
+	float m_ElapsedTime = 0.0f;
+	bool m_IsStartBroken = false;
+public:
+	EnemyStateFrozen(Enemy* parent) : AEnemyState(parent) {};
+	virtual ~EnemyStateFrozen() = default;
+
+	virtual void OnEnter() override
+	{
+		m_ElapsedTime = 0.0f;
+		m_IsStartBroken = false;
+		m_Enemy->GetAnimation().Stop();
+		m_Enemy->GetAnimation().SetFrame(ENEMY_ANIMATION_FRAME_FROZEN_0);
+	};
+
+	virtual void Execute(float dt)
+	{
+		m_ElapsedTime += dt;
+
+		if (m_ElapsedTime >= DELAY_STUNNED && !m_IsStartBroken)
+		{
+			m_IsStartBroken = true;
+			m_Enemy->GetAnimation().SetFrame(ENEMY_ANIMATION_FRAME_FROZEN_1);
+			m_ElapsedTime = 0;
+		}else if (m_ElapsedTime >= DELAY_STUNNED) 
+		{
+			m_Enemy->ChangeState(ENEMY_STATE_IDLE);
+		}
+	};
+
+	virtual void OnExit()
+	{
+		m_Enemy->GotHeal();
+	};
+};
+
 class EnemyStateDead: public AEnemyState
 {
+private:
+	float m_ElapsedTime = 0.0f;
 public:
 	EnemyStateDead(Enemy* parent) : AEnemyState(parent) {};
 	virtual ~EnemyStateDead() = default;
 
 	virtual void OnEnter() override
 	{
+		m_ElapsedTime = 0;
 		m_Enemy->GetAnimation().Stop();
-		m_Enemy->GetAnimation().SetFrame(0);
+		m_Enemy->GetAnimation().SetFrame(ENEMY_ANIMATION_FRAME_DEAD);
 		m_Enemy->SetAlive(false);
 		m_Enemy->Destroy();
 	};
 
 	virtual void Execute(float dt)
 	{
+		
 	};
 
 	virtual void OnExit()

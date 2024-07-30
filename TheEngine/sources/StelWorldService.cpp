@@ -23,6 +23,14 @@ StelEntity* StelWorld::Create(std::string name)
 	return ent;
 }
 
+StelEntity* StelWorld::CreateLater(std::string name)
+{
+	StelEntity* ent = new StelEntity(name);
+	m_EntitiesToBeCreateInNextFrame.push_back(ent);
+
+	return ent;
+}
+
 void StelWorld::Update(float dt)
 {
 	for (StelEntity* entity : m_EntityInWorld)
@@ -30,6 +38,7 @@ void StelWorld::Update(float dt)
 		if (entity != nullptr) entity->Update(dt);
 	}
 
+	AddAllLateEnityToWorld();
 	CheckAndLoadScene();
 }
 
@@ -84,6 +93,19 @@ void StelWorld::CheckAndLoadScene()
 		Stel::Engine::Get().GetLoggerService().Print(LOG_ERROR, msg.c_str());
 		m_NextSceneToLoad = "";
 	}
+}
+
+void StelWorld::AddAllLateEnityToWorld()
+{
+	for (StelEntity* ent : m_EntitiesToBeCreateInNextFrame) 
+	{
+		if (!ent) continue;
+
+		m_EntityInWorld.push_back(ent);
+		m_EntityMap.emplace(ent->GetName(), ent);
+	}
+
+	m_EntitiesToBeCreateInNextFrame.clear();
 }
 
 void StelWorld::UnLoad()

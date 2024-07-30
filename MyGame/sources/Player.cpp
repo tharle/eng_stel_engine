@@ -1,15 +1,16 @@
-﻿#include "PlayerControls.h"
+﻿#include "Player.h"
 #include "StelAnimation.h"
 #include "LevelManager.h"
 #include "Chest.h"
+#include "Projectil.h"
 
 
-PlayerControls::~PlayerControls()
+Player::~Player()
 {
 	Physic().Remove(m_EntityParent);
 }
 
-void PlayerControls::Start(LevelManager* currentLevel)
+void Player::Start(LevelManager* currentLevel)
 {
 	StelComponent::Start();
 
@@ -46,14 +47,18 @@ void PlayerControls::Start(LevelManager* currentLevel)
 }
 
 
-void PlayerControls::Update(float dt) 
+void Player::Update(float dt) 
 {
 	Move(dt);
-	MouseEvents();
+	InputEvents();
 	AudioUpdate();
 }
 
-void PlayerControls::Move(float dt)
+void Player::Die()
+{
+}
+
+void Player::Move(float dt)
 {
 	// In the original game, if you press up/down, will ignore left or right
 	float axiosV = Input().GetAxiosVertical();
@@ -101,16 +106,29 @@ void PlayerControls::Move(float dt)
 	
 }
 
-void PlayerControls::MouseEvents()
+void Player::InputEvents()
 {
 	IEvents::StelEvent stelEvent;
 	if(Events().Contanis(IEvents::Quit, stelEvent))
 	{
 		World().ExitGame();
 	}
+
+	if (Input().IsKeyDown(IInput::J)) 
+	{
+		StelRectF collider = GetTransform().GetTrueRect();
+		StelEntity* projectilEntity = World().CreateLater("Projectil");
+		projectilEntity->SetTransform({ 6.0f * collider.w, 9.0f * collider.h }, 
+			GetTransform().Size, 
+			GetTransform().Scale, 
+			GetTransform().Angle);
+		Projectil* projectil = projectilEntity->AddComponent<Projectil>();
+	
+		projectil->Start({ 1, 0 });
+	}
 }
 
-void PlayerControls::AudioUpdate()
+void Player::AudioUpdate()
 {
 	if (Input().IsKeyDown(IInput::StelKey::Z))
 	{

@@ -1,6 +1,6 @@
 #include "Chest.h"
 #include "StelAtlas.h"
-#include "PlayerControls.h"
+#include "Player.h"
 
 // Subjects
 StelSubject<int> Chest::OnOpenChest;

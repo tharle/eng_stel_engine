@@ -11,6 +11,7 @@ class IWorld
         // ENTITY
         // -----------------------------
         virtual StelEntity* Create(std::string name) = 0;
+        virtual StelEntity* CreateLater(std::string name) = 0;
         virtual StelEntity* Find(std::string  name) = 0;
         virtual void Remove(StelEntity* ent) = 0;
         virtual void Update(float dt) = 0;

@@ -33,6 +33,8 @@ void Enemy::Start(std::string spriteSheet, StelEntity* player)
 
 	ChangeState(ENEMY_STATE_IDLE);
 
+	Physic().AddToLayer(LAYER_NAME_ENEMY, m_EntityParent);
+
 }
 
 void Enemy::ChangeState(const std::string& state)
@@ -61,4 +63,22 @@ StelPointF Enemy::GetDiffPlayer()
 	StelPointF diff = playerPos.Diff(GetTransform().Position);
 
 	return diff;
+}
+
+bool Enemy::IsCurrentState(AEnemyState* state)
+{
+	return m_CurrentState == state;
+}
+
+void Enemy::TakeHit()
+{
+	m_Damage++;
+
+	if (m_Damage <= 1) ChangeState(ENEMY_STATE_FROZEN);
+	else ChangeState(ENEMY_STATE_DEAD);
+}
+
+void Enemy::GotHeal()
+{
+	m_Damage = 0;
 }

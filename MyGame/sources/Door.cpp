@@ -1,6 +1,6 @@
 #include "Door.h"
 #include "StelAtlas.h"
-#include "PlayerControls.h"
+#include "Player.h"
 #include "Chest.h"
 
 Door::~Door()

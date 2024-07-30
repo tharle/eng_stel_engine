@@ -1,6 +1,6 @@
 #include "GameScene.h"
 #include "StelEngine.h"
-#include "PlayerControls.h"
+#include "Player.h"
 #include "StelAnimation.h"
 #include "LevelManager.h"
 #include "Collectable.h"
@@ -46,7 +46,7 @@ void GameScene::Load()
 
 	StelEntity* player = Instantiate("Player");
 	player->SetTransform({ 6.0f * mult, 9.0f * mult }, size, scaleFactor, 0.0f);
-	PlayerControls* playerControls = player->AddComponent<PlayerControls>();
+	Player* playerControls = player->AddComponent<Player>();
 	playerControls->Start(levelManager);
 
 	StelEntity* dragBox = Instantiate("Box");
@@ -77,5 +77,6 @@ void GameScene::OnClose()
 	Collectable::OnItem.Clear();
 	Stel::Engine::Get().GetPhysic().RemoveLayer(LAYER_NAME_PLAYER);
 	Stel::Engine::Get().GetPhysic().RemoveLayer(LAYER_NAME_COLLIDABLE);
+	Stel::Engine::Get().GetPhysic().RemoveLayer(LAYER_NAME_ENEMY);
 
 }

@@ -1,6 +1,6 @@
 #include "Box.h"
 #include "StelAtlas.h"
-#include "PlayerControls.h"
+#include "Player.h"
 #include "LevelManager.h"
 
 

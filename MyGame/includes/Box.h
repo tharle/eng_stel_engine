@@ -1,6 +1,6 @@
 #pragma once
 #include "StelComponent.h"
-#include "PlayerControls.h"
+#include "Player.h"
 
 #define OFFSET_SHIFT 10.0f
 #define OFFSET_COLLIDER 4.0f
