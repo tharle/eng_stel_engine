@@ -25,6 +25,16 @@ void StelEntity::Draw()
     }
 }
 
+void StelEntity::SetLateDestroy() 
+{
+    m_IsLateDestroy = true;
+}
+
+bool StelEntity::IsLateDestroy()
+{
+    return m_IsLateDestroy;
+}
+
 void StelEntity::Destroy()
 {
     m_IsActive = false;

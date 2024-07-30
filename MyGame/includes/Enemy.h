@@ -11,12 +11,13 @@
 #define ENEMY_ANIMATION_FRAME_FROZEN_0 1
 #define ENEMY_ANIMATION_FRAME_FROZEN_1 2
 
-#define DELAY_STUNNED 5.0f
+#define DELAY_STUNNED 2.0f
 
 
 class AEnemyState;
 class StelAnimation;
 
+// Classe base for enemys states
 class Enemy : public StelComponent, public IUpdatable {
 private:
 	StelEntity* m_Player = nullptr;
@@ -44,6 +45,7 @@ public:
 	bool IsCurrentState(AEnemyState* state);
 	void TakeHit();
 	void GotHeal();
+	void SetBoxDrag(bool value);
 };
 
 class EnemyStateIdle : public AEnemyState, public StelObserver<int>
@@ -59,7 +61,7 @@ public:
 		if (m_StayIdle) 
 		{
 			Chest::OnOpenChest.AddListener(this);
-			m_Enemy->GetAnimation().Play(ENEMY_STATE_IDLE, false);
+			m_Enemy->GetAnimation().SetFrame(3);
 		}
 		else {
 			m_Enemy->ChangeState(ENEMY_STATE_ATTACK);
@@ -72,10 +74,10 @@ public:
 		StelPointF diff = m_Enemy->GetDiffPlayer();
 		StelRectF collider = m_Enemy->GetTransform().GetTrueRect();
 
-		if (diff.x < 0 && abs(diff.x) > collider.w) m_Enemy->GetAnimation().SetFrame(1);
-		else if (diff.x <= 0 && abs(diff.x) <= collider.w) m_Enemy->GetAnimation().SetFrame(2);
-		else if (diff.x >= 0 && abs(diff.x) <= collider.w) m_Enemy->GetAnimation().SetFrame(3);
-		else if (diff.x > 0 && abs(diff.x) > collider.w) m_Enemy->GetAnimation().SetFrame(4);
+		if (diff.x < 0 && abs(diff.x) > collider.w) m_Enemy->GetAnimation().SetFrame(3);
+		else if (diff.x <= 0 && abs(diff.x) <= collider.w) m_Enemy->GetAnimation().SetFrame(4);
+		else if (diff.x >= 0 && abs(diff.x) <= collider.w) m_Enemy->GetAnimation().SetFrame(5);
+		else if (diff.x > 0 && abs(diff.x) > collider.w) m_Enemy->GetAnimation().SetFrame(6);
 	};
 
 	virtual void OnExit() 
@@ -141,6 +143,7 @@ public:
 		m_IsStartBroken = false;
 		m_Enemy->GetAnimation().Stop();
 		m_Enemy->GetAnimation().SetFrame(ENEMY_ANIMATION_FRAME_FROZEN_0);
+		m_Enemy->SetBoxDrag(true);
 	};
 
 	virtual void Execute(float dt)
@@ -161,6 +164,7 @@ public:
 	virtual void OnExit()
 	{
 		m_Enemy->GotHeal();
+		m_Enemy->SetBoxDrag(false);
 	};
 };
 

@@ -15,14 +15,17 @@ void Enemy::Start(std::string spriteSheet, StelEntity* player)
 	m_Model = m_EntityParent->AddComponent<StelAnimation>();
 	m_Model->Init(spriteSheet);
 	m_Model->Start();
+	//Die
 	m_Model->AddAnimationFrames(1, { 0, 8 }, { size.x, size.y });
+	m_Model->AddAnimationFrames(1, { 0, 4 }, { size.x, size.y });
+	m_Model->AddAnimationFrames(1, { 1, 4 }, { size.x, size.y });
 	m_Model->AddAnimationFrames(4, { 0, 6 }, { size.x, size .y});
 	m_Model->AddAnimationFrames(1, { 3, 6 }, { size.x, size.y });
 	m_Model->AddAnimationFrames(1, { 2, 6 }, { size.x, size.y });
 	m_Model->AddAnimationFrames(1, { 1, 6 }, { size.x, size.y });
 
-	m_Model->AddClip(ENEMY_STATE_IDLE, 1, 1, 0.0f);
-	m_Model->AddClip(ENEMY_STATE_ATTACK, 1, 7, 0.1f);
+	m_Model->AddClip(ENEMY_STATE_IDLE, 3, 1, 0.0f);
+	m_Model->AddClip(ENEMY_STATE_ATTACK, 3, 7, 0.1f);
 
 	m_Model->Play(ENEMY_STATE_IDLE, false);
 
@@ -30,6 +33,7 @@ void Enemy::Start(std::string spriteSheet, StelEntity* player)
 	m_States.emplace(ENEMY_STATE_IDLE, new EnemyStateIdle(this));
 	m_States.emplace(ENEMY_STATE_ATTACK, new EnemyStateAttack(this));
 	m_States.emplace(ENEMY_STATE_DEAD, new EnemyStateDead(this));
+	m_States.emplace(ENEMY_STATE_FROZEN, new EnemyStateFrozen(this));
 
 	ChangeState(ENEMY_STATE_IDLE);
 
@@ -72,6 +76,8 @@ bool Enemy::IsCurrentState(AEnemyState* state)
 
 void Enemy::TakeHit()
 {
+	if (!this) return;
+
 	m_Damage++;
 
 	if (m_Damage <= 1) ChangeState(ENEMY_STATE_FROZEN);
@@ -81,4 +87,9 @@ void Enemy::TakeHit()
 void Enemy::GotHeal()
 {
 	m_Damage = 0;
+}
+
+void Enemy::SetBoxDrag(bool value)
+{
+	m_EntityParent->GetComponent<Box>()->SetDraggable(value);
 }

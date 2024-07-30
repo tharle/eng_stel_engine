@@ -8,6 +8,11 @@ class StelSubject
 public:
 	void AddListener(StelObserver<T>* o)
 	{
+		for (StelObserver<T>* obs : m_Observers) 
+		{
+			if (obs == o) return;
+		}
+
 		m_Observers.push_back(o);
 	}
 

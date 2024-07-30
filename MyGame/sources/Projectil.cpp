@@ -54,6 +54,8 @@ void Projectil::Update(float dt)
 		{
 			Enemy* enemy = other->GetComponent<Enemy>();
 			enemy->TakeHit();
+			m_EntityParent->Destroy();
+			return;
 		}
 	}
 	else 
@@ -63,6 +65,8 @@ void Projectil::Update(float dt)
 		{
 			Player* player = other->GetComponent<Player>();
 			player->Die();
+			m_EntityParent->Destroy();
+			return;
 		}
 	}
 

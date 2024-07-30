@@ -54,6 +54,8 @@ class StelEntity final : public IDrawable, public IUpdatable
 		void Draw();
 		void Destroy();
 		void SetPosition(StelPointF pos);
+		void SetLateDestroy();
+		bool IsLateDestroy();
 	private:
 		StelTransform m_Transform;
 		std::string m_Name = "";
@@ -61,6 +63,7 @@ class StelEntity final : public IDrawable, public IUpdatable
 		std::vector<IUpdatable*> m_Updatables = std::vector<IUpdatable*>();
 		std::map<const type_info*, StelComponent*> m_Components = std::map<const type_info*, StelComponent*>();
 		bool m_IsActive = false;
+		bool m_IsLateDestroy = false;	
 	public:	
 		std::string GetName();
 		bool IsActive();
