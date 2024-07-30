@@ -46,7 +46,8 @@ private:
 	int m_MaxFrame = 0;
 
 	// Audio
-	size_t m_RemoveSfx = 0;
+	size_t m_DieSfx = 0;
+	size_t m_ShootSfx = 0;
 	size_t m_WalkSfx = 0;
 	float m_CooldownWalkSound = 0.0f;
 
@@ -63,5 +64,4 @@ private:
 
 	void Move(float dt);
 	void InputEvents(float dt);
-	void AudioUpdate();
 };

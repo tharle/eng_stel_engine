@@ -55,7 +55,10 @@ private:
 	bool m_StayIdle = true;
 public:
 	EnemyStateIdle(Enemy* parent) : AEnemyState(parent) {};
-	virtual ~EnemyStateIdle() = default;
+	virtual ~EnemyStateIdle() 
+	{
+		Chest::OnOpenChest.RemoveListener(this);
+	};
 
 	virtual void OnEnter() override
 	{
@@ -103,7 +106,10 @@ class EnemyStateAttack : public AEnemyState, public StelObserver<int>
 {
 public:
 	EnemyStateAttack(Enemy* parent) : AEnemyState(parent) {};
-	virtual ~EnemyStateAttack() = default;
+	virtual ~EnemyStateAttack() 
+	{
+		Chest::OnGetPearl.RemoveListener(this);
+	};
 
 	virtual void OnEnter() override
 	{

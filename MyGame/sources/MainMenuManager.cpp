@@ -5,6 +5,10 @@ void MainMenuManager::Start()
 	Audio().StopMusic();
 	m_TitleFontId = Gfx().LoadFont("Assets/Fonts/Merlovaz.ttf", 26);
 	m_DecrpFontId = Gfx().LoadFont("Assets/Fonts/Merlovaz.ttf", 14);
+
+	size_t ambianceMusicId = Audio().LoadMusic("Assets/Audios/mainmenu.wav");
+	if (ambianceMusicId == 0)  Log().Print(LOG_WARNING, "ERROR LOAD MUSIC");
+	Audio().PlayMusic(ambianceMusicId);
 }
 
 void MainMenuManager::Update(float dt)

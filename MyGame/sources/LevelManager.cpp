@@ -7,7 +7,7 @@ void LevelManager::Start(StelTileMap* tileMap)
     // Load sounds and audios
     m_AmbianceMusic = Audio().LoadMusic("Assets/Audios/bgm.wav");
     if (m_AmbianceMusic == 0)  Log().Print(LOG_WARNING, "ERROR LOAD MUSIC");
-    //Audio().PlayMusic(m_AmbianceMusic);
+    Audio().PlayMusic(m_AmbianceMusic);
 }
 
 void LevelManager::Update(float dt)

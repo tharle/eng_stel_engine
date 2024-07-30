@@ -53,7 +53,9 @@ void Enemy::ChangeState(const std::string& state)
 
 Enemy::~Enemy()
 {
-	for (auto state : m_States) { delete state.second; }
+	for (auto state : m_States) { 
+		delete state.second; 
+	}
 	m_States.clear();
 }
 

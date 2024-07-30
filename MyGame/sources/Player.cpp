@@ -19,10 +19,14 @@ void Player::Start(LevelManager* currentLevel, std::string currentSceneName)
 	m_CurrentScene = currentSceneName;
 
 	// Load sounds and audios
-	m_RemoveSfx = Audio().LoadSound("Assets/Audios/Remove1.wav");
-	if (m_RemoveSfx == 0)   Log().Print(LOG_WARNING, "ERROR LOAD AUDIO");
+	m_DieSfx = Audio().LoadSound("Assets/Audios/Die.wav");
+	if (m_DieSfx == 0)   Log().Print(LOG_WARNING, "ERROR LOAD AUDIO");
+
 	m_WalkSfx = Audio().LoadSound("Assets/Audios/sound_walk.wav");
 	if (m_WalkSfx == 0)   Log().Print(LOG_WARNING, "ERROR LOAD AUDIO");
+
+	m_ShootSfx = Audio().LoadSound("Assets/Audios/shoot.wav");
+	if (m_ShootSfx == 0)   Log().Print(LOG_WARNING, "ERROR LOAD AUDIO");
 
 	// Load Fonts
 	m_TitleFontId = Gfx().LoadFont("Assets/Fonts/Merlovaz.ttf", 30);
@@ -68,7 +72,6 @@ void Player::Update(float dt)
 
 	Move(dt);
 	InputEvents(dt);
-	AudioUpdate();
 }
 
 void Player::Die()
@@ -156,6 +159,7 @@ void Player::InputEvents(float dt)
 	if (Input().IsKeyDown(IInput::LShift) || Input().IsKeyDown(IInput::RShift)) 
 	{
 		Die();
+		Audio().PlaySFX(m_DieSfx);
 	}
 
 
@@ -171,14 +175,6 @@ void Player::InputEvents(float dt)
 		Projectil* projectil = projectilEntity->AddComponent<Projectil>();
 	
 		projectil->Start(m_Foward);
+		Audio().PlaySFX(m_ShootSfx);
 	}
 }
-
-void Player::AudioUpdate()
-{
-	if (Input().IsKeyDown(IInput::StelKey::Z))
-	{
-		Audio().PlaySFX(m_RemoveSfx);
-	}
-}
-
