@@ -20,7 +20,7 @@ class StelAnimation;
 class LevelManager;
 
 
-// All controls for player
+// All controls and logic for player
 class Player : public StelComponent, public IUpdatable
 {
 public:

@@ -5,6 +5,8 @@
 
 class StelAtlas;
 
+
+// The portal for go to another level
 class Door : public StelComponent, public IUpdatable, public StelObserver<int>
 {
 private:

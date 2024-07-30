@@ -3,6 +3,8 @@
 
 class StelEntity;
 
+
+// Scene Game level 1, all entities for first level are here. 
 class GameSceneLevel1 : public StelScene
 {
 private :

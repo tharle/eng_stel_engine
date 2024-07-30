@@ -3,6 +3,8 @@
 
 class StelEntity;
 
+
+// Scene for main menu screen
 class MainMenuScene : public StelScene
 {
 private:

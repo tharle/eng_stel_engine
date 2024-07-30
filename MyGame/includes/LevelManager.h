@@ -5,6 +5,8 @@
 #define COOLDOWN_CHANGE_SCENE 1.0f
 #define COOLDOWN_WALK_SOUND 0.2f
 
+
+// Class for manager of all levels in game
 class LevelManager : public StelComponent, public IUpdatable, public IDrawable{
 private:
 	StelTileMap* m_Background = nullptr;

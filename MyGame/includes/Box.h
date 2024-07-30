@@ -8,6 +8,8 @@
 class StelAtlas;
 class LevelManager;
 
+
+// Box draggable, can be "egg" from enemy
 class Box : public StelComponent, public IUpdatable {
 private:
 	StelAtlas* m_Model = nullptr;

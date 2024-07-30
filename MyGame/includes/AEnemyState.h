@@ -8,6 +8,8 @@
 
 class Enemy;
 
+
+// Classe abastract base for all enemys states
 class AEnemyState {
 protected:
 	Enemy* m_Enemy;

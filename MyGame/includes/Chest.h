@@ -8,6 +8,8 @@
 
 class StelAtlas;
 
+
+// Trigger to open the door, it will be open after get all collectables in level
 class Chest : public StelComponent, public IUpdatable, public StelObserver<bool>
 {
 private:

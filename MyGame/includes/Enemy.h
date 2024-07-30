@@ -17,7 +17,7 @@
 class AEnemyState;
 class StelAnimation;
 
-// Classe base for enemys states
+// Classe base for enemys
 class Enemy : public StelComponent, public IUpdatable {
 private:
 	StelEntity* m_Player = nullptr;
@@ -48,6 +48,7 @@ public:
 	void SetBoxDrag(bool value);
 };
 
+// First State of ennemy
 class EnemyStateIdle : public AEnemyState, public StelObserver<int>
 {
 private:
@@ -97,6 +98,7 @@ public:
 };
 
 
+// STATE after get all collectable but before get the pearl
 class EnemyStateAttack : public AEnemyState, public StelObserver<int>
 {
 public:
@@ -128,6 +130,8 @@ public:
 	virtual bool IsActive() { return m_Enemy->IsCurrentState(this); }
 };
 
+
+// STATE "EGG"
 class EnemyStateFrozen: public AEnemyState
 {
 private:
@@ -168,6 +172,7 @@ public:
 	};
 };
 
+// State of before true delete enemy
 class EnemyStateDead: public AEnemyState
 {
 private:

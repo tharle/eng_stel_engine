@@ -5,6 +5,8 @@
 
 class StelAtlas;
 
+
+// All collectables from level
 class Collectable : public StelComponent, public IUpdatable {
 private:
 	StelAtlas* m_Model = nullptr;

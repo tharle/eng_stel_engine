@@ -2,6 +2,7 @@
 #include "StelComponent.h"
 #include "StelEngine.h"
 
+// Manager for print main menu
 class MainMenuManager : public StelComponent, public IDrawable, public IUpdatable 
 {
 public:

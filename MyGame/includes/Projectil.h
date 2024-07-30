@@ -9,6 +9,7 @@
 
 class StelAtlas;
 
+// Projectil for kill enemies
 class Projectil : public StelComponent, public IUpdatable {
 private:
 	StelAtlas* m_Model = nullptr;
