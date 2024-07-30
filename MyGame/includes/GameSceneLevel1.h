@@ -3,13 +3,13 @@
 
 class StelEntity;
 
-class GameScene : public StelScene
+class GameSceneLevel1 : public StelScene
 {
 private :
 	std::string m_Name;
 public:
-	GameScene(std::string name) : StelScene() { m_Name = name; };
-	virtual ~GameScene() = default;
+	GameSceneLevel1(std::string name) : StelScene() { m_Name = name; };
+	virtual ~GameSceneLevel1() = default;
 	virtual void Load() override;
 	virtual void OnClose() override;
 };

@@ -3,21 +3,21 @@
 #include <Windows.h>
 #include "StelEngine.h"
 #include "MainMenuScene.h"
-#include "GameScene.h"
+#include "GameSceneLevel1.h"
 
 #ifdef  _DEBUG
 #include "vld.h"
 #endif //  _DEBUG
 
 MainMenuScene mainMenuScene = MainMenuScene();
-GameScene gameScene = GameScene("Game");
+GameSceneLevel1 gameSceneLevel1 = GameSceneLevel1("Game1");
 
 void InitGameplay()
 {
 
 	Stel::Engine::Get().GetWorld().Register("MainMenu", &mainMenuScene);
-	Stel::Engine::Get().GetWorld().Register("Game", &gameScene);
-	Stel::Engine::Get().GetWorld().LoadScene("Game");
+	Stel::Engine::Get().GetWorld().Register("Game1", &gameSceneLevel1);
+	Stel::Engine::Get().GetWorld().LoadScene("Game1");
 
 }
 

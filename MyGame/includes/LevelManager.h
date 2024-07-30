@@ -17,7 +17,7 @@ private:
 public:
 	LevelManager(StelEntity* parent) : StelComponent(parent) {  }
 	virtual ~LevelManager() = default;
-	virtual void Start() override;
+	virtual void Start(StelTileMap* tileMap);
 	virtual void Update(float dt) override;
 	virtual void Draw() override;
 

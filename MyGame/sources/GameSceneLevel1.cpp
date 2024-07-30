@@ -1,4 +1,4 @@
-#include "GameScene.h"
+#include "GameSceneLevel1.h"
 #include "StelEngine.h"
 #include "Player.h"
 #include "StelAnimation.h"
@@ -9,7 +9,7 @@
 #include "Box.h"
 #include "Enemy.h"
 
-void GameScene::Load()
+void GameSceneLevel1::Load()
 {
 	float scaleFactor = 2.0f;
 	StelPointF size = { 16.0f , 16.0f };
@@ -17,11 +17,52 @@ void GameScene::Load()
 	char* spriteSheet = "Assets/adv_lolo_map.png";
 	char* spriteSheetMisc = "Assets/adv_lolo_misc.png";
 
-
 	StelEntity* level  = Instantiate("Level");
 	level->SetTransform(StelPointF::Zero(), size, scaleFactor, 0.0f);
 	LevelManager* levelManager = level->AddComponent<LevelManager>();
-	levelManager->Start();
+	StelTileMap* map = level->AddComponent<StelTileMap>();
+	map->Load("Assets/adv_lolo_map.png", { 16, 16 });
+	TLayer nLayer = {
+		{ -1,4,6,6,6,5,5,6,6,5,5,6,6,7,-1,-1},
+		{-1,40,41,42,42,42,42,42,148,42,42,42, 42,43,-1,-1},
+		{-1,40,36,37,37,37,37,37,1,37,37,73,73,79,-1,-1},
+		{-1,40,36,73,73,37,1,1,1,37,37,73,73,79,-1,-1},
+		{-1,40,0,73,73,37,37,37,1,37,37,37,73,79,-1,-1},
+		{-1,40,0,1,73,73,37,37,1,37,37,37,73,79,-1,-1},
+		{-1,40,0,1,1,1,37,37,1,37,37,73,1,79,-1,-1},
+		{-1,40,0,1,1,1,1,1,1,1,37,1,1,79,-1,-1},
+		{-1,40,0,1,1,1,1,1,1,1,1,1,1,79,-1,-1},
+		{-1,40,0,73,73,1,1,1,1,73,73,1,1,79,-1,-1},
+		{-1,40,72,73,73,73,1,1,1,73,73,73,1,79,-1,-1},
+		{-1,40,72,73,73,73,1,1,1,1,73,73,1,79,-1,-1},
+		{-1,76,36,73,73,37,110,1,1,1,1,1,1,79,-1,-1},
+		{-1,76,36,37,37,37,37,37,1,1,1,1,1,79,-1,-1},
+		{-1,112,113,114,114,113,114,113,113,113,113,113,113,115,-1,-1},
+		{-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1}
+	};
+	map->AddLayer("level_1_map", nLayer, false);
+
+	TLayer colliderLayer = {
+		{-1,-1,-1,-1,-1,-1,-1,-1,200,-1,-1,-1,-1,-1,-1,-1},
+		{-1,-1,-1,-1,-1,-1,-1,200,-1,200,-1,-1,-1,-1,-1,-1},
+		{-1,-1,-1,-1,-1,200,200,200,-1,200,-1,-1,-1,-1,-1,-1},
+		{-1,200,200,200,-1,200,-1,-1,-1,200,-1,-1,-1,200,-1,-1},
+		{-1,200,-1,200,200,200,200,200,-1,200,-1,-1,-1,200,-1,-1},
+		{-1,200,-1,-1,200,200,200,200,-1,200,-1,200,200,200,-1,-1},
+		{-1,200,-1,-1,-1,-1,200,200,-1,200,200,200,-1,200,-1,-1},
+		{-1,200,-1,-1,-1,-1,-1,-1,-1,-1,200,-1,-1,200,-1,-1},
+		{-1,200,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,200,-1,-1},
+		{-1,200,-1,200,200,-1,-1,-1,-1,200,200,-1,-1,200,-1,-1},
+		{-1,200,200,200,200,200,-1,-1,-1,200,200,200,-1,200,-1,-1},
+		{-1,-1,-1,-1,-1,200,-1,-1,-1,-1,200,200,-1,200,-1,-1},
+		{-1,-1,-1,-1,-1,200,-1,-1,-1,-1,-1,-1,-1,200,-1,-1},
+		{-1,-1,-1,-1,-1,200,200,200,-1,-1,-1,-1,-1,200,-1,-1},
+		{-1,-1,-1,-1,-1,-1,-1,200,200,200,200,200,200,200,-1,-1},
+		{-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1}
+	};
+	map->AddLayer("level_1_collider", colliderLayer, true);
+	map->DrawColliders = true;
+	levelManager->Start(map);
 
 	StelEntity* heart1 = Instantiate("Item1");
 	heart1->SetTransform({ 6.0f * mult, 3.0f * mult }, size, scaleFactor, 0.0f);
@@ -42,14 +83,14 @@ void GameScene::Load()
 	StelEntity* doorEntity = Instantiate("Door");
 	doorEntity->SetTransform({ 8.0f * mult, 1.0f * mult }, size, scaleFactor, 0.0f);
 	Door* door = doorEntity->AddComponent<Door>();
-	door->Start(spriteSheet, "Game");
+	door->Start(spriteSheet, "Game1");
 
 	StelEntity* player = Instantiate("Player");
 	player->SetTransform({ 6.0f * mult, 9.0f * mult }, size, scaleFactor, 0.0f);
 	Player* playerControls = player->AddComponent<Player>();
 	playerControls->Start(levelManager, m_Name);
 
-	StelEntity* dragBox = Instantiate("Box");
+	/*StelEntity* dragBox = Instantiate("Box");
 	dragBox->SetTransform({ 6.0f * mult, 7.0f * mult }, size, scaleFactor, 0.0f);
 	dragBox->AddComponent<Box>()->Start(levelManager);
 	StelAtlas* boxModel = dragBox->AddComponent<StelAtlas>();
@@ -57,10 +98,10 @@ void GameScene::Load()
 	StelPointI sizeInt = StelPointI::FromFloat(size.x, size.y);
 	boxModel->AddFrame({ 0, 3 * sizeInt.y,sizeInt.x, sizeInt.y });
 	boxModel->SetFrame(0);
-	boxModel->Start();
+	boxModel->Start();*/
 
 	StelEntity* greenWormEntity = Instantiate("Green Worm");
-	greenWormEntity->SetTransform({ 3.0f * mult, 6.0f * mult }, size, scaleFactor, 0.0f);
+	greenWormEntity->SetTransform({ 8.0f * mult, 7.0f * mult }, size, scaleFactor, 0.0f);
 	Enemy* greenWorm = greenWormEntity->AddComponent<Enemy>();
 	greenWorm->Start(spriteSheetMisc, player);
 	Box* greenWormBox = greenWormEntity->AddComponent<Box>();
@@ -70,7 +111,7 @@ void GameScene::Load()
 	
 }
 
-void GameScene::OnClose()
+void GameSceneLevel1::OnClose()
 {
 	Chest::OnGetPearl.Clear();
 	Chest::OnOpenChest.Clear();
