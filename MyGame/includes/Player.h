@@ -21,13 +21,14 @@ class LevelManager;
 
 
 // All controls and logic for player
-class Player : public StelComponent, public IUpdatable
+class Player : public StelComponent, public IUpdatable, public IDrawable
 {
 public:
 	Player(StelEntity* parent) : StelComponent(parent) {  }
 	virtual ~Player();
 	virtual void Start(LevelManager* currentLevel, std::string currentSceneName);
 	virtual void Update(float dt) override;
+	virtual void Draw() override;
 	
 	inline float GetSpeed() { return m_Speed; }
 	void Die();

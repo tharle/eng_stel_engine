@@ -30,7 +30,7 @@ void Player::Start(LevelManager* currentLevel, std::string currentSceneName)
 
 	// Load Fonts
 	m_TitleFontId = Gfx().LoadFont("Assets/Fonts/Merlovaz.ttf", 30);
-	m_DecrpFontId = Gfx().LoadFont("Assets/Fonts/Merlovaz.ttf", 12);
+	m_DecrpFontId = Gfx().LoadFont("Assets/Fonts/Merlovaz.ttf", 14);
 	
 	// Animation
 	m_Model = m_EntityParent->AddComponent<StelAnimation>();
@@ -72,6 +72,11 @@ void Player::Update(float dt)
 
 	Move(dt);
 	InputEvents(dt);
+}
+
+void Player::Draw()
+{
+	Gfx().DrawString("Move = WASD        - Try Again = Shift      -      J = Shoot", m_DecrpFontId, { 120.0f, 490.0f }, StelColor::AQUA);
 }
 
 void Player::Die()

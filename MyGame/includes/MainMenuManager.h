@@ -16,6 +16,5 @@ private:
 	//Fonts Loadeds
 	size_t m_TitleFontId = 0;
 	size_t m_DecrpFontId = 0;
-
 	float m_ElapseTimeTouched = 1.0f;
 };

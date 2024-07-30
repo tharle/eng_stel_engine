@@ -83,25 +83,25 @@ void GameSceneLevel1::Load()
 	StelEntity* doorEntity = Instantiate("Door");
 	doorEntity->SetTransform({ 8.0f * mult, 1.0f * mult }, size, scaleFactor, 0.0f);
 	Door* door = doorEntity->AddComponent<Door>();
-	door->Start(spriteSheet, "Game1");
+	door->Start(spriteSheet, "MainMenu");
 
 	StelEntity* player = Instantiate("Player");
 	player->SetTransform({ 6.0f * mult, 9.0f * mult }, size, scaleFactor, 0.0f);
 	Player* playerControls = player->AddComponent<Player>();
 	playerControls->Start(levelManager, m_Name);
 
-	/*StelEntity* dragBox = Instantiate("Box");
-	dragBox->SetTransform({ 6.0f * mult, 7.0f * mult }, size, scaleFactor, 0.0f);
+	StelEntity* dragBox = Instantiate("Box");
+	dragBox->SetTransform({ 6.0f * mult, 11.0f * mult }, size, scaleFactor, 0.0f);
 	dragBox->AddComponent<Box>()->Start(levelManager);
 	StelAtlas* boxModel = dragBox->AddComponent<StelAtlas>();
 	boxModel->Init(spriteSheet);
 	StelPointI sizeInt = StelPointI::FromFloat(size.x, size.y);
 	boxModel->AddFrame({ 0, 3 * sizeInt.y,sizeInt.x, sizeInt.y });
 	boxModel->SetFrame(0);
-	boxModel->Start();*/
+	boxModel->Start();
 
 	StelEntity* greenWormEntity = Instantiate("Green Worm");
-	greenWormEntity->SetTransform({ 8.0f * mult, 7.0f * mult }, size, scaleFactor, 0.0f);
+	greenWormEntity->SetTransform({ 12.0f * mult, 7.0f * mult }, size, scaleFactor, 0.0f);
 	Enemy* greenWorm = greenWormEntity->AddComponent<Enemy>();
 	greenWorm->Start(spriteSheetMisc, player);
 	Box* greenWormBox = greenWormEntity->AddComponent<Box>();
