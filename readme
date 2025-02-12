@@ -1,0 +1,5 @@
+Instruction for execute project.
+
+1. Instal https://kinddragon.github.io/vld/
+2. Exectute kmake.exe inside of project\
+3. Open builded project in Visual Studio
