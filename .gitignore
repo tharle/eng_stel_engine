@@ -30,8 +30,9 @@
 
 # Deployement
 build
-!Deployment
-Deployment/*
+!Deployment/Readme.txt
+Deployment/Assets/*
+Deployment/*.dll
 
 
 # Game Files
@@ -39,3 +40,7 @@ Deployment/*
 MyGame/includes/*
 MyGame/sources/*
 MyGame/Assets/*
+
+!MyGame/includes/Readme.txt
+!MyGame/sources/Readme.txt
+!MyGame/Assets/Readme.txt
