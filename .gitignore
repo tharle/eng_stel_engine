@@ -37,6 +37,7 @@ Deployment/*.dll
 
 # Game Files
 !MyGame
+MyGame/*
 MyGame/includes/*
 MyGame/sources/*
 MyGame/Assets/*
