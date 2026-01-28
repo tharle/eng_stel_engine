@@ -30,8 +30,12 @@
 
 # Deployement
 build
+!Deployment
 Deployment/*
 
 
 # Game Files
-MyGame/*
+!MyGame
+MyGame/includes/*
+MyGame/sources/*
+MyGame/Assets/*
