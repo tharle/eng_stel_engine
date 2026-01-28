@@ -3,3 +3,8 @@ Instruction for execute project.
 1. Instal https://kinddragon.github.io/vld/
 2. Exectute kmake.exe inside of project\
 3. Open builded project in Visual Studio
+
+
+For game:
+
+Use the folder MyGame to create your game. All assets, includes and source files will be add to build when you exectute the kmake.exe
