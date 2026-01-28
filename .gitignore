@@ -31,10 +31,7 @@
 # Deployement
 build
 Deployment/*
-!Deployment/Assets
-Deployment/Assets/**
 
 
 # Game Files
-MyGame/Assets/*
-MyGame/Source/*
+MyGame/*
