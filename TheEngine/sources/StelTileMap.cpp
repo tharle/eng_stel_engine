@@ -51,6 +51,45 @@ void StelTileMap::AddLayer(const std::string& layer, TLayer tiles, bool isCollid
     }
 }
 
+tinyxml2::XMLError StelTileMap::AddTmx(const std::string& name)
+{
+    // Read TMX file
+    tinyxml2::XMLDocument tmxDoc;
+    XMLCheckResult(tmxDoc.LoadFile(name.c_str()));
+
+    tinyxml2::XMLNode* pMap = tmxDoc.FirstChild();
+    
+    // Check if there a root element in XML
+    if (pMap == nullptr) return tinyxml2::XML_ERROR_PARSING_ELEMENT;
+
+    // Find all layers with names
+    tinyxml2::XMLElement* cLayer = pMap->FirstChildElement(TMX_TAG_LAYER.c_str());
+    while (cLayer != nullptr) {
+        printf("Found child element: %s", cLayer->Name());
+        const char* text = cLayer->GetText();
+        if (text) {
+            printf(", Text: %s\n", text);
+        }
+
+        // Read map size
+        StelPointI mapSize = StelPointI();
+        cLayer->QueryIntAttribute(TMX_ATT_WIDTH.c_str(), &mapSize.x);
+        cLayer->QueryIntAttribute(TMX_ATT_HEIGHT.c_str(), &mapSize.y);
+
+        printf("Map size: %i x %i\n", mapSize.x, mapSize.y);
+
+        tinyxml2::XMLElement* cData = cLayer->FirstChildElement(TMX_TAG_DATA.c_str());
+
+        // For each finded convert to tiles and add to m_TileMap
+        printf("DATA: %s\n", cData->GetText());
+
+        // Move to the next sibling element with the same name
+        cLayer = cLayer->NextSiblingElement(TMX_TAG_LAYER.c_str());
+    }
+    // Find first collider layer
+    // convert to tiles and add to m_Colliders
+}
+
 TLayer StelTileMap::GetLayer(const std::string& name)
 {
     if (m_Tilemap.count(name) > 0)
