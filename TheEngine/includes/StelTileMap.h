@@ -2,7 +2,7 @@
 #include <vector>
 #include <map>
 #include <string>
-#include <tinyxml2.h>
+#include "tinyxml2.h"
 #include <IGfx.h>
 #include <StelComponent.h>
 #include <IDrawable.h>

@@ -56,6 +56,7 @@ function checkMyGameAssets() {
 let project = new Project('engine');
  
 project.addProvider = function(proj, isRoot=false){
+    // SDL Libs
     const sdl2 = true;//process.argv.indexOf("--sdl2") >= 0;
     if(sdl2){
         
@@ -76,14 +77,22 @@ project.addProvider = function(proj, isRoot=false){
             fs.copyFileSync("./SDL/lib/SDL2_ttf.dll", "./Deployment/SDL2_ttf.dll")
             fs.copyFileSync("./SDL/lib/SDL2_mixer.dll", "./Deployment/SDL2_mixer.dll")
         }
+        
     }
 
 };
+
+
+
 project.kore = false;
 
 
 project.addDefine("KINC_STATIC_COMPILE");
 project.isStaticLib = true;
+
+project.addIncludeDir(path.resolve("./tinyxml2/include"));
+project.addLib("../tinyxml2/lib/tinyxml2");
+project.addFiles('../tinyxml2/source/**','../tinyxml2/include/**');
 
 project.addIncludeDir(path.resolve("./TheEngine/includes"));
 project.addFiles('sources/**','includes/**');

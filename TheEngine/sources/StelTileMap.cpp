@@ -88,6 +88,7 @@ tinyxml2::XMLError StelTileMap::AddTmx(const std::string& name)
     }
     // Find first collider layer
     // convert to tiles and add to m_Colliders
+    return tinyxml2::XML_SUCCESS;
 }
 
 TLayer StelTileMap::GetLayer(const std::string& name)
