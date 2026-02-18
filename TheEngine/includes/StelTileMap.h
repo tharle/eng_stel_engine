@@ -35,12 +35,13 @@ public:
 
     bool DrawColliders = false;
 
+    const std::string TMX_TAG_MAP = "map";
     const std::string TMX_TAG_LAYER = "layer";
     const std::string TMX_TAG_COLLIDER = "collider";
     const std::string TMX_TAG_DATA = "data";
     const std::string TMX_ATT_WIDTH = "width";
     const std::string TMX_ATT_HEIGHT = "height";
-    const std::string XML_ATT_NAME = "name";
+    const std::string TMX_ATT_NAME = "name";
 
 private:
     TTilemap m_Tilemap;
