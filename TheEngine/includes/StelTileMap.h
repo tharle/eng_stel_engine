@@ -8,9 +8,13 @@
 #include <IDrawable.h>
 
 
-// Macro for check 
+// Macro for check Read TMX file
 #ifndef XMLCheckResult
-#define XMLCheckResult(a_eResult) if (a_eResult != tinyxml2::XML_SUCCESS) { printf("StelTileMap read file error: %i\n", a_eResult); return a_eResult; }
+#define XMLCheckResult(a_eResult) if (a_eResult != tinyxml2::XML_SUCCESS) { printf("StelTileMap->XMLCheckResult  read file error: %i\n", a_eResult); return a_eResult; }
+#endif
+// Check Parse
+#ifndef ParseLayerCheck
+#define ParseLayerCheck(layer) if (layer.empty()) { printf("StelTileMap->ParseLayerCheck  read file error: Parse to Layer Error.\n"); return tinyxml2::XML_ERROR_PARSING_TEXT; }
 #endif
 
 typedef std::vector<std::vector<int>> TLayer;
@@ -18,6 +22,7 @@ typedef std::map<std::string, TLayer> TTilemap;
 typedef std::vector<TLayer> TCollider;
 typedef std::vector<StelRectI> TTileset;
 
+// Class Engine:  Read and have a collection of the tilemaps
 class StelTileMap : public StelComponent, public IDrawable
 {
 public:
@@ -27,6 +32,7 @@ public:
 
     virtual void Draw() override;
 
+    void Load(const std::string& filename);
     void Load(const std::string& filename, StelPointI mapSize);
     void AddLayer(const std::string& layer, TLayer tiles, bool isCollider);
     tinyxml2::XMLError AddTmx(const std::string& layer);
@@ -42,6 +48,7 @@ public:
     const std::string TMX_ATT_WIDTH = "width";
     const std::string TMX_ATT_HEIGHT = "height";
     const std::string TMX_ATT_NAME = "name";
+    const char* TMX_ATT_COLLIDER = "colider";
 
 private:
     TTilemap m_Tilemap;
@@ -51,4 +58,7 @@ private:
     TCollider m_Colliders;
 
     void DrawLayer(TLayer layer, bool isCollider);
+
+    //Parse the bloc of text to an TLayer. If error: Return TLayer empty.
+    TLayer ParseDataToLayer(std::string data);
 };
