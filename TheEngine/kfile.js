@@ -64,6 +64,7 @@ project.addProvider = function(proj, isRoot=false){
             proj.addDefine("USE_SDL");
             // proj.addDefine("_DEBUG");
             //proj.addDefine("_RELEASE");
+            //proj.addDefine("__EMSCRIPTEN__");
             proj.addIncludeDir(path.resolve("./SDL/include"));
         }
         proj.addLib("../SDL/lib/SDL2");
@@ -77,6 +78,8 @@ project.addProvider = function(proj, isRoot=false){
             fs.copyFileSync("./SDL/lib/SDL2_ttf.dll", "./Deployment/SDL2_ttf.dll")
             fs.copyFileSync("./SDL/lib/SDL2_mixer.dll", "./Deployment/SDL2_mixer.dll")
         }
+
+
         
     }
 

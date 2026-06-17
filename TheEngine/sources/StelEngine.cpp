@@ -9,6 +9,10 @@
 #include "SdlAudio.h"
 #include "StelPhysic.h"
 
+#ifdef __EMSCRIPTEN__
+#include <emscripten.h>
+#endif
+
 #include "StelWorldService.h"
 
 #define MS_PER_FRAME 16.667f // TODO tester avec fraps
@@ -60,6 +64,11 @@ void Stel::Engine::Start()
 	m_isRunning = true;
 	clock_t _endTimeLastFrame = clock();
 	float _elapseTime = 0;
+#ifdef __EMSCRIPTEN__
+	// 0 = let browser choose frame rate (usually 60fps)
+	// 1 = simulate infinite loop to prevent main() from exiting
+	emscripten_set_main_loop(main_loop_tick, 0, 1);
+#else
 	while (m_isRunning)
 	{
 		//Delta time
@@ -86,6 +95,7 @@ void Stel::Engine::Start()
 		
 		_endTimeLastFrame = _startTimeCurrentFrame;
 	}
+#endif
 	Shutdown();
 }
 
