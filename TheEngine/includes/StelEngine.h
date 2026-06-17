@@ -24,6 +24,7 @@ namespace Stel
 		void Exit();
 	private:
 		virtual ~Engine() = default;
+		void MainLoopTrick(float deltaTime);
 		void ProcessInput();
 		void Update(float deltaTime);
 		void Render();
@@ -43,16 +44,14 @@ namespace Stel
 		IGfx* m_Gfx;
 		IAudio* m_Audio;
 		IPhysic* m_Physic;
+		IWorld* m_World;
 		
+		//Fonts Loadeds
+		size_t m_FontMerlovaz;
 
 		// -----------------------
 		//		TESTES
 		// -----------------------
-
-		//Fonts Loadeds
-		size_t m_FontMerlovaz;
-
-		IWorld* m_World;
 	public:
 		ILogger& GetLoggerService() { return *m_Logger; };
 		IInput& GetInputService() { return *m_Input; };

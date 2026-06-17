@@ -62,21 +62,22 @@ void Stel::Engine::Start()
 	float _elapseTime = 0;
 	while (m_isRunning)
 	{
+		//Delta time
 		const clock_t _startTimeCurrentFrame = clock();
 		float _deltaTime = (_startTimeCurrentFrame - _endTimeLastFrame) * 0.001f;
 
+		// Start Frame calculs
 		_elapseTime += _deltaTime;
 		m_FPS++;
-		if (_elapseTime >= 1) 
+		if (_elapseTime >= 1)
 		{
 			//m_Logger->Print(LOG_INFO, "FPS %d", m_FPS);
 			_elapseTime = 0;
 			m_FPS = 0;
 		}
-		m_Events->Update();
-		ProcessInput();
-		Update(_deltaTime);
-		Render();
+		// End Frame calcus
+
+		MainLoopTrick(_deltaTime);
 
 		float _tempsForSleep = _startTimeCurrentFrame + MS_PER_FRAME - clock();
 		// GAG for the current frame
@@ -86,6 +87,14 @@ void Stel::Engine::Start()
 		_endTimeLastFrame = _startTimeCurrentFrame;
 	}
 	Shutdown();
+}
+
+void Stel::Engine::MainLoopTrick(float deltaTime)
+{
+	m_Events->Update();
+	ProcessInput();
+	Update(deltaTime);
+	Render();
 }
 
 void Stel::Engine::ProcessInput()
